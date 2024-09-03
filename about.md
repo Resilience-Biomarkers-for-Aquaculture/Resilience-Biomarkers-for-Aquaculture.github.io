@@ -21,10 +21,11 @@ through mining publicly available shellfish genomic datasets from resilient popu
 
 The objectives are to:
 
-  1) develop standardized open-access, user-friendly, reproducible bioinformatics
+    1) develop standardized open-access, user-friendly, reproducible bioinformatics
   pipelines for resilience biomarker discovery through systematic reanalysis, data integration and
   meta-analysis  
-  2) build a user-friendly open-access comprehensive database of candidate
+
+    2) build a user-friendly open-access comprehensive database of candidate
   resilience biomarkers that is widely available for use by the aquaculture community.
 
 The resulting database will enable improved molecular tool development for more efficient
@@ -32,7 +33,7 @@ phenotype selection and health monitoring, implementation of selection methods t
 improvement of multiple traits, and ultimately increased animal fitness and improved animal welfare.
 
 View more project details below:  
-<embed src= “https://github.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/blob/master/docs/ProjectSummaryandNarrative.pdf” type=”application/pdf” width=”##%” height=”##px” />
+<embed src= “https://github.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/blob/master/docs/ProjectSummaryandNarrative.pdf” type=”application/pdf” width=”375” height=”500” />
 
 ### Contact
  **Email:** [shelly.wanamaker@gmgi.org](mailto:shelly.wanamaker@gmgi.org)  
