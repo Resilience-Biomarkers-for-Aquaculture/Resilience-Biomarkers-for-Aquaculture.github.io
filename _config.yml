@@ -1,10 +1,10 @@
 # --- General options --- #
 
 # Name of website
-title: Shelly A. Wanamaker, Ph.D.
+title: Resilience Biomarkers for Aquaculture
 
 # Short description of your site
-description: Professional website and lab notebook
+description: Project website and notebook
 
 # --- Local development options ---
 # If your website is hosted locally rather than on GitHub, then you need to uncomment the next two parameters to set the url and baseurl
@@ -20,9 +20,8 @@ description: Professional website and lab notebook
 
 # List of links in the navigation bar
 navbar-links:
-  CV: "/CV/ShellyWanamakerDec2022.pdf"
-  About: "aboutme"
-  Lab Notebook: "notebook"
+  About: "about"
+  Analysis Notebook: "notebook"
   Publications: "publications"
   Outreach: "outreach"
 
@@ -99,7 +98,7 @@ share-links-active:
 
 # How to display the link to the website in the footer
 # Remove this if you don't want a link in the footer
-url-pretty: "shellywanamaker.github.io"  # eg. "deanattali.com/beautiful-jekyll"
+url-pretty: "ResilienceBiomarkersForAquaculture.github.io"  # eg. "deanattali.com/beautiful-jekyll"
 
 # --- Web Statistics Section --- #
 
