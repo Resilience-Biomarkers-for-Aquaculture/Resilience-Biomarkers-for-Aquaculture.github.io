@@ -48,12 +48,13 @@ TREATMENT_REP3,AEG588A6_S6_L004_R1_001.fastq.gz,AEG588A6_S6_L004_R2_001.fastq.gz
 ```
 
 ### 2. Set-up config file with parameter choices  
-- skip quantification 
-- run once with trinity
-- once rnaSPAdes 
+- run with rnaSPAdes using all 3 filters
+- no quantification because will run through nf-core RNAseq pipeline
 
 ### 3. Create slurm script
 
 ### 4. Assess transcriptomes and decide best to use as reference in RNAseq pipeline with reference
+
+Plan is to start with Day 30 RNAseq datasets from Roberto's 2023 thermotolerance study: [https://doi.org/10.1016/j.cbd.2023.101089](https://doi.org/10.1016/j.cbd.2023.101089)
 ----
 ****
