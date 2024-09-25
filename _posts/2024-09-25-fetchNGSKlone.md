@@ -165,5 +165,8 @@ The parameter below specifies which download method to use
 I used this flag because I wasn't sure the FTP was working. This was before I realized there were hidden characters from copying and pasting from excel into vim (see above). The [usage documentation](https://nf-co.re/fetchngs/1.12.0/docs/usage/) states " If you are having issues and prefer to use sra-tools or Aspera instead, you can set the --download_method parameter to --download_method sratools or --download_method aspera, respectively"
 
 **fetchngs output**
+The pipeline completed in 39 minutes
+![](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/master/img/Screenshot%202024-09-25%20143355.png)
 
 The data is paired end so there are 72 files, 2 for each of the 36 tissue samples.
+![](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/master/img/Screenshot%202024-09-25%20143520.png)
