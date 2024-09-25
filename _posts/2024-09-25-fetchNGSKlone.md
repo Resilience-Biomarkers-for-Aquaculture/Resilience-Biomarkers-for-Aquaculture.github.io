@@ -23,8 +23,39 @@ mamba create -n nextflow -c bioconda -c conda-forge python=3.8 nf-core nextflow 
 ### 2. Create .config file for srlab
 NOTE: This was a one-time step and does not need to be repeated. This same config file can be used by anyone to run any nextflow pipeline.
 
+/gscratch/srlab/strigg/bin/uw_hyak_srlab.config
 ```
+params {
+    config_profile_description = 'UW Hyak Roberts labs cluster profile provided by nf-core/configs.'
+    config_profile_contact = 'Shelly A. Wanamaker @shellywanamaker'
+    config_profile_url = 'https://faculty.washington.edu/sr320/'
+    max_memory = 742.GB
+    max_cpus = 40
+    max_time = 72.h
+}
 
+process {
+    executor = 'slurm'
+    queue = { task.attempt == 1 ? 'ckpt' : 'cpu-g2-mem2x' }
+    maxRetries = 1
+    clusterOptions = { "-A srlab" }
+    scratch = '/gscratch/scrubbed/srlab/'
+}
+
+executor {
+    queuesize = 50
+    submitRateLimit = '1 sec'
+}
+
+singularity {
+    enabled = true
+    autoMounts = true
+    cacheDir = '/gscratch/scrubbed/srlab/.apptainer'
+}
+
+debug {
+    cleanup = false
+}
 ```
 
 
