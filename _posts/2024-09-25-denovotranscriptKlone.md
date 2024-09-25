@@ -6,6 +6,7 @@ tags: nextflow Klone denovotranscript
 
 This entry describes running denovotranscript on the UW HPC Klone server. I generally followed the [example workflow](https://nf-co.re/denovotranscript/dev/docs/usage/example_workflow) provided in the [denovotranscript usage documentation](https://nf-co.re/denovotranscript/dev/docs/usage).
 
+It's going to use the [samplesheet.csv](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/blob/main/analyses/20240925/samplesheet.csv) as input that was created by fetchngs
 #### 1. Run the pipeline with --qc_only with default params to check the quality of your reads.
 
 ```
@@ -66,12 +67,13 @@ nextflow run nf-core/denovotranscript \
 --remove_ribo_rna \
 --busco_lineage= 'mollusca_odb10' \
 -resume
-
 ```
-
-next time I would like to run the nextflow code with the following parameters
+Next time I would like to run the nextflow code with the following parameters:
+```
 -with-report nf_report
 -with-trace
 -with-timeline nf_timeline
+```
+Will see how far things get tomorrow.
 
 ----
