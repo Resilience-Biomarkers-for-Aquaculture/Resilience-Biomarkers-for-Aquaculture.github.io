@@ -166,7 +166,7 @@ I used this flag because I wasn't sure the FTP was working. This was before I re
 
 **fetchngs output**
 The pipeline completed in 39 minutes
-![](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/master/img/Screenshot%202024-09-25%20143355.png)
+![](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/master/analyses/20240925/Screenshot%202024-09-25%20143355.png)
 
 The data is paired end so there are 72 files, 2 for each of the 36 tissue samples.
-![](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/master/img/Screenshot%202024-09-25%20143520.png)
+![](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/master/analyses/20240925/Screenshot%202024-09-25%20143520.png)
