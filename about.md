@@ -4,6 +4,11 @@ title: Resilience Biomarkers for Aquaculture
 subtitle:
 ---
 
+Jump to:  
+- [Project Summary](#Project-Summary)
+- [Omics Datasets](#Omics-Datasets)
+- [Biomarker Database](#Biomarker-Database)
+- [People](#People)
 
 ### Project Summary
 
@@ -34,8 +39,22 @@ View more project details [here](https://github.com/Resilience-Biomarkers-for-Aq
 ![](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/master/img/fig1.png)
 a) Graphical summary of Objective 1. b) Example pipelines and software for systematic reanalysis and data integration. c) Example of resilience biomarker database (modeled after Tamborero et al. 201846).
 
-### Contact
- **Email:** [shelly.wanamaker@gmgi.org](mailto:shelly.wanamaker@gmgi.org)  
+### Omics datasets
+
+### Biomarker Database
+
+### People
+Project Director:
+Shelly Wanamaker, PhD (she/her)
+Research Scientist
+[shelly.wanamaker@gmgi.org](mailto:shelly.wanamaker@gmgi.org)
+[https://github.com/shellywanamaker](https://github.com/shellywanamaker)
+
+Project Personnel:
+Emma Strand, PhD (she/her)
+Postdoctoral Scientist
+[emma.strand@gmgi.org](mailto:emma.strand@gmgi.org)
+[https://github.com/emmastrand](https://github.com/emmastrand)
 
  **Office and mailing address:**
 Gloucester Marine Genomics Institute
