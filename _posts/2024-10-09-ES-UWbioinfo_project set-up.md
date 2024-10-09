@@ -9,7 +9,7 @@ tags: project-setup HPC-server UW-resources
 Project will be completed on UW's Klone server  
 - Login: `ssh xx@klone.hyak.uw.edu` with username replacing xx, provide password, and confirm DUO push notification  
 
-Roberts lab information on Klone node: [https://robertslab.github.io/resources/klone_Data-Storage-and-System-Organization/]
+Roberts lab information on Klone node: https://robertslab.github.io/resources/klone_Data-Storage-and-System-Organization/
 
 Server structure:
 
@@ -30,7 +30,7 @@ To see space and file utilization: `hyakstorage`
 
 ## Data management resources 
 
-Steven Roberts lab handbook: [https://robertslab.github.io/resources/Data-Management/]  
-UW's system: [https://hyak.uw.edu/systems]    
-UW's how to run job: [https://hyak.uw.edu/docs/hyak101/basics/jobs]  
+Steven Roberts lab handbook: https://robertslab.github.io/resources/Data-Management/    
+UW's system: https://hyak.uw.edu/systems     
+UW's how to run job: https://hyak.uw.edu/docs/hyak101/basics/jobs   
 
