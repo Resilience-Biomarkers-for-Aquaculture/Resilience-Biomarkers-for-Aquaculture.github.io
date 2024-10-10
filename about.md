@@ -5,10 +5,10 @@ subtitle:
 ---
 
 Jump to:  
-- [Project Summary](#Project-Summary)
-- [Omics Datasets](#Omics-Datasets)
-- [Biomarker Database](#Biomarker-Database)
-- [People](#People)
+- [Project Summary](#project-summary)
+- [Omics Datasets](#omics-datasets)
+- [Biomarker Database](#biomarker-database)
+- [People](#people)
 
 ### Project Summary
 
@@ -44,19 +44,22 @@ a) Graphical summary of Objective 1. b) Example pipelines and software for syste
 ### Biomarker Database
 
 ### People
-Project Director:
-Shelly Wanamaker, PhD (she/her)
-Research Scientist
-[shelly.wanamaker@gmgi.org](mailto:shelly.wanamaker@gmgi.org)
+Project Director:  
+Shelly Wanamaker, PhD (she/her)  
+Research Scientist  
+[shelly.wanamaker@gmgi.org](mailto:shelly.wanamaker@gmgi.org)  
 [https://github.com/shellywanamaker](https://github.com/shellywanamaker)
 
-Project Personnel:
-Emma Strand, PhD (she/her)
-Postdoctoral Scientist
-[emma.strand@gmgi.org](mailto:emma.strand@gmgi.org)
+Project Personnel:  
+Emma Strand, PhD (she/her)  
+Postdoctoral Scientist  
+[emma.strand@gmgi.org](mailto:emma.strand@gmgi.org)  
 [https://github.com/emmastrand](https://github.com/emmastrand)
 
- **Office and mailing address:**
-Gloucester Marine Genomics Institute
-417 Main Street
-Gloucester, MA 01930 USA
+ **Office and mailing address:**  
+Gloucester Marine Genomics Institute  
+417 Main Street  
+Gloucester, MA 01930 USA  
+
+**Funding:**  
+This project is supported by the USDA Agriculture and Food Research Initiative Animal Health and Production and Animal Products program under the Animal Breeding, Genetics, and Genomics section award number 2024-67015-41794 to Dr. Shelly A. Wanamaker.
