@@ -37,9 +37,12 @@ nextflow run nf-core/denovotranscript \
 
 ```
 This failed at Trinity step
-- see log file
+- [nextflow report](https://htmlpreview.github.io/?https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/blob/main/analyses/20241009/attempt01/nf_report.html)
 
+![](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/blob/main/analyses/20241009/attempt01/Screenshot%202024-10-09%20100350.png)
 
+I reran the pipeline specifying to only use RNAspades as an assembler:
+```
 nextflow run nf-core/denovotranscript \
 -c /gscratch/srlab/strigg/bin/uw_hyak_srlab.config \
 --input /gscratch/scrubbed/strigg/analyses/20240925/samplesheet/samplesheet_test.csv \
@@ -52,3 +55,33 @@ nextflow run nf-core/denovotranscript \
 -with-report nf_report.html \
 -with-trace \
 -with-timeline nf_timeline.html
+```
+
+This completed with errors
+- [nextflow report](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cgigas_denovotranscript/20241009/nf_report.html)
+
+There seemed to be an issue with BUSCO and RNAQUAST
+```
+Command error:
+  INFO:    Environment variable SINGULARITYENV_TMPDIR is set, but APPTAINERENV_TMPDIR is preferred
+  INFO:    Environment variable SINGULARITYENV_NXF_TASK_WORKDIR is set, but APPTAINERENV_NXF_TASK_WORKDIR is preferred
+  INFO:    Environment variable SINGULARITYENV_NXF_DEBUG is set, but APPTAINERENV_NXF_DEBUG is preferred
+  usage: busco -i [SEQUENCE_FILE] -l [LINEAGE] -o [OUTPUT_NAME] -m [MODE] [OTHER OPTIONS]
+  busco: error: argument -l/--lineage_dataset: expected one argument
+  ```
+I had tried to specify mollusca_odb10 as the lineage dataset to use but it seems to not have liked that. So I tried to remove that parameter and just have it auto-detect which is the [default](https://nf-co.re/denovotranscript/1.0.0/parameters/)
+
+### run on 10-11-2024
+```
+nextflow run nf-core/denovotranscript \
+-c /gscratch/srlab/strigg/bin/uw_hyak_srlab.config \
+--input /gscratch/scrubbed/strigg/analyses/20240925/samplesheet/samplesheet_test.csv \
+--outdir /gscratch/scrubbed/strigg/analyses/20241011_denovo \
+--extra_fastp_args='--trim_front1 10 --trim_front2 10' \
+--remove_ribo_rna \
+--assemblers rnaspades \
+-resume \
+-with-report nf_report.html \
+-with-trace \
+-with-timeline nf_timeline.html
+```
