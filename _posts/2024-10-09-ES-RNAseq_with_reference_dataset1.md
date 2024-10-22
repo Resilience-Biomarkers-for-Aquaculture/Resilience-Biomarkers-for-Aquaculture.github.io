@@ -75,9 +75,24 @@ Press Ctrl+A, then D (the default key binding)
 
 ```
 
-Nextflow RNAsew workflow:
+Nextflow RNAsew workflow (`01-rnaseq.sh`):
 
 ```
+#!/bin/bash
+#SBATCH --job-name=rnaseq
+#SBATCH --account=srlab
+#SBATCH --error=output/"%x_error.%j" #if your job fails, the error report will be put in this file
+#SBATCH --output=output/"%x_output.%j" #once your job is completed, any final job report comments will be put in this file
+#SBATCH --partition=cpu-g2-mem2x
+#SBATCH --nodes=1
+#SBATCH --time=1-20:00:00
+#SBATCH --mem=100G
+#SBATCH --ntasks=7
+#SBATCH --cpus-per-task=2
+#SBATCH --chdir=/mmfs1/gscratch/scrubbed/elstrand/Cgigas_ArredondoEspinoza2023/scripts
+
+conda activate nextflow
+
 samplesheet="/mmfs1/gscratch/scrubbed/elstrand/Cgigas_ArredondoEspinoza2023/samplesheet_rnaseq_dataset1.csv"
 output="/mmfs1/gscratch/scrubbed/elstrand/Cgigas_ArredondoEspinoza2023/"
 genome="/mmfs1/gscratch/scrubbed/elstrand/genomes/C_gigas/GCF_963853765.1_xbMagGiga1.1_genomic.fna.gz"
@@ -95,9 +110,11 @@ nextflow run nf-core/rnaseq \
     --trimmer fastp \
     --aligner star_salmon \
     --pseudo_aligner salmon \
-    --multiqc_title rnaseq_projectitle_refgenome \
+    --multiqc_title rnaseq_Cgigas_ArredondoEspinoza2023 \
     --deseq2_vst
 ```
+
+`sbatch 01-rnaseq.sh` to run this script and `squeue -u elstrand` to check the que 
 
 #### 2024-10-09
 
@@ -150,7 +167,7 @@ When running rnaseq nextflow I got this warning: `NOTE: Your local project versi
 
 Got error: `ERROR ~ Empty header columns are not allowed in CSV file`. Added `row.names = FALSE` to the export csv function in the R script. Re-uploaded to klone. Try again! 
 
-Got error: Input validation failed. This can't find the fastq files because now that folder only has one sample not all of them.. But Shelly's last post has a screenshot of the whole set. 
+Got error: Input validation failed. This can't find the fastq files because now that folder only has one sample not all of them.. But Shelly's last post has a screenshot of the whole set. Probably because of 30 day limit on files. Shelly redownloaded to this same folder. 
 
 ```
 ERROR ~ ERROR: Validation of 'input' file failed!
@@ -161,6 +178,44 @@ The following errors have been detected:
 * -- Entry 2 - fastq_2: the file or directory '/gscratch/scrubbed/strigg/analyses/20240925/fastq/SRX5644305_SRR8856684_2.fastq.gz' does not exist.
 ```
 
+Got error: It's running! But needs 6 CPUs not the available 1. Make sbatch script instead of srun and screen. also get output this way.
 
+```
+WARN: Singularity cache directory has not been defined -- Remote image will be stored in the path: /mmfs1/home/elstrand/work/singularity -- Use the environment variable NXF_SINGULARITY_CACHEDIR to specify a different location
+ERROR ~ Error executing process > 'NFCORE_RNASEQ:RNASEQ:FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS:FASTQ_FASTQC_UMITOOLS_FASTP:FASTP (SRX5644304)'
 
+Caused by:
+  Process requirement exceeds available CPUs -- req: 6; avail: 1
+```
 
+For future datasets, can there be a base script that you just give a different config file to every time? So it's not the same sbatch script edited for every different file?
+
+Got error: Need to run mamba init to activate/deactivate mamba or just use conda. Changed sbatch script to just use conda. 
+
+Got error: Fastp error once running, I'm still getting this error.. Trying to add ntasks and cpus per tasks to the sbatch script.
+
+```
+ERROR ~ Error executing process > 'NFCORE_RNASEQ:RNASEQ:FASTQ_QC_TRIM_FILTER_SETSTRANDEDNESS:FASTQ_FASTQC_UMITOOLS_FASTP:FASTP (SRX5644305)'
+
+Caused by:
+  Process requirement exceeds available CPUs -- req: 6; avail: 1
+```
+
+Got error: This is better! but need 12 so upping the ntasks. 
+
+```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ERROR ~ Error executing process > 'NFCORE_RNASEQ:PREPARE_GENOME:STAR_GENOMEGENERATE (GCF_963853765.1_xbMagGiga1.1_genomic.fna)'
+
+Caused by:
+  Process requirement exceeds available CPUs -- req: 12; avail: 10
+```
+
+Got error: Ugh, getting there. Up the memory allocated.
+
+```
+ERROR ~ Error executing process > 'NFCORE_RNASEQ:PREPARE_GENOME:STAR_GENOMEGENERATE (GCF_963853765.1_xbMagGiga1.1_genomic.fna)'
+
+Caused by:
+  Process requirement exceeds available memory -- req: 72 GB; avail: 70 GB
+```
