@@ -66,13 +66,19 @@ mamba activate nextflow
 nextflow pull nf-core/rnaseq
 
 ## attach back to screen 
-screen attach-session -t rnaseq_cgigas_AE2023
+screen -r 1266631.rnaseq_cgigas_AE2023
+
+## detach from screen 
+Press Ctrl+A, then D (the default key binding)
+
+## export contents of screen session
+
 ```
 
 Nextflow RNAsew workflow:
 
 ```
-samplesheet="/mmfs1/gscratch/scrubbed/strigg/analyses/20240925/samplesheet/samplesheet.csv"
+samplesheet="/mmfs1/gscratch/scrubbed/elstrand/Cgigas_ArredondoEspinoza2023/samplesheet_rnaseq_dataset1.csv"
 output="/mmfs1/gscratch/scrubbed/elstrand/Cgigas_ArredondoEspinoza2023/"
 genome="/mmfs1/gscratch/scrubbed/elstrand/genomes/C_gigas/GCF_963853765.1_xbMagGiga1.1_genomic.fna.gz"
 gff="/mmfs1/gscratch/scrubbed/elstrand/genomes/C_gigas/GCF_963853765.1_xbMagGiga1.1_genomic.gff.gz"
@@ -110,3 +116,51 @@ The following errors have been detected:
 * -- Entry 3: Missing required value: strandedness
 * -- Entry 4: Missing required value: strandedness
 ```
+
+#### 2024-10-22 
+
+**Samplesheet issue** 
+
+Coming back to this samplesheet issue.. I'm exporting the .csv file from the fetchNGS output: 
+
+```
+## run this outside of klone 
+scp xxx@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/strigg/analyses/20240925/samplesheet/samplesheet.csv C:\Users\EmmaStrand\Downloads
+
+## moved this file to my C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture folder that houses the Resilience-Biomarkers-for-Aquaculture.github.io.
+## do we want this on our github? folder for files and scripts?
+
+## this below didn't work because I can only read shelly's folder 
+scp C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture\samplesheet_rnaseq_dataset1.csv elstrand@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/strigg/analyses/20240925/samplesheet/samplesheet_rnaseq_dataset1.csv
+
+## this worked!
+scp C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture\samplesheet_rnaseq_dataset1.csv elstrand@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/elstrand/Cgigas_ArredondoEspinoza2023/
+```
+
+- Created an R script to convert this samplesheet to an rnaseq input samplesheet. We need metadata information for the SRA ID to match to sample ID from the treatments in the expertiment. How do we set this up where it will be a template script for all datasets?   
+- We just need an additional column called "strandedness" that is set to "auto" to auto-detect the forward or reverse strand. Exporting file from R script to klone (code in chunk above).   
+
+**Attaching to screen again** 
+
+I'm not able to get back into this screen.. `screen attach-session -t 1266631.rnaseq_cgigas_AE2023`. If I use `screen -ls` I can see it activate but attach session isn't working. But this did `screen -r 1266631.rnaseq_cgigas_AE2023`. Replaced instructions at beginning of post. 
+
+**Running rnaseq** 
+
+When running rnaseq nextflow I got this warning: `NOTE: Your local project version looks outdated - a different revision is available in the remote repository [1f3f64dac7]`. Does this refer to the rnaseq pipeline?
+
+Got error: `ERROR ~ Empty header columns are not allowed in CSV file`. Added `row.names = FALSE` to the export csv function in the R script. Re-uploaded to klone. Try again! 
+
+Got error: Input validation failed. This can't find the fastq files because now that folder only has one sample not all of them.. But Shelly's last post has a screenshot of the whole set. 
+
+```
+ERROR ~ ERROR: Validation of 'input' file failed!
+
+ -- Check '.nextflow.log' file for details
+The following errors have been detected:
+
+* -- Entry 2 - fastq_2: the file or directory '/gscratch/scrubbed/strigg/analyses/20240925/fastq/SRX5644305_SRR8856684_2.fastq.gz' does not exist.
+```
+
+
+
+
