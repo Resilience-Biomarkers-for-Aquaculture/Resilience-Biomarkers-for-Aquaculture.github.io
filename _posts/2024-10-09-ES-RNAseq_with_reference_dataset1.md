@@ -42,6 +42,11 @@ wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/963/853/765/GCF_963853765.1_xb
 
 Paper found [here](https://www.sciencedirect.com/science/article/pii/S1744117X23000345?via%3Dihub). Shelly downloaded this data on [20240925 with fetchNGS](https://resilience-biomarkers-for-aquaculture.github.io/a-fetchNGSKlone/). 
 
+Supplemental data that might be helpful:  
+- [Supplementary Table II](https://ars.els-cdn.com/content/image/1-s2.0-S1744117X23000345-mmc6.xls). Transcripts annotated for the heat-resistant phenotype of C. gigas whose high expression might be useful as a marker of resistance to high temperatures.     
+- [Supplementary Table III](https://ars.els-cdn.com/content/image/1-s2.0-S1744117X23000345-mmc7.xls). Transcripts annotated for the heat-susceptible phenotype of C. gigas whose high expression might be useful as a marker of resistance to high temperatures. No sure what the difference is between II and III?  
+- 
+
 This study focused on the Pacific oyster, *Crassostrea gigas*, and completed a laboratory-simulated daily oscillatory thermal challenge (26 to 34 °C) for 30 days. 
 
 Path to fastq files: `/mmfs1/gscratch/scrubbed/<ShellynetID>/analyses/20240925/fastq`   
@@ -77,6 +82,8 @@ Press Ctrl+A, then D (the default key binding)
 
 Nextflow RNAsew workflow (`01-rnaseq.sh`):
 
+Start conda environment before running sbatch. 
+
 ```
 #!/bin/bash
 #SBATCH --job-name=rnaseq
@@ -91,7 +98,7 @@ Nextflow RNAsew workflow (`01-rnaseq.sh`):
 #SBATCH --cpus-per-task=2
 #SBATCH --chdir=/mmfs1/gscratch/scrubbed/elstrand/Cgigas_ArredondoEspinoza2023/scripts
 
-conda activate nextflow
+#conda activate nextflow
 
 samplesheet="/mmfs1/gscratch/scrubbed/elstrand/Cgigas_ArredondoEspinoza2023/samplesheet_rnaseq_dataset1.csv"
 output="/mmfs1/gscratch/scrubbed/elstrand/Cgigas_ArredondoEspinoza2023/"
@@ -108,13 +115,16 @@ nextflow run nf-core/rnaseq \
     --gff ${gff} \
     --fasta ${genome} \
     --trimmer fastp \
+    --extra_fastp_args '--cut_mean_quality 30 --trim_front1 10 --trim_front2 10' \
     --aligner star_salmon \
-    --pseudo_aligner salmon \
+    --skip_pseudo_alignment \
     --multiqc_title rnaseq_Cgigas_ArredondoEspinoza2023 \
     --deseq2_vst
 ```
 
-`sbatch 01-rnaseq.sh` to run this script and `squeue -u elstrand` to check the que 
+`sbatch 01-rnaseq.sh` to run this script and `squeue -u elstrand` to check the status 
+
+To add pseudo alignment: `--pseudo_aligner salmon`
 
 #### 2024-10-09
 
@@ -218,4 +228,46 @@ ERROR ~ Error executing process > 'NFCORE_RNASEQ:PREPARE_GENOME:STAR_GENOMEGENER
 
 Caused by:
   Process requirement exceeds available memory -- req: 72 GB; avail: 70 GB
+```
+
+#### 2024-10-23 
+
+This worked! ~13 hours for this dataset. Yay! Back up output on gannet.
+
+```
+rsync --archive --verbose --progress *.html emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cgigas_ArredondoEspinoza2023
+```
+
+#### 2024-10-29 
+
+Deciding on parameters to include for fastp, star, and salmon. 
+
+```
+    --extra_fastp_args '--cut_mean_quality 30 --trim_front1 10 --trim_front2 10' \
+```
+
+Options for STAR that I wasn't sure if we needed? (`--extra_star_align_args ''`):    
+- `--outFilterMultimapNmax`: Maximum number of multiple alignments allowed   
+- `--outFilterMismatchNmax`: Maximum number of mismatches allowed   
+- `--alignIntronMin`: Minimum intron size   
+- `--alignIntronMax`: Maximum intron size   
+- `--alignMatesGapMax`: Maximum gap between paired reads   
+
+Options for SALMON that I wasn't sure we needed (`--extra_salmon_quant_args ''`):    
+- `--numBootstraps`: Number of bootstrap samples to generate  
+- `--numGibbsSamples`: Number of Gibbs sampling rounds   
+- `--fldMean`: Mean fragment length for single-end reads  
+- `--fldSD`: Standard deviation of fragment length for single-end reads     
+- `--validateMappings`: Perform selective alignment    
+- `--gcBias`: Enable GC bias correction  
+- `--seqBias`: Enable sequence-specific bias correction  
+
+We also decided we don't need the pseudo-aligning step so I'm adding a flag to skip that (`--skip_pseudo_alignment`). 
+
+Re-running script ~11 am. This took ~12 hours last time with the pseudo alignment. The traditional alignment is the time intensive step so I'm guessing 9-10 hours for this run? Running while nextflow conda environment is activated b/c got an error to run conda init before activate within the sbatch script.
+
+Rsync the output to gannet. 
+
+```
+rsync --archive --verbose --progress *.html emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cgigas_ArredondoEspinoza2023
 ```
