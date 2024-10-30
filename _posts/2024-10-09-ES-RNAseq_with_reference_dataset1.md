@@ -266,6 +266,38 @@ We also decided we don't need the pseudo-aligning step so I'm adding a flag to s
 
 Re-running script ~11 am. This took ~12 hours last time with the pseudo alignment. The traditional alignment is the time intensive step so I'm guessing 9-10 hours for this run? Running while nextflow conda environment is activated b/c got an error to run conda init before activate within the sbatch script.
 
+#### 2024-10-30 
+
+Checking on this output from yesterday. Got the error below - I didn't get this issue before. Google says "The error you're encountering suggests that the singularity image pull operation is timing out. This is likely due to network issues or the size of the image". 
+
+```
+ERROR ~ Error executing process > 'NFCORE_RNASEQ:RNASEQ:BAM_MARKDUPLICATES_PICARD:PICARD_MARKDUPLICATES (13)'
+
+Caused by:
+  Failed to pull singularity image
+    command: singularity pull  --name depot.galaxyproject.org-singularity-picard-3.1.1--hdfd78af_0.img.pulling.1730233288426 https://depot.galaxyproject.org/singularity/picard:3.1.1--hdfd78af_0 > /dev/null
+    status : 143
+    hint   : Try and increase singularity.pullTimeout in the config (current is "20m")
+    message:
+      INFO:    Downloading network image
+
+ -- Check '.nextflow.log' file for details
+ERROR ~ Pipeline failed. Please refer to troubleshooting docs: https://nf-co.re/docs/usage/troubleshooting
+
+ -- Check '.nextflow.log' file for details
+ ```
+
+This also resulted in the final execution log being: 
+
+```
+294     9b/fd4a4a       54236   NFCORE_RNASEQ:RNASEQ:QUANTIFY_STAR_SALMON:SALMON_QUANT (SRX5644336)     ABORTED -       2024-10-29 13:50:40.680 -       -       -       -       -       -       -
+296     db/8eb422       55321   NFCORE_RNASEQ:RNASEQ:QUANTIFY_STAR_SALMON:SALMON_QUANT (SRX5644337)     ABORTED -       2024-10-29 13:50:44.275 - 
+```
+
+I removed all the previous iterations of running this dataset to start fresh. Activated mamba nextflow outside of sbatch script and ran again ~11 am.
+
+###
+
 Rsync the output to gannet. 
 
 ```
