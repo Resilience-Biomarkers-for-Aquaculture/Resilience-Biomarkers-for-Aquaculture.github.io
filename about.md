@@ -40,9 +40,10 @@ View more project details [here](https://github.com/Resilience-Biomarkers-for-Aq
 a) Graphical summary of Objective 1. b) Example pipelines and software for systematic reanalysis and data integration. c) Example of resilience biomarker database (modeled after Tamborero et al. 201846).
 
 ### Omics datasets
+
 **Species**|**Data Type**|**stress class**|**stressor**|**Phenotype**|**Phenotpe Summary**|**Reference**|**DOI**|**SRA links**|**meta data file**|**counts table**|**DEG data**
 :-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:
-_C. gigas_|T|environment|thermal |thermotolerance different among lines|resilience|Ding et al.2020|[https://doi.org/10.1016/j.cbd.2023.101089](https://doi.org/10.1016/j.cbd.2023.101089)|[https://www.ncbi.nlm.nih.gov/biosample?LinkName=bioproject\_biosample\_all&from\_uid=516210](https://www.ncbi.nlm.nih.gov/biosample?LinkName=bioproject\_biosample\_all&from\_uid=516210)| | | 
+_C. gigas_|T|environment|thermal |thermotolerance different among lines|resilience|Ding et al.2020|[https://doi.org/10.1016/j.cbd.2023.101089](https://doi.org/10.1016/j.cbd.2023.101089)|[https://www.ncbi.nlm.nih.gov/biosample?LinkName=bioproject\_biosample\_all&from\_uid=516210](https://www.ncbi.nlm.nih.gov/biosample?LinkName=bioproject\_biosample\_all&from\_uid=516210)| | |
 _C. virginica_|T|disease|Perkinsus|infection tolerance|resilience|Proestou et al. 2023|[https://doi.org/10.3389/fgene.2023.1054558](https://doi.org/10.3389/fgene.2023.1054558)|[https://www.ncbi.nlm.nih.gov/sra?LinkName=bioproject\_sra\_all&from\_uid=894694](https://www.ncbi.nlm.nih.gov/sra?LinkName=bioproject\_sra\_all&from\_uid=894694)| | |
 _C. virginica_|E,T|disease|Perkinsus|infected|sensitivity|Johnson et al. 2020|[https://doi.org/10.3389/fmars.2020.00598](https://doi.org/10.3389/fmars.2020.00598)|[https://www.ncbi.nlm.nih.gov/sra?LinkName=bioproject\_sra\_all&from\_uid=604121](https://www.ncbi.nlm.nih.gov/sra?LinkName=bioproject\_sra\_all&from\_uid=604121)| | |
 _C. gigas & virginica_|T|disease|Perkinsus|infection tolerance|resilience|Chan et al. 2021|[10.3389/fgene.2021.795706](10.3389/fgene.2021.795706)|[https://www.ncbi.nlm.nih.gov/sra?LinkName=biosample\_sra&from\_uid=11031730](https://www.ncbi.nlm.nih.gov/sra?LinkName=biosample\_sra&from\_uid=11031730)| | |
