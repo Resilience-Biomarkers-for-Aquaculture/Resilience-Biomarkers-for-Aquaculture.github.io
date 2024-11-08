@@ -294,9 +294,9 @@ This also resulted in the final execution log being:
 296     db/8eb422       55321   NFCORE_RNASEQ:RNASEQ:QUANTIFY_STAR_SALMON:SALMON_QUANT (SRX5644337)     ABORTED -       2024-10-29 13:50:44.275 - 
 ```
 
-I removed all the previous iterations of running this dataset to start fresh. Activated mamba nextflow outside of sbatch script and ran again ~11 am.
+I removed all the previous iterations of running this dataset to start fresh. Activated mamba nextflow outside of sbatch script and ran again ~11 am. This worked, yay!
 
-###
+### 2024-10-31 
 
 Rsync the output to gannet. 
 
