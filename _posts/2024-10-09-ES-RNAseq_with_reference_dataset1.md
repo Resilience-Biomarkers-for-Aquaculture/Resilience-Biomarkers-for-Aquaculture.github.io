@@ -303,3 +303,7 @@ Rsync the output to gannet.
 ```
 rsync --archive --verbose --progress *.html emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cgigas_ArredondoEspinoza2023
 ```
+
+### Comparing output to Roberto's paper 
+
+

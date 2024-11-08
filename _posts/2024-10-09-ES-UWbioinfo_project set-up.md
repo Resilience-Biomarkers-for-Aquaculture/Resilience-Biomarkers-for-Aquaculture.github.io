@@ -34,3 +34,18 @@ Steven Roberts lab handbook: https://robertslab.github.io/resources/Data-Managem
 UW's system: https://hyak.uw.edu/systems     
 UW's how to run job: https://hyak.uw.edu/docs/hyak101/basics/jobs   
 
+## Tips and tricks 
+ 
+`squeue -A srlab`: check what jobs are being run on srlab      
+`hyakalloc -g srlab`: check how many resources are in use and free for use     
+`hyakalloc -p ckgt`: check what resources are currently available on all of hyak    
+
+Shelly added config file for nextflow `/gscratch/srlab/strigg/bin/uw_hyak_srlab.config` that will use other nodes if nobody is using them.
+
+## Hyak info 
+
+Total GB:    
+Total cpu: 32    
+Partition to use: `-p cpu-g2-mem2x`
+
+We don't have access to ckpt at the moment so config file is not using other resources
