@@ -37,6 +37,18 @@ the pipeline errored out again. I submitted an issue via github. it seems like a
 **2024-11-08**
 
 I reran the pipeline in a new screen session and new directory
+```
+nextflow run nf-core/denovotranscript \
+-c /gscratch/srlab/strigg/bin/uw_hyak_srlab.config \
+--input /gscratch/scrubbed/strigg/analyses/20240925/samplesheet/samplesheet.csv \
+--outdir /gscratch/scrubbed/strigg/analyses/20241108_denovo \
+--extra_fastp_args='--trim_front1 10 --trim_front2 10' \
+--remove_ribo_rna \
+--assemblers rnaspades \
+-resume \
+-with-report nf_report.html \
+-with-timeline nf_timeline.html
+```
 
 It again stalled out at rnaSPADES. I think because of a memory issue.
 
