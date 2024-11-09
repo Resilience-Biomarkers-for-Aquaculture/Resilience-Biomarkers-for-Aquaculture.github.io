@@ -37,13 +37,39 @@ nf-core/fetchngs \
 ```
 
 **11/08/2024**  
-I ended up canceling the job because it was taking too long to run. It seemed stalled out.
+I ended up canceling the job (CTRL + c) because it was taking too long to run. It seemed stalled out:
 - [nextflow.log file](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241104_FetchNGS/nextflow.log)
 - [trace file](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241104_FetchNGS/pipeline_info/)
 - [timeline report](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241104_FetchNGS/pipeline_info/execution_timeline_2024-11-08_10-45-42.html)
 - [summary report](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241104_FetchNGS/pipeline_info/execution_report_2024-11-08_10-45-42.html): note it says completed even though I did CTRL + c
+- I exited the screen session as follows
+```
+screen -XS nextflow quit
+```
 
-I reran the job in a new directory ([20241108_FetchNGS](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241108_FetchNGS/)) and it completed in 1.5 hours which is crazy fast. ![](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241108_FetchNGS/Screenshot%202024-11-08%20224539.png). 
+I reran the job in a new screen session and new directory ([20241108_FetchNGS](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241108_FetchNGS/)).
+```
+# create a screen session
+screen -S nextflow
+
+# request a compute node (mem and time requests can be modified)
+salloc -A srlab -p cpu-g2-mem2x -N 1 -c 1 --mem=16GB --time=12:00:00
+
+# load the nextflow environment
+mamba activate nextflow
+
+# run nextflow pipeline
+nextflow run \
+nf-core/fetchngs \
+-resume \
+-c /gscratch/srlab/strigg/bin/uw_hyak_srlab.config \
+--input /gscratch/scrubbed/strigg/analyses/20241104_RNAseq/ids.csv \
+--outdir /gscratch/scrubbed/strigg/analyses/20241108_RNAseq \
+--download_method sratools
+
+```
+
+It completed in 1.5 hours which is crazy fast. ![](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241108_FetchNGS/Screenshot%202024-11-08%20224539.png).
 
 Summary Report here: [https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241108_FetchNGS/pipeline_info/execution_report_2024-11-08_18-03-14.html](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241108_FetchNGS/pipeline_info/execution_report_2024-11-08_18-03-14.html)
 
