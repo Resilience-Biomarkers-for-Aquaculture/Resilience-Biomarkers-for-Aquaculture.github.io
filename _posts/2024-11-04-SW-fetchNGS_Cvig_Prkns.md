@@ -6,10 +6,10 @@ tags: nextflow Klone RNAseq
 
 This is a meta analysis of 4 RNAseq datasets each comparing different oysters infected with Perkinsus marinus.
 
-I first got all the meta data from the SRA Run Selector (e.g. https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP301630)
+I first got all the meta data from the SRA Run Selector (e.g. [https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP301630]( https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP301630))
 I downloaded this csv file by clicking the 'Metadata' button under the download heading.
 
-I then got lists of accessions and concatenated them into one list ([https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/refs/heads/main/data/ids.csv?token=GHSAT0AAAAAACZ6576TNOOXXECEX3GPQQ3WZZJH34Q](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/refs/heads/main/data/ids.csv?token=GHSAT0AAAAAACZ6576TNOOXXECEX3GPQQ3WZZJH34Q)) to be fed to the FetchNGS pipeine.
+I then got lists of accessions and concatenated them into one list ([ids.csv](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241104_FetchNGS/ids.csv)) to be fed to the FetchNGS pipeine.
 
 Then I ran FetchNGS to get all the datasets
 
@@ -35,6 +35,25 @@ nf-core/fetchngs \
 --download_method sratools
 
 ```
+
+**11/08/2024**  
+I ended up canceling the job because it was taking too long to run. It seemed stalled out.
+- [nextflow.log file](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241104_FetchNGS/nextflow.log)
+- [trace file](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241104_FetchNGS/pipeline_info/)
+- [timeline report](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241104_FetchNGS/pipeline_info/execution_timeline_2024-11-08_10-45-42.html)
+- [summary report](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241104_FetchNGS/pipeline_info/execution_report_2024-11-08_10-45-42.html): note it says completed even though I did CTRL + c
+
+I reran the job in a new directory ([20241108_FetchNGS](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241108_FetchNGS/)) and it completed in 1.5 hours which is crazy fast. ![](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241108_FetchNGS/Screenshot%202024-11-08%20224539.png). 
+
+Summary Report here: [https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241108_FetchNGS/pipeline_info/execution_report_2024-11-08_18-03-14.html](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241108_FetchNGS/pipeline_info/execution_report_2024-11-08_18-03-14.html)
+
+Timeline Report here: [https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241108_FetchNGS/pipeline_info/execution_timeline_2024-11-08_18-03-14.html](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241108_FetchNGS/pipeline_info/execution_timeline_2024-11-08_18-03-14.html)
+
+Log file here: [https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241108_FetchNGS/nextflow.log](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241108_FetchNGS/nextflow.log)
+
+Samplesheet is here: [https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241108_FetchNGS/samplesheet/samplesheet.csv](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20241108_FetchNGS/samplesheet/samplesheet.csv)
+
+
 
 ### genome for C. virginica
 [https://www.ncbi.nlm.nih.gov/datasets/genome/?taxon=6565](https://www.ncbi.nlm.nih.gov/datasets/genome/?taxon=6565)
