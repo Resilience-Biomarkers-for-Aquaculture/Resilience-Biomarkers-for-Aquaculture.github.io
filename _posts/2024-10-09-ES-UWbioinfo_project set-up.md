@@ -34,9 +34,9 @@ Steven Roberts lab handbook: https://robertslab.github.io/resources/Data-Managem
 UW's system: https://hyak.uw.edu/systems     
 UW's how to run job: https://hyak.uw.edu/docs/hyak101/basics/jobs   
 
-## Tips and tricks 
+## Tips and tricks
 
-`squeue -A srlab`: check what jobs are being run on srlab
+`squeue -A srlab`: check what jobs are being run on srlab  
 `squeue -A srlab -o "%.18i %.9P %.8j %.8u %.2t %.10M %.6D %R %c %m"`: check jobs and show CPUs and memory used by each job     
 `hyakalloc -g srlab`: check how many resources are in use and free for use     
 `hyakalloc -p ckgt`: check what resources are currently available on all of hyak    
