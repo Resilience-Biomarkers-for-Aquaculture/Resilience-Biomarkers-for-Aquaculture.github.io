@@ -45,7 +45,6 @@ Paper found [here](https://www.sciencedirect.com/science/article/pii/S1744117X23
 Supplemental data that might be helpful:  
 - [Supplementary Table II](https://ars.els-cdn.com/content/image/1-s2.0-S1744117X23000345-mmc6.xls). Transcripts annotated for the heat-resistant phenotype of C. gigas whose high expression might be useful as a marker of resistance to high temperatures.     
 - [Supplementary Table III](https://ars.els-cdn.com/content/image/1-s2.0-S1744117X23000345-mmc7.xls). Transcripts annotated for the heat-susceptible phenotype of C. gigas whose high expression might be useful as a marker of resistance to high temperatures. No sure what the difference is between II and III?  
-- 
 
 This study focused on the Pacific oyster, *Crassostrea gigas*, and completed a laboratory-simulated daily oscillatory thermal challenge (26 to 34 °C) for 30 days. 
 

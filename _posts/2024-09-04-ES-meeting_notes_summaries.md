@@ -16,10 +16,10 @@ We decided to just start fresh because it might be an issue with the -resume fla
 
 Emma:  
 1. Check Roberto's dataset with meta information on heat treatments and compare to our rnaseq output  
-2. Wait for Shelly to finish fetchNGS for 4 disease datasets  
+2. Wait for Shelly to finish fetchNGS for 4 disease datasets  (done 11-09-2024)  
 
 Shelly:  
-1. Finish fetchNGS for 4 disease datasets   
+1. Finish fetchNGS for 4 disease datasets   (done 11-09-2024)  
 2. Continue to troubleshoot de novo pipeline  
 
 
