@@ -108,7 +108,7 @@ nextflow run nf-core/rnaseq \
     --deseq2_vst
 ```
 
-### 2024-11-11
+### 2024-11-11 / 2024-11-13
 
-First attempt to sbatch rnaseq.sh above with all four datasets at once. Should we also think about running these separately?
+First attempt to sbatch rnaseq.sh above with all four datasets at once. Should we also think about running these separately? UW was doing maintenance so checked output on 11-13. I hadn't activated the nextflow conda environment so I activated that (`conda activate nextflow`) and used `sbatch 01-rnaseq.sh`. This started running immediately.
 
