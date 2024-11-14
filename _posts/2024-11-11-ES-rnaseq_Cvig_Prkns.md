@@ -112,3 +112,24 @@ nextflow run nf-core/rnaseq \
 
 First attempt to sbatch rnaseq.sh above with all four datasets at once. Should we also think about running these separately? UW was doing maintenance so checked output on 11-13. I hadn't activated the nextflow conda environment so I activated that (`conda activate nextflow`) and used `sbatch 01-rnaseq.sh`. This started running immediately.
 
+### 2024-11-14 
+
+Run failed with this error:
+
+```
+ERROR ~ Error executing process > 'NFCORE_RNASEQ:PREPARE_GENOME:MAKE_TRANSCRIPTS_FASTA (rsem/GCF_002022765.2_C_virginica-3.0_genomic.fna)'
+
+Caused by:
+  Process `NFCORE_RNASEQ:PREPARE_GENOME:MAKE_TRANSCRIPTS_FASTA (rsem/GCF_002022765.2_C_virginica-3.0_genomic.fna)` terminated with an error exit status (255)
+
+"rsem-extract-reference-transcripts rsem/genome 0 GCF_002022765.2_C_virginica-3.0_genomic.filtered.gtf None 0 rsem/GCF_002022765.2_C_virginica-3.0_genomic.fna" failed! Plase check if you provide correct parameters/options for the pipeline!
+
+Stop at line : NC_007175.2    RefSeq  exon    3430    3495    .       +       .       gene_id ""; transcript_id "unknown_transcript_1"; anticodon "(pos:3461..3463)"; gbkey "tRNA"; product "tRNA-Ile"; exon_number "1";
+  Error Message: Attribute gene_id's value should be surrounded by double quotes and cannot be empty!
+```
+
+I found Sam's [post](https://robertslab.github.io/sams-notebook/posts/2022/2022-03-25-Nextflow---Trials-and-Tribulations-of-Installing-and-Using-NF-Core-RNAseq/) on rnaseq workflow. He documented the same issue which is how RSEM handles GTF strand parsing. So this is an issue specific to the gtf file we're using.
+
+Sam says: "Even though the GFF spec indicates that strand column can be one of +, -, ., or ?, RSEM only parses for + or -. And, as it turns out, our genome GFF has some . for strand info. Looking through our “merged” GenSAS GFF, it turns out there are two sets of annotations that only have . for strand info (GenSAS_5d82b316cd298-trnascan & RNAmmer-1.2). So, the decision needed to be made if we should convert these sets strands to an “artificial” value (e.g. set all of them to +), or eliminate them from the input GFF. I ended up converting GenSAS_5d82b316cd298-trnascan strand to + and eliminated RNAmmer-1.2 from the final input GFF."
+
+I might have an issue with `.` and gene_id "" that are empty? Pause to consult with Shelly. I think I can follow Sam's notes to convert `.` to another character since RSEM only parses `+` or `-`, but I'm surprised that gene ids are empty here. 
