@@ -6,6 +6,51 @@ tags: meetings
 
 Summary of each meeting and priority lists based on discussions
 
+## 2024-11-20 SW-ES 
+
+Steve Yost will be joining as a volunteer to help with bioinformatic workflows and github project management. Shelly and Emma served on a panel for ocean and coastal acidification put on by the New England aquarium and Benchmark Strategies. 
+
+Since last time, Shelly downloaded the 4 disease dataset and Emma began running this set but with the rnaseq pipeline. Currently stuck on issues with the gtf file. We figured out that my issue is probably only the blank gene ID issue instead of the '+'/'.' issue. Shelly ran the below code and figured out that there are only '+' and '-' characters in the strand column (column #7).
+
+```
+(base) [strigg@klone-login03 C_virginica]$ zcat GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz | awk -F"\t" '{print  $7}
+' | sort | uniq -c
+      5
+ 761431 +
+ 770111 -
+```
+
+To address the blank gene IDs issue, we changed the one gene with several exons to read gene_id="unknown_transcript_1"
+
+```
+## check that changes worked 
+check for the changes: zcat GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz | awk -F"\t" '{if($9 ~/gene_id ""/ ) gsub(/gene_id ""/,"gene_id \"unknown_transcript_1\"",$9);print $0}' | grep "unknown_t" | less
+
+## save as new gtf file 
+zcat GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz | awk -F"\t" '{if($9 ~/gene_id ""/ ) gsub(/gene_id ""/,"gene_id \"unknown_transcript_1\"",$9);print $0}' | gzip > mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz
+```
+
+Do we need to run all four together or separately? If we want to see what consistently comes out as biomarkers, I think we need to do this separately? Do we get the same answer when analyzing altogether? Try both. 
+
+Shelly has been trying to get the de novo pipeline working - which we think worked! The de novo assembly worked but the QC steps failed so Shelly will troubleshoot those but we can start using the assembly as input for the rnaseq workflow. 
+
+We found a differential abundance workflow that will take rnaseq output and try quantitative comaprisons (e.g., DESEQ2). [Pipeline here](https://nf-co.re/differentialabundance/1.5.0/). 
+
+Emma:  
+1. Run disease dataset with modified GTF file.    
+2. Run 4 separately and then altogether    
+3. Tagseq vs rnaseq pipeline details - does tagseq need anything else?   
+4. Identify counts table to use for meta comparison for Cgigas comparison (gene vs. transcript?)   
+5. Attempt differential abundance workflow on counts matrix identified in #4   
+6. Move Roberto data output to Gannet  
+
+Shelly:  
+1. Troubleshoot denovo QC steps   
+2. Run rnaseq with denovo transcriptome   
+3. Find counts table from Roberto's data 
+
+
+
 ## 2024-11-08 SW-ES 
 
 De novo still running into errors. rnaseq pipeline worked well! Moving on to meta analysis of 4 oyster immunity datasets - Shelly ran [fetchNGS](https://resilience-biomarkers-for-aquaculture.github.io/SW-fetchNGS_Cvig_Prkns/) with one csv with all 4 dataset SRA ids. 2 files within this pipeline didn't work and now it's stalled. We checked the current output folder, there were 398 files but should be 362 total.. Where are these extra coming from?

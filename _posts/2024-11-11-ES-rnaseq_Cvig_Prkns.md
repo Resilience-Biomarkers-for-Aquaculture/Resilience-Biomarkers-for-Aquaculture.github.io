@@ -90,7 +90,7 @@ samplesheet="/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_2024Nov11/sampleshee
 output="/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_2024Nov11/"
 genome="/mmfs1/gscratch/scrubbed/elstrand/genomes/C_virginica/GCF_002022765.2_C_virginica-3.0_genomic.fna.gz"
 gff="/mmfs1/gscratch/scrubbed/elstrand/genomes/C_virginica/GCF_002022765.2_C_virginica-3.0_genomic.gff.gz"
-gtf="/mmfs1/gscratch/scrubbed/elstrand/genomes/C_virginica/GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz"
+gtf="/mmfs1/gscratch/scrubbed/elstrand/genomes/C_virginica/mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz"
 
 nextflow run nf-core/rnaseq \
     -resume \
@@ -133,3 +133,27 @@ I found Sam's [post](https://robertslab.github.io/sams-notebook/posts/2022/2022-
 Sam says: "Even though the GFF spec indicates that strand column can be one of +, -, ., or ?, RSEM only parses for + or -. And, as it turns out, our genome GFF has some . for strand info. Looking through our “merged” GenSAS GFF, it turns out there are two sets of annotations that only have . for strand info (GenSAS_5d82b316cd298-trnascan & RNAmmer-1.2). So, the decision needed to be made if we should convert these sets strands to an “artificial” value (e.g. set all of them to +), or eliminate them from the input GFF. I ended up converting GenSAS_5d82b316cd298-trnascan strand to + and eliminated RNAmmer-1.2 from the final input GFF."
 
 I might have an issue with `.` and gene_id "" that are empty? Pause to consult with Shelly. I think I can follow Sam's notes to convert `.` to another character since RSEM only parses `+` or `-`, but I'm surprised that gene ids are empty here. 
+
+### 2024-11-20 
+
+We figured out that my issue is probably only the blank gene ID issue instead of the '+'/'.' issue. Shelly ran the below code and figured out that there are only '+' and '-' characters in the strand column (column #7).
+
+```
+(base) [strigg@klone-login03 C_virginica]$ zcat GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz | awk -F"\t" '{print  $7}
+' | sort | uniq -c
+      5
+ 761431 +
+ 770111 -
+```
+
+To address the blank gene IDs issue, we changed the one gene with several exons to read gene_id="unknown_transcript_1"
+
+```
+## check that changes worked 
+check for the changes: zcat GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz | awk -F"\t" '{if($9 ~/gene_id ""/ ) gsub(/gene_id ""/,"gene_id \"unknown_transcript_1\"",$9);print $0}' | grep "unknown_t" | less
+
+## save as new gtf file 
+zcat GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz | awk -F"\t" '{if($9 ~/gene_id ""/ ) gsub(/gene_id ""/,"gene_id \"unknown_transcript_1\"",$9);print $0}' | gzip > mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz
+```
+
+Changing the path for the gtf file in the script above to this modified version. Started 01-rnaseq.sh 
