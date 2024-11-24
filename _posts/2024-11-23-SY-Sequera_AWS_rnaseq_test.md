@@ -10,7 +10,7 @@ The goal here was initial familiarization with Seqera, particularly configuring 
 
 ## Sequence
 ### Community Showcase
-I first explored the Community Showcase. I noted there's an RNASEQ pipeline defined there: https://cloud.seqera.io/orgs/community/workspaces/showcase/launchpad/189046775836482. It uses a compute environment named `AWS_Batch_Ireland_FusionV2_NVMe`. The training video demonstrates using the RNASEQ pipeline. I ran that pipeline successfully, following the instructions.
+I first explored the Community Showcase. I noted there's an RNASEQ pipeline defined there: [https://cloud.seqera.io/orgs/community/workspaces/showcase/launchpad/189046775836482](https://cloud.seqera.io/orgs/community/workspaces/showcase/launchpad/189046775836482). It uses a compute environment named `AWS_Batch_Ireland_FusionV2_NVMe`. The training video demonstrates using the RNASEQ pipeline. I ran that pipeline successfully, following the instructions.
 Here's the commandline it produced:
 ```
 nextflow run https://github.com/nf-core/rnaseq
@@ -27,7 +27,7 @@ Seqera provides 100 free CPU hours. Running this pipeline used only 0.7 CPU hour
 I then wished to replicate that result with my own compute environment, which is required for any real Seqera work beyond familiarization.
 [Sequera documentation](https://docs.seqera.io/platform/24.2/compute-envs/aws-batch) for setting up an AWS Batch compute environment was thorough and, with a few minor exceptions, up to date with the AWS console web interface.
 
-My first attempt to create a Batch Forge compute environment, following the above instructions for setting up AWS resources, failed with the message "Unable to find default AWS subnets for vpc none and region us-east-1".  A Seqera AI doc query suggested (among many other things) that I needed a default VPC on AWS. I turned out I indeed didn't have a default VPC, so I created one here: https://us-east-1.console.aws.amazon.com/vpcconsole/home?region=us-east-1#vpcs
+My first attempt to create a Batch Forge compute environment, following the above instructions for setting up AWS resources, failed with the message "Unable to find default AWS subnets for vpc none and region us-east-1".  A Seqera AI doc query suggested (among many other things) that I needed a default VPC on AWS. I turned out I indeed didn't have a default VPC, so I created one here: [https://us-east-1.console.aws.amazon.com/vpcconsole/home?region=us-east-1#vpcs](https://us-east-1.console.aws.amazon.com/vpcconsole/home?region=us-east-1#vpcs])
 `Actions -> Create default VPC`.
 
 I then repeated the same steps to create a new Batch Forge compute environment (because it didn't allow editing the failed one), with success this time. I deleted the failed environment.
@@ -49,6 +49,6 @@ nextflow run 'https://github.com/nf-core/rnaseq'
 > Some naive dataset inferences: I see that in the community showcase Datasets, there's a dataset named `nf-core-rnaseq-test`, which has columns `sample, fastq_1, fastq_2, strandedness`. Not all datasheets there with "rnaseq" in their names use this schema, though some do. `rnaseq_1` has `fastq_1` and `fastq_2`, but no strandedness, and has others. Note that most of these are user provided datasets.
 
 ### Next steps
-Next I'll attempt to replicate the work in https://resilience-biomarkers-for-aquaculture.github.io/ES-RNAseq_with_reference_dataset1/ on Seqera. I'll make a separate post for that effort.
+Next I'll attempt to replicate the work in [https://resilience-biomarkers-for-aquaculture.github.io/ES-RNAseq_with_reference_dataset1/](https://resilience-biomarkers-for-aquaculture.github.io/ES-RNAseq_with_reference_dataset1/) on Seqera. I'll make a separate post for that effort.
 
 
