@@ -56,6 +56,7 @@ The pipeline run succeeded, producing files in the following output paths in the
 - `fastq`: 72 `fastq.gz` files, 2 for each sample, and an `md5` directory with a checksum file for each `fastq.gz` file.
 - `metadata`: 36 `runinfo_ftp.tsv` files, one for each sample.
 - `pipeline_info`: several files
+
 Wall time for the run was 7 m 53 s, with 2.0 CPU hours, and $0.056 estimated cost.
 
 I noted that during the pipleine run's `NFCORE_FETCHNGS:SRA:SRA_FASTQ_FTP` task, one `wget` operation failed, but succeeded upon the automatic retry.
