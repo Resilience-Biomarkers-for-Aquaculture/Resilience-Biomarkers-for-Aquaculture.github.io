@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Set up AWS Batch pipeline on Seqera and run rnaseq test
+title: AWS Batch compute environment on Seqera
 tags: nextflow seqera aws rnaseq test
 ---
 
