@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Seqera `fetchngs` for C. gigas study
+title: Run Seqera fetchngs pipeline for C. gigas study
 tags: nextflow seqera aws rnaseq test
 ---
 
@@ -63,7 +63,7 @@ I noted that during the pipleine run's `NFCORE_FETCHNGS:SRA:SRA_FASTQ_FTP` task,
 ### Missing `strandedness` column
 I noted that the output `samplesheet.csv` didn't have a `strandedness` column despite the assurance above, so reading documentation, I saw that the `--nf_core_rnaseq_strandedness` parameter applies only when `--nf_core_pipeline` parameter's value is `rnaseq`. I believe we do want to produce a sample sheet that can be used as direct input to `rnaseq`, so I ran the pipleine again, this time also with `--nf_core_pipeline rnaseq`. (I previously had not set a value in the `nf_core_pipeline` pulldown on the Launch `Run parameters` page.) This time I used the `skip_fastq_download` option since we only need a new sample sheet output this time. This succeeded, overwriting the files in the S3 `samplesheet` path, and the `samplesheet.csv` file now has a `strandedness` column with all values set to `auto`. Wall time was 4 m 43 s, with 0.1 CPU hours, and $0.002 estimated cost.
 
-Below are the parameters used given the above changes:
+Below are the parameters used given the above changes. Note the `"nf_core_pipeline": "rnaseq"`:
 ```
 {
     "custom_config_base": "https://raw.githubusercontent.com/nf-core/configs/master",
