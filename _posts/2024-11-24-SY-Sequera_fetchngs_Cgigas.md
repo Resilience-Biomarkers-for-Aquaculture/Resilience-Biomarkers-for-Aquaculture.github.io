@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Run Seqera fetchngs pipeline for C. gigas study
-tags: nextflow seqera aws rnaseq test
+tags: nextflow seqera aws fetchngs
 ---
 
 ## 11-24-2024
@@ -103,3 +103,13 @@ Below are the parameters used given the above changes. Note the `"nf_core_pipeli
 }
 ```
 
+### Error downstream
+When trying to run `rnaseq` using the output `samplesheet.csv` it produced errors like the following:
+```
+--input (s3://steveyost-seqera/samplesheet/samplesheet.csv): Validation of file failed:
+	-> Entry 1: Error for field 'fastq_2' (ftp.sra.ebi.ac.uk/vol1/fastq/SRR885/005/SRR8856685/SRR8856685_2.fastq.gz): FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'
+	-> Entry 1: Error for field 'fastq_1' (ftp.sra.ebi.ac.uk/vol1/fastq/SRR885/005/SRR8856685/SRR8856685_1.fastq.gz): FastQ file for reads 1 must be provided, cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'
+```
+I realized than when running `fetchngs` with the `"skip_fastq_download": true` option, it writes a `samplesheet.csv` that refers to the original fastq.gz files. While the error message didn't seem accurate (indeed the filename does match the required regex `^\S+\.f(ast)?q\.gz$`), I wondered if a lack of protocol (eg `ftp://`) in the URI prefix was the problem, so I did another run without the the `"skip_fastq_download": true` option, causing a re-fetch of all the fastq files.
+
+No, that's not it. I think that, surprisingly, quotes are not allowed, and in fact the constraints are listed [here](https://nf-co.re/rnaseq/usage#samplesheet-input), so it also must have only four columns. So I had ChatGPT write a python script to convert `samplesheet.csv` to conform.
