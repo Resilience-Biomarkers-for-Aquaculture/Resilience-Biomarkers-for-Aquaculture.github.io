@@ -10,7 +10,7 @@ The goal here was initial familiarization with Seqera, particularly configuring 
 
 ## Sequence
 ### Community Showcase
-I first explored the Community Showcase, which the default landing page after creating a new account. I noted there's an RNASEQ pipeline defined in there: https://cloud.seqera.io/orgs/community/workspaces/showcase/launchpad/189046775836482. It uses a compute environment named `AWS_Batch_Ireland_FusionV2_NVMe`. The associated training video demonstrates using this RNASEQ pipeline. I ran that pipeline successfully, following the instructions.
+I first explored the Community Showcase. I noted there's an RNASEQ pipeline defined there: https://cloud.seqera.io/orgs/community/workspaces/showcase/launchpad/189046775836482. It uses a compute environment named `AWS_Batch_Ireland_FusionV2_NVMe`. The training video demonstrates using the RNASEQ pipeline. I ran that pipeline successfully, following the instructions.
 Here's the commandline it produced:
 ```
 nextflow run https://github.com/nf-core/rnaseq
@@ -21,16 +21,16 @@ nextflow run https://github.com/nf-core/rnaseq
 		 -profile test
 ```
 
-Seqera provides 100 hours of free CPU hours. This pipeline run used only 0.7 CPU hours, at an estimated cost of $0.024.
+Seqera provides 100 free CPU hours. Running this pipeline used only 0.7 CPU hours, at an estimated cost of $0.024.
 
 ### Creating the AWS Batch compute environment
-I then wished to replicate that result with my own compute environment, which is required for any Seqera work beyond familiarization.
-[Sequera documentation](https://docs.seqera.io/platform/24.2/compute-envs/aws-batch) was thorough and, with a few minor exceptions, up to date with the AWS console web interface.
+I then wished to replicate that result with my own compute environment, which is required for any real Seqera work beyond familiarization.
+[Sequera documentation](https://docs.seqera.io/platform/24.2/compute-envs/aws-batch) for setting up an AWS Batch compute environment was thorough and, with a few minor exceptions, up to date with the AWS console web interface.
 
-My first attempt to create a Batch Forge compute environment, including following the above instructions for setting up AWS resources, failed with the message "Unable to find default AWS subnets for vpc none and region us-east-1".  Using Seqera AI docs, it suggested (among many other things) that I needed a default VPC on AWS. I turned out I indeed didn't have a default VPC, so I created one here: https://us-east-1.console.aws.amazon.com/vpcconsole/home?region=us-east-1#vpcs
+My first attempt to create a Batch Forge compute environment, following the above instructions for setting up AWS resources, failed with the message "Unable to find default AWS subnets for vpc none and region us-east-1".  A Seqera AI doc query suggested (among many other things) that I needed a default VPC on AWS. I turned out I indeed didn't have a default VPC, so I created one here: https://us-east-1.console.aws.amazon.com/vpcconsole/home?region=us-east-1#vpcs
 `Actions -> Create default VPC`.
 
-I then repeated the same steps to create a new Batch Forge compute environment (it didn't allow editing the failed one), with success this time. I deleted the failed environment.
+I then repeated the same steps to create a new Batch Forge compute environment (because it didn't allow editing the failed one), with success this time. I deleted the failed environment.
 
 I then created an `rnaseq` pipeline using the AWS Batch-based compute environment, and the same test profile. I lannched and ran that successfully, producing output in my AWS S3 bucket. It used 0.9 CPU hours, with an estimated cost of $0.024.
 
