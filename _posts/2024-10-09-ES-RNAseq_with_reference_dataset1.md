@@ -305,4 +305,11 @@ rsync --archive --verbose --progress *.html emma.strand@gannet.fish.washington.e
 
 ### Comparing output to Roberto's paper 
 
+Rysnc output to gannet 
 
+```
+rsync --archive --verbose --progress deseq2_qc/*.RData emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cgigas_ArredondoEspinoza2023
+rsync --archive --verbose --progress deseq2_qc/*.txt emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cgigas_ArredondoEspinoza2023
+rsync --archive --verbose --progress salmon.* emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cgigas_ArredondoEspinoza2023
+rsync --archive --verbose --progress tx2gene.tsv emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cgigas_ArredondoEspinoza2023
+```

@@ -37,12 +37,12 @@ Shelly has been trying to get the de novo pipeline working - which we think work
 We found a differential abundance workflow that will take rnaseq output and try quantitative comaprisons (e.g., DESEQ2). [Pipeline here](https://nf-co.re/differentialabundance/1.5.0/). 
 
 Emma:  
-1. Run disease dataset with modified GTF file.    
-2. Run 4 separately and then altogether    
+1. Run disease dataset with modified GTF file (11-20-2024 running)       
+2. Run 4 separately and then altogether (11-20-2024 running)     
 3. Tagseq vs rnaseq pipeline details - does tagseq need anything else?   
 4. Identify counts table to use for meta comparison for Cgigas comparison (gene vs. transcript?)   
 5. Attempt differential abundance workflow on counts matrix identified in #4   
-6. Move Roberto data output to Gannet  
+6. Move Roberto data output to Gannet (completed 11-20-2024)  
 
 Shelly:  
 1. Troubleshoot denovo QC steps   

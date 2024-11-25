@@ -157,3 +157,7 @@ zcat GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz | awk -F"\t" '{if($9 ~/gene_
 ```
 
 Changing the path for the gtf file in the script above to this modified version. Started 01-rnaseq.sh 
+
+### 2024-11-25 
+
+The first iteration timed out so changed from 1d20h to 4d20h. Started again 11:20 am 
