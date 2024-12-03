@@ -11,14 +11,14 @@ This turned into a discussion on the [nf-core slack under the #configs channel](
 
 ## Procedure
 
-1. determine the directory that nextflow is in
+- determine the directory that nextflow is in
 
   ```
   which nextflow
   /mmfs1/gscratch/srlab/strigg/bin/mambaforge/envs/nextflow/bin/nextflow
   ```
 
-2. move into that directory and confirm the directories `activate.d` and `deactivate.d` exist in the `etc/conda` directory. If they don't, create them.
+- move into that directory and confirm the directories `activate.d` and `deactivate.d` exist in the `etc/conda` directory. If they don't, create them.
 
   ```
   cd /mmfs1/gscratch/srlab/strigg/bin/mambaforge/envs/nextflow/etc/conda/
@@ -27,7 +27,7 @@ This turned into a discussion on the [nf-core slack under the #configs channel](
   cd activate.d
   ```
 
-3. create a file called `env_vars.sh` in the `activate.d` directory to set the `NXF_HOME` and the `NXF_TEMP` path (I used vim)
+- create a file called `env_vars.sh` in the `activate.d` directory to set the `NXF_HOME` and the `NXF_TEMP` path (I used vim)
 
   ```
     #!/bin/sh
@@ -36,7 +36,7 @@ This turned into a discussion on the [nf-core slack under the #configs channel](
     export NXF_TEMP='/mmfs1/gscratch/scrubbed/strigg/bin'
   ```
 
-4. create a file called `env_vars.sh` in the `deactivate.d` directory to clear the path that contains the following (I used vim)
+- create a file called `env_vars.sh` in the `deactivate.d` directory to clear the path that contains the following (I used vim)
 
   ```
   cd ../deactivate.d
@@ -49,7 +49,7 @@ This turned into a discussion on the [nf-core slack under the #configs channel](
     unset NXF_TEMP
   ```
 
-5. check variable is set as specified in `env_vars.sh` script in `activate.d` directory
+- check variable is set as specified in `env_vars.sh` script in `activate.d` directory
 
   ```
   mamba activate nextflow
@@ -59,14 +59,14 @@ This turned into a discussion on the [nf-core slack under the #configs channel](
   /mmfs1/gscratch/scrubbed/strigg/bin
   ```
 
-6. check variable is unset after environment has been deactivated
+- check variable is unset after environment has been deactivated
 
   ```
   mamba deactivate
   echo $NXF_HOME
   ```
 
-7. test NXF_HOME is set
+- test NXF_HOME is set
 
   ```
   # request a compute node (mem and time requests can be modified)
@@ -89,8 +89,8 @@ This turned into a discussion on the [nf-core slack under the #configs channel](
 
 
 ## Output
-https://gannet.fish.washington.edu/metacarcinus/Nf-core_tests/20241203_FetchNGStest/
-[.nextflow.log file](https://gannet.fish.washington.edu/metacarcinus/Nf-core_tests/20241203_FetchNGStest/.nextflow.log)
+- [https://gannet.fish.washington.edu/metacarcinus/Nf-core_tests/20241203_FetchNGStest/](https://gannet.fish.washington.edu/metacarcinus/Nf-core_tests/20241203_FetchNGStest/)
+- [.nextflow.log file](https://gannet.fish.washington.edu/metacarcinus/Nf-core_tests/20241203_FetchNGStest/.nextflow.log)
 
 **Other iterations that Failed**
 
