@@ -79,7 +79,7 @@ Start conda environment before running sbatch.
 #SBATCH --partition=cpu-g2-mem2x
 #SBATCH --nodes=1
 #SBATCH --time=1-20:00:00
-#SBATCH --mem=100G
+#SBATCH --mem=150G
 #SBATCH --ntasks=7
 #SBATCH --cpus-per-task=2
 #SBATCH --chdir=/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_2024Nov11/scripts
@@ -160,4 +160,8 @@ Changing the path for the gtf file in the script above to this modified version.
 
 ### 2024-11-25 
 
-The first iteration timed out so changed from 1d20h to 4d20h. Started again 11:20 am 
+The first iteration timed out so changed from 1d20h to 4d20h. Started again 11:20 am. Stopped this bc stalled at an early step. 
+
+### 2024-12-2 
+
+Trying this again after klone issue worked out. Bumped memory up to 150 GB instead of 100 GB. Started running right away - directory was clean of previous nextflow content beforehand. 
