@@ -39,14 +39,29 @@ UW's how to run job: https://hyak.uw.edu/docs/hyak101/basics/jobs
 `squeue -A srlab`: check what jobs are being run on srlab  
 `squeue -A srlab -o "%.18i %.9P %.8j %.8u %.2t %.10M %.6D %R %c %m"`: check jobs and show CPUs and memory used by each job     
 `hyakalloc -g srlab`: check how many resources are in use and free for use     
-`hyakalloc -p ckgt`: check what resources are currently available on all of hyak    
-
-Shelly added config file for nextflow `/gscratch/srlab/strigg/bin/uw_hyak_srlab.config` that will use other nodes if nobody is using them.
+`hyakalloc -p ckpt`: check what resources are currently available on all of hyak  
+`squeue | grep <username>`: check what jobs you are running
+`scontrol write batch_script <job id>`: create a .sh file in the current directory showing the job that is currently running. This is helpful to see what step the pipeline is on and which sample it is processing. You can also see which work directory subfolder the job is being run in. These subfolders contain the file `.command.run` which are equivalen to the file created by the `scontrol` command.  The file `.command.sh` is a bash script with the pipeline step that gets called within the `.command.run` slurm script. The file `.command.log` shows the screen output from job, for instance with the bismark align command you can see how many sequences are being processed.
 
 ## Hyak info
-
-Total GB:    
+https://robertslab.github.io/resources/klone_Running-a-Job/
+Total GB: 450   
 Total cpu: 32    
 Partition to use: `-p cpu-g2-mem2x`
 
-We don't have access to ckpt at the moment so config file is not using other resources
+Shelly added config file for nextflow `/gscratch/srlab/strigg/bin/uw_hyak_srlab.config` that will use other nodes if nobody is using them. Below is an excerpt from the .config file:
+```
+process {
+    executor = 'slurm'
+    queue = { task.attempt == 1 ? 'ckpt' : 'cpu-g2-mem2x' }
+    maxRetries = 1
+    clusterOptions = { "-A srlab" }
+    scratch = '/gscratch/scrubbed/srlab/'
+    resourceLimits = [
+                cpus: 16,
+                memory: '150.GB',
+                time: '72.h'
+        ]
+}
+```
+the `queue` variable first attempts to use the `ckpt` partition. If available the task will run and have an `R` when you `squeue | grep <username>`, otherwise it will have `PD`. Once the task is launched it has ~ 5 hours to run because the `ckpt` partition has a time limitation for jobs. If the job doesn't complete in time, it will be reported as `FAILED` in the pipeline_trace.txt file that gets created in the `outdir`, and then the job will get submitted again through a new slurm script to be run on the `cpu-g2-mem2x` partition.This code block also includues `resourceLimits` set so that no job (slurm script for an individual sample) will run longer than 72 hours.
