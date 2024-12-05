@@ -251,4 +251,58 @@ sbatch -J Cvir_disease_rnaseq_dataset1 ../scripts/rnaseq.sh \
     Cvir_disease_rnaseq_dataset1
 ```
 
-12-4-2024: I started Cvir_disease_rnaseq_dataset1 ~1:45 pm. 
+12-4-2024: I started Cvir_disease_rnaseq_dataset1 ~1:45 pm. This ended up stalling so I ditched sbatch and trying to use our shared config that uses chkpt too.
+
+### 12-5-2024
+
+Starting an interactive node in a screen for dataset1 with config file from UW so it taps into ckpt resources 
+
+```
+## start interactive
+screen -S rnaseq
+## (ctrl-A d to detach)
+## 
+
+## grab a node 
+salloc -A srlab -p cpu-g2-mem2x -N 1 -c 1 --mem=150GB --time=2-12:00:00
+
+## start conda environment 
+conda activate nextflow
+
+## navigate to output 
+cd /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset1
+
+## run nextflow on dataset 1
+nextflow run nf-core/rnaseq -resume \
+    -c /gscratch/scrubbed/elstrand/uw_hyak_srlab_estrand.config \
+    --input /gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets/samplesheet_rnaseq_Cvir_disease_set1.csv \
+    --outdir /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset1 \
+    --gtf /gscratch/scrubbed/elstrand/genomes/C_virginica/mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz \
+    --gff /gscratch/scrubbed/elstrand/genomes/C_virginica/GCF_002022765.2_C_virginica-3.0_genomic.gff.gz \
+    --fasta /gscratch/scrubbed/elstrand/genomes/C_virginica/GCF_002022765.2_C_virginica-3.0_genomic.fna.gz \
+    --trimmer fastp \
+    --extra_fastp_args '--cut_mean_quality 30 --trim_front1 10 --trim_front2 10' \
+    --aligner star_salmon \
+    --skip_pseudo_alignment \
+    --multiqc_title Cvir_disease_rnaseq_dataset1 \
+    --deseq2_vst
+```
+
+Error:
+
+```
+ERROR ~ Error executing process > 'NFCORE_RNASEQ:PREPARE_GENOME:GUNZIP_GTF'
+
+Caused by:
+  java.io.FileNotFoundException: /gscratch/scrubbed/srlab/.apptainer/.depot.galaxyproject.org-singularity-ubuntu-22.04.img.lock (Permission denied)
+
+### also got the below 
+ERROR ~ Error executing process > 'NFCORE_RNASEQ:PREPARE_GENOME:GUNZIP_FASTA'
+```
+
+I think this is actually because of a singularity issue rather than gtf or genome file issue. I don't know why I wouldn't have ran into this while running an sbatch script though? I tried `module load singularity/1.1.5`. Shelly's scripts don't use a container so maybe I don't need this? Update: didn't fix the issue. I get the same error. 
+
+Removed `-profile singularity \` and re-ran. Update: This didn't fix the issue. 
+
+I copied the config Shelly was using and changed the directories to be my user instead and that worked! 
+
