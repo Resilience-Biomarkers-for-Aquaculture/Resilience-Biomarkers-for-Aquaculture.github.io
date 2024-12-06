@@ -55,9 +55,11 @@ Create new samplesheet to fit rnaseq workflow:
 
 ```
 scp xxx@klone.hyak.uw.edu:/gscratch/scrubbed/strigg/analyses/20241108_RNAseq/samplesheet/samplesheet.csv C:\Users\EmmaStrand\Downloads
+scp xxx@klone.hyak.uw.edu:/gscratch/scrubbed/strigg/analyses/20241205_FetchNGS/samplesheet/samplesheet.csv C:\Users\EmmaStrand\Downloads
 
 scp C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture\samplesheet_rnaseq_Cvir_disease_set1.csv xxx@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_2024Nov11/
 
+scp C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture\Cvirg_Pmarinus_RNAseq\data\rnaseq samplesheets\*.csv xxx@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets
 scp C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture\Cvirg_Pmarinus_RNAseq\data\rnaseq samplesheets\*.csv xxx@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets
 ```
 
@@ -222,6 +224,7 @@ gff="/gscratch/scrubbed/elstrand/genomes/C_virginica/GCF_002022765.2_C_virginica
 gtf="/gscratch/scrubbed/elstrand/genomes/C_virginica/mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz"
 
 nextflow run nf-core/rnaseq \
+    -c /gscratch/scrubbed/elstrand/uw_hyak_srlab_estrand.config \
     -resume \
     -profile singularity \
     --input ${samplesheet} \
@@ -261,7 +264,7 @@ Starting an interactive node in a screen for dataset1 with config file from UW s
 ## start interactive
 screen -S rnaseq
 ## (ctrl-A d to detach)
-## 
+## screen -r rnaseq to reattach 
 
 ## grab a node 
 salloc -A srlab -p cpu-g2-mem2x -N 1 -c 1 --mem=150GB --time=2-12:00:00
@@ -306,3 +309,54 @@ Removed `-profile singularity \` and re-ran. Update: This didn't fix the issue.
 
 I copied the config Shelly was using and changed the directories to be my user instead and that worked! 
 
+This still stalled but we figured out that we had the wrong files downloaded with fetchNGS. 
+
+Correct files now in `gscratch/scrubbed/strigg/analyses/20241205_FetchNGS`
+
+### 12-06-2024 
+
+With newly downloaded datasets, trying this again with the new config. 
+
+```
+## start interactive
+screen -S rnaseq
+## (ctrl-A d to detach)
+## screen -r rnaseq to reattach 
+
+## grab a node 
+salloc -A srlab -p cpu-g2-mem2x -N 1 -c 1 --mem=150GB --time=2-12:00:00
+
+## start conda environment 
+conda activate nextflow
+
+## navigate to output 
+cd /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset3
+
+## run nextflow on dataset 3
+nextflow run nf-core/rnaseq -resume \
+    -c /gscratch/scrubbed/elstrand/uw_hyak_srlab_estrand.config \
+    --input /gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets/samplesheet_rnaseq_dataset3.csv \
+    --outdir /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset3 \
+    --gtf /gscratch/scrubbed/elstrand/genomes/C_virginica/mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz \
+    --gff /gscratch/scrubbed/elstrand/genomes/C_virginica/GCF_002022765.2_C_virginica-3.0_genomic.gff.gz \
+    --fasta /gscratch/scrubbed/elstrand/genomes/C_virginica/GCF_002022765.2_C_virginica-3.0_genomic.fna.gz \
+    --trimmer fastp \
+    --extra_fastp_args '--cut_mean_quality 30 --trim_front1 10 --trim_front2 10' \
+    --aligner star_salmon \
+    --skip_pseudo_alignment \
+    --multiqc_title Cvir_disease_rnaseq_dataset3 \
+    --deseq2_vst
+```
+
+I realized that we aren't including the correct flag to get novel splice variants / de novo transcripts. Need to add the below flags but letting dataset3 finish to assess time.
+
+```
+--extra_star_align_args ''
+
+```
+
+Explanation of 2-pass to get novel transcripts: 
+
+![](https://www.reneshbedre.com/assets/posts/mapping/star_2_pass.webp)
+
+Based on this figure I should have some transcript information after the workflow without extra flags... let dataset3 finish and then compare output files from Cgigas to Cvir. 
