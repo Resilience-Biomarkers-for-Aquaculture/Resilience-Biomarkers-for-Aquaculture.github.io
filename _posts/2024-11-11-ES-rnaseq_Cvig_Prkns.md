@@ -306,3 +306,6 @@ Removed `-profile singularity \` and re-ran. Update: This didn't fix the issue.
 
 I copied the config Shelly was using and changed the directories to be my user instead and that worked! 
 
+This still stalled but we figured out that we had the wrong files downloaded with fetchNGS. 
+
+Correct files now in `gscratch/scrubbed/strigg/analyses/20241205_FetchNGS`
