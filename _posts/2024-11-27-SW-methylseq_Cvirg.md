@@ -4,16 +4,39 @@ title: Run methylseq on Klone
 tags: nextflow Klone denovotranscript
 ---
 ### Purpose
-Related to this GitHub issue: https://github.com/RobertsLab/resources/issues/2045#issuecomment-2521028376
+Related to this GitHub issue: [https://github.com/RobertsLab/resources/issues/2045#issuecomment-2521028376](https://github.com/RobertsLab/resources/issues/2045#issuecomment-2521028376)
 
 ### Procedure
 
 1. Create samplesheet
-I created the samplesheet linked below to use in the methylseq pipeline as [described here](https://nf-co.re/methylseq/2.7.1/docs/usage). I got the paths on Klone (https://github.com/RobertsLab/resources/issues/2045#issuecomment-2521028376).
+I created the samplesheet linked below to use in the methylseq pipeline as [described here](https://nf-co.re/methylseq/2.7.1/docs/usage). I got the paths on Klone ([https://github.com/RobertsLab/resources/issues/2045#issuecomment-2521028376](https://github.com/RobertsLab/resources/issues/2045#issuecomment-2521028376)).
 
-https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_methylseq/samplesheet.csv
+sample sheet here: [https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_methylseq/samplesheet.csv](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_methylseq/samplesheet.csv)
 
 2. Run
+
+started at 08:50 EST Dec 3, 2024. This was the 4th iteration and succeeded. See other attempts below.
+
+```
+salloc -A srlab -p cpu-g2-mem2x -N 1 -c 1 --mem=100GB --time=4-12:00:00
+
+mamba activate nextflow
+
+nextflow run nf-core/methylseq \
+-c /gscratch/srlab/strigg/bin/uw_hyak_srlab.config \
+--input /gscratch/scrubbed/strigg/analyses/20241127_methylseq/samplesheet.csv \
+--outdir /gscratch/scrubbed/strigg/analyses/20241127_methylseq \
+--fasta /gscratch/scrubbed/sr320/github/ceasmallr/data/genome/Cvirginica_v300.fa \
+-resume \
+-with-report nf_report.html \
+-with-trace \
+-with-timeline nf_timeline.html
+```
+
+I had to quit this job because there were 12 scripts that would not run on our node because it was going to conflict with scheduled maintenance of Klone. see issue: [https://github.com/RobertsLab/resources/issues/2045#issuecomment-2521028376](https://github.com/RobertsLab/resources/issues/2045#issuecomment-2521028376). After I modified the .config file I re-ran the above code and the pipeline completed in ~21 hours including the time it took for the previously completed steps. This is pretty amazing considering this dataset is ~469 GB.
+
+#### Previous attempts that failed
+
 I ran the following commands to start the pipeline but ran into a disk quote exceeded error that was resolved as described here:
 
 ```
@@ -66,7 +89,7 @@ nextflow run nf-core/methylseq \
 --genome GRCh37
 
 ```
-# reinstalling mambaforge in srlab.
+#### reinstalling mambaforge in srlab.
 
 This was initially installed in my home dir and I want to limit my home dir storage because that is what caused my disk quota exceeded error. The main culprit was an old work directory from a previous nextflow run that was accidentally written there, but I still prefer to use /gscratch/srlab to store this stuff because it has more capacity.
 
@@ -84,35 +107,16 @@ ran the following to test functionality
 these worked and the disk quota error was resolved
 
 
-#### started at 08:50 EST Dec 3, 2024:
-
-```
-salloc -A srlab -p cpu-g2-mem2x -N 1 -c 1 --mem=100GB --time=4-12:00:00
-
-mamba activate nextflow
-
-nextflow run nf-core/methylseq \
--c /gscratch/srlab/strigg/bin/uw_hyak_srlab.config \
---input /gscratch/scrubbed/strigg/analyses/20241127_methylseq/samplesheet.csv \
---outdir /gscratch/scrubbed/strigg/analyses/20241127_methylseq \
---fasta /gscratch/scrubbed/sr320/github/ceasmallr/data/genome/Cvirginica_v300.fa \
--resume \
--with-report nf_report.html \
--with-trace \
--with-timeline nf_timeline.html
-```
-
-I had to quit this job because there were 12 scripts that would not run on our node because it was going to conflict with scheduled maintenance of Klone. see issue: https://github.com/RobertsLab/resources/issues/2045#issuecomment-2521028376. After I modified the .config file I re-ran the above code and the pipeline completed in ~21 hours including the time it took for the previously completed steps. This is pretty amazing considering this dataset is ~469 GB.
 
 ### Results
 
-multiqc report of results and qc for entire pipeline: https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_methylseq/multiqc/bismark/multiqc_report.html
+multiqc report of results and qc for entire pipeline: [https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_methylseq/multiqc/bismark/multiqc_report.html](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_methylseq/multiqc/bismark/multiqc_report.html)
 
 nextflow pipeline report:
-https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_methylseq/nf_report.html
+[https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_methylseq/nf_report.html](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_methylseq/nf_report.html)
 
 nextflow pipeline timeline:
-https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_methylseq/nf_timeline.html
+[https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_methylseq/nf_timeline.html](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_methylseq/nf_timeline.html)
 
-the bismark output is here: https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_methylseq/bismark/
+the bismark output is here: [https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_methylseq/bismark/](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_methylseq/bismark/)
 I only copied over the .cov files, but the alignment files, deduplicated files, methylation calls (e.g. CHH_OT_CF01-CM02-Larvae_1_val_1_bismark_bt2_pe.deduplicated.txt.gz), and m-bias files and other outputs are still on /gscratch/scrubbed/strigg/analyses/20241127
