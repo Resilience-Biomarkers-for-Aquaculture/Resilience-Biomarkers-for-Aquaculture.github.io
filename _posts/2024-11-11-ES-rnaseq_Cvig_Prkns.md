@@ -4,15 +4,112 @@ title: Run RNAseq on perkinsus datasets
 tags: nextflow Klone RNAseq
 ---
 
-## RNASeq workflow for meta analysis with Cvig immunity 
+# RNASeq workflow for meta analysis with Cvig immunity 
 
-### Summary 
+## Summary 
 
-We are analyzing 4 datasets of Eastern Oyster, *C. virginica*, exposed to *Perkinsus marinus* infections. At first I tried to run all four in the same pipeline but it ended up being easier to run them separately and analyze separately. This is also probably better because they were completed on different sequencing runs.   
-
-Once I started running them separately (after 12-4-2024) then I used one common sbatch script and in the sbatch command called various input folders. 
+We are analyzing 4 datasets of Eastern Oyster, *C. virginica*, exposed to *Perkinsus marinus* infections.    
 
 [Github repository](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/tree/main) 
+
+Final script:
+
+`rnaseq.sh`
+
+```
+#!/bin/bash
+#SBATCH --account=srlab
+#SBATCH --error=/gscratch/scrubbed/elstrand/Cvir_disease_meta/scripts/output/"%x_error.%j" #if your job fails, the error report will be put in this file
+#SBATCH --output=/gscratch/scrubbed/elstrand/Cvir_disease_meta/scripts/output/"%x_output.%j" #once your job is completed, any final job report comments will be put in this file
+#SBATCH --partition=cpu-g2-mem2x
+#SBATCH --nodes=1
+#SBATCH --time=1-20:00:00
+#SBATCH --mem=200G
+#SBATCH --ntasks=7
+#SBATCH --cpus-per-task=2
+
+#conda activate nextflow
+
+## paths defined in the sbatch command
+samplesheet=$1
+output=$2
+multiqc_title=$3
+
+## paths for all datasets
+genome="/gscratch/scrubbed/elstrand/genomes/C_virginica/GCF_002022765.2_C_virginica-3.0_genomic.fna.gz"
+gff="/gscratch/scrubbed/elstrand/genomes/C_virginica/GCF_002022765.2_C_virginica-3.0_genomic.gff.gz"
+gtf="/gscratch/scrubbed/elstrand/genomes/C_virginica/mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz"
+
+nextflow run nf-core/rnaseq -resume \
+    -c /gscratch/scrubbed/elstrand/uw_hyak_srlab_estrand.config \
+    -profile singularity \
+    --input ${samplesheet} \
+    --outdir ${output} \
+    --gtf ${gtf} \
+    --gff ${gff} \
+    --fasta ${genome} \
+    --trimmer fastp \
+    --extra_fastp_args '--cut_mean_quality 30 --trim_front1 10 --trim_front2 10' \
+    --aligner star_salmon \
+    --skip_pseudo_alignment \
+    --multiqc_title ${multiqc_title} \
+    --deseq2_vst
+```
+
+How to run (example from dataset #4): 
+
+```
+conda activate nextflow
+cd /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset4
+
+sbatch -J Cvir_disease_rnaseq_dataset4 ../scripts/rnaseq.sh \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets/samplesheet_rnaseq_dataset4.csv \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset4 \
+    Cvir_disease_rnaseq_dataset4
+```
+
+How to check output while script is running:
+
+```
+cd /gscratch/scrubbed/elstrand/Cvir_disease_meta/scripts/output
+
+### two log files are generated from each sbatch script
+### the titles are based on the -J job name indicated above 
+
+Cvir_disease_rnaseq_dataset4_error.22760577
+Cvir_disease_rnaseq_dataset4_output.22760577
+
+less <output_file>
+## Shift + G to get to the bottom of the file to see something like this:
+
+[ec/008475] NFC<E2><80><A6>ginica-3.0_genomic.fna.gz) | 1 of 1 <E2><9C><94>
+[c0/569e4f] NFC<E2><80><A6>ginica-3.0_genomic.gtf.gz) | 1 of 1 <E2><9C><94>
+[c0/63882a] NFC<E2><80><A6>virginica-3.0_genomic.fna) | 1 of 1 <E2><9C><94>
+[93/224f7b] NFC<E2><80><A6>-3.0_genomic.filtered.gtf) | 1 of 1 <E2><9C><94>
+[9a/2ccc66] NFC<E2><80><A6>virginica-3.0_genomic.fna) | 1 of 1 <E2><9C><94>
+[d9/a97eb2] NFC<E2><80><A6>virginica-3.0_genomic.fna) | 1 of 1 <E2><9C><94>
+[33/76468b] NFC<E2><80><A6>virginica-3.0_genomic.fna) | 1 of 1 <E2><9C><94>
+[-        ] NFC<E2><80><A6>_SETSTRANDEDNESS:CAT_FASTQ -
+[0b/e866d0] NFC<E2><80><A6>P:FASTQC_RAW (SRX18040063) | 61 of 61 <E2><9C><94>
+[cc/41ac6d] NFC<E2><80><A6>_FASTP:FASTP (SRX18040033) | 61 of 61 <E2><9C><94>
+[26/ac53fa] NFC<E2><80><A6>:FASTQC_TRIM (SRX18040033) | 61 of 61 <E2><9C><94>
+[16/899d3d] NFC<E2><80><A6>EX (genome.transcripts.fa) | 1 of 1 <E2><9C><94>
+[dc/663c4e] NFC<E2><80><A6>FQ_SUBSAMPLE (SRX18040033) | 61 of 61 <E2><9C><94>
+[ce/ab5214] NFC<E2><80><A6>SALMON_QUANT (SRX18040033) | 61 of 61 <E2><9C><94>
+[73/e2416c] NFC<E2><80><A6>R:STAR_ALIGN (SRX18040038) | 22 of 62, failed: 1, retries: 1
+[43/19aa0b] NFC<E2><80><A6>AMTOOLS_SORT (SRX18040038) | 16 of 21
+[f4/a1733e] NFC<E2><80><A6>MTOOLS_INDEX (SRX18040056) | 0 of 16
+[-        ] NFC<E2><80><A6>TS_SAMTOOLS:SAMTOOLS_STATS -
+[-        ] NFC<E2><80><A6>SAMTOOLS:SAMTOOLS_FLAGSTAT -
+[-        ] NFC<E2><80><A6>SAMTOOLS:SAMTOOLS_IDXSTATS -
+[a2/5d5395] NFC<E2><80><A6>SALMON_QUANT (SRX18040038) | 16 of 21
+[4f/4acd78] NFC<E2><80><A6>RKDUPLICATES (SRX18040056) | 0 of 16
+Plus 30 more processes waiting for tasks<E2><80><A6>
+```
+
+## How I got there 
+
+Notes in chronological order of trial and error. 
 
 ### Reference genome
 
