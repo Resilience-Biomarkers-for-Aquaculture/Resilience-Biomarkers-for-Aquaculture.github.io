@@ -223,9 +223,8 @@ genome="/gscratch/scrubbed/elstrand/genomes/C_virginica/GCF_002022765.2_C_virgin
 gff="/gscratch/scrubbed/elstrand/genomes/C_virginica/GCF_002022765.2_C_virginica-3.0_genomic.gff.gz"
 gtf="/gscratch/scrubbed/elstrand/genomes/C_virginica/mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz"
 
-nextflow run nf-core/rnaseq \
+nextflow run nf-core/rnaseq -resume \
     -c /gscratch/scrubbed/elstrand/uw_hyak_srlab_estrand.config \
-    -resume \
     -profile singularity \
     --input ${samplesheet} \
     --outdir ${output} \
@@ -348,15 +347,66 @@ nextflow run nf-core/rnaseq -resume \
     --deseq2_vst
 ```
 
-I realized that we aren't including the correct flag to get novel splice variants / de novo transcripts. Need to add the below flags but letting dataset3 finish to assess time.
+This finished in 1h 52m 56s 12-6-2024! 
+
+Transferring data to Gannet:
+
+```
+rsync --archive --verbose --progress multiqc/star_salmon/multiqc_report.html emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset3
+
+rsync --archive --verbose --progress pipeline_info/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset3
+rsync --archive --verbose --progress pipeline_trace.txt emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset3
+
+rsync --archive --verbose --progress pipeline_trace.txt emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset3
+rsync --archive --verbose --progress star_salmon/deseq2_qc/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset3
+rsync --archive --verbose --progress log/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset3
+rsync --archive --verbose --progress *.tsv emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset3
+```
+
+I realized that we aren't including the correct flag to fully analyze novel splice variants / de novo transcripts. Need to add the below flags (come back to filling this in)
 
 ```
 --extra_star_align_args ''
-
 ```
 
 Explanation of 2-pass to get novel transcripts: 
 
 ![](https://www.reneshbedre.com/assets/posts/mapping/star_2_pass.webp)
 
-Based on this figure I should have some transcript information after the workflow without extra flags... let dataset3 finish and then compare output files from Cgigas to Cvir. 
+Running dataset 1 but trying with sbatch script and config file. Added `-c /gscratch/scrubbed/elstrand/uw_hyak_srlab_estrand.config` to the sbatch script.
+
+```
+conda activate nextflow
+cd /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset1
+
+sbatch -J Cvir_disease_rnaseq_dataset1 ../scripts/rnaseq.sh \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets/samplesheet_rnaseq_dataset1.csv \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset1 \
+    Cvir_disease_rnaseq_dataset1
+```
+
+This worked for now! It's running so I will continue to check in on the output file: `/gscratch/scrubbed/elstrand/Cvir_disease_meta/scripts/output/Cvir_disease_rnaseq_dataset1_output.22760577`
+
+Running dataset 2 with sbatch script with config file. 
+
+```
+conda activate nextflow
+cd /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset2
+
+sbatch -J Cvir_disease_rnaseq_dataset2 ../scripts/rnaseq.sh \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets/samplesheet_rnaseq_dataset2.csv \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset2 \
+    Cvir_disease_rnaseq_dataset2
+```
+
+Running dataset 4 with sbatch script with config file. 
+
+```
+conda activate nextflow
+cd /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset4
+
+sbatch -J Cvir_disease_rnaseq_dataset4 ../scripts/rnaseq.sh \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets/samplesheet_rnaseq_dataset4.csv \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset4 \
+    Cvir_disease_rnaseq_dataset4
+```
