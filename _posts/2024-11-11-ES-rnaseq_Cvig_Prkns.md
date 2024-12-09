@@ -507,3 +507,41 @@ sbatch -J Cvir_disease_rnaseq_dataset4 ../scripts/rnaseq.sh \
     /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset4 \
     Cvir_disease_rnaseq_dataset4
 ```
+
+## 12-9-2024 
+
+Datasets 2 and 4 finished but dataset1 was killed b/c of a time limit. restarting this script. 
+
+Transferring data to Gannet:
+
+```
+rsync --archive --verbose --progress multiqc/star_salmon/multiqc_report.html emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset2/pipeline_info
+rsync --archive --verbose --progress pipeline_info/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset2/pipeline_info
+rsync --archive --verbose --progress pipeline_trace.txt emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset2/pipeline_info
+
+rsync --archive --verbose --progress star_salmon/deseq2_qc/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset2/deseq2_qc
+rsync --archive --verbose --progress star_salmon/log/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset2/log
+rsync --archive --verbose --progress star_salmon/*.tsv emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset2
+
+rsync --archive --verbose --progress multiqc/star_salmon/multiqc_report.html emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset4/pipeline_info
+rsync --archive --verbose --progress pipeline_info/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset4/pipeline_info
+rsync --archive --verbose --progress pipeline_trace.txt emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset4/pipeline_info
+
+rsync --archive --verbose --progress star_salmon/deseq2_qc/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset4/deseq2_qc
+rsync --archive --verbose --progress star_salmon/log/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset4/log
+rsync --archive --verbose --progress star_salmon/*.tsv emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset4
+```
+
+Rm dataset1 repo and make new one -- wasn't sure if rnaseq pipeline stopped mid sample b/c of time limit so don't want to risk it. 
+
+```
+conda activate nextflow
+cd /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset1
+
+sbatch -J Cvir_disease_rnaseq_dataset1 ../scripts/rnaseq.sh \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets/samplesheet_rnaseq_dataset1.csv \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset1 \
+    Cvir_disease_rnaseq_dataset1
+```
+
+Re-started at ~1:30 pm after I changed the time limit to 4d-20 hr.. It was 1d-20hr so are these files just really big and need more than 2 days? That would be surprising..  
