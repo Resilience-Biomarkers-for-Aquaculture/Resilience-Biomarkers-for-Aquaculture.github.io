@@ -12,7 +12,20 @@ We are analyzing 4 datasets of Eastern Oyster, *C. virginica*, exposed to *Perki
 
 [Github repository](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/tree/main) 
 
-Final script:
+### Reference genome
+
+All datasets work with the Eastern Oyster, *C. virginica*, so I need to download the [genome](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_002022765.2/), [link2](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/022/765/GCF_002022765.2_C_virginica-3.0/). 
+
+```
+cd /mmfs1/gscratch/scrubbed/elstrand/genomes
+mkdir C_gigas
+
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/022/765/GCF_002022765.2_C_virginica-3.0/GCF_002022765.2_C_virginica-3.0_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/022/765/GCF_002022765.2_C_virginica-3.0/GCF_002022765.2_C_virginica-3.0_genomic.gff.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/022/765/GCF_002022765.2_C_virginica-3.0/GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz
+```
+
+### Final script
 
 `rnaseq.sh`
 
@@ -56,7 +69,7 @@ nextflow run nf-core/rnaseq -resume \
     --deseq2_vst
 ```
 
-How to run (example from dataset #4): 
+#### How to run (example from dataset #4): 
 
 ```
 conda activate nextflow
@@ -68,7 +81,7 @@ sbatch -J Cvir_disease_rnaseq_dataset4 ../scripts/rnaseq.sh \
     Cvir_disease_rnaseq_dataset4
 ```
 
-How to check output while script is running:
+#### How to check output while script is running:
 
 ```
 cd /gscratch/scrubbed/elstrand/Cvir_disease_meta/scripts/output
@@ -111,19 +124,6 @@ Plus 30 more processes waiting for tasks<E2><80><A6>
 
 Notes in chronological order of trial and error. 
 
-### Reference genome
-
-All datasets work with the Eastern Oyster, *C. virginica*, so I need to download the [genome](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_002022765.2/), [link2](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/022/765/GCF_002022765.2_C_virginica-3.0/). 
-
-```
-cd /mmfs1/gscratch/scrubbed/elstrand/genomes
-mkdir C_gigas
-
-wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/022/765/GCF_002022765.2_C_virginica-3.0/GCF_002022765.2_C_virginica-3.0_genomic.fna.gz
-wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/022/765/GCF_002022765.2_C_virginica-3.0/GCF_002022765.2_C_virginica-3.0_genomic.gff.gz
-wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/022/765/GCF_002022765.2_C_virginica-3.0/GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz
-```
-
 ### Datasets
 
 See [ABOUT](https://resilience-biomarkers-for-aquaculture.github.io/about/) page for table of datasets  
@@ -146,7 +146,7 @@ Path to fastq files: `/gscratch/scrubbed/strigg/analyses/20241108_RNAseq`
 Path to samplesheet created by fetchNGS: `/gscratch/scrubbed/strigg/analyses/20241108_RNAseq/samplesheet/samplesheet.csv` 
 
 Path to Emma's analysis: `/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_2024Nov11`
-Path to C.gigas genome: `/mmfs1/gscratch/scrubbed/elstrand/genomes/C_virginica/GCF_002022765.2_C_virginica-3.0_genomic.fna.gz`
+Path to C.virginica genome: `/mmfs1/gscratch/scrubbed/elstrand/genomes/C_virginica/GCF_002022765.2_C_virginica-3.0_genomic.fna.gz`
 
 Create new samplesheet to fit rnaseq workflow: 
 
@@ -563,3 +563,21 @@ rsync --archive --verbose --progress star_salmon/*.tsv emma.strand@gannet.fish.w
 ```
 
 Now moving onto interpretation of this data via differential abundance workflow and/or custom script in R.
+
+Running Cgigas from dataset 3 separately so the reference is Cgigas. I copied the rnaseq script and changed the genome paths. 
+
+`scp C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture\Cvirg_Pmarinus_RNAseq\data\rnaseq_samplesheets\samplesheet_rnaseq_dataset3_Cgigas.csv xxx@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets`
+
+genome="/mmfs1/gscratch/scrubbed/elstrand/genomes/C_gigas/GCF_963853765.1_xbMagGiga1.1_genomic.fna.gz"
+gff="/mmfs1/gscratch/scrubbed/elstrand/genomes/C_gigas/GCF_963853765.1_xbMagGiga1.1_genomic.gff.gz"
+gtf="/mmfs1/gscratch/scrubbed/elstrand/genomes/C_gigas/GCF_963853765.1_xbMagGiga1.1_genomic.gtf.gz"
+
+```
+conda activate nextflow
+cd /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset3_Cgigas
+
+sbatch -J Cvir_disease_rnaseq_dataset3_Cgigas ../scripts/rnaseq_Cgigas.sh \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets/samplesheet_rnaseq_dataset3_Cgigas.csv \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset3_Cgigas \
+    Cvir_disease_rnaseq_dataset3_Cgigas
+```
