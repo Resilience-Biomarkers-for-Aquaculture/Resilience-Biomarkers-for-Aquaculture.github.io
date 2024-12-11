@@ -545,3 +545,21 @@ sbatch -J Cvir_disease_rnaseq_dataset1 ../scripts/rnaseq.sh \
 ```
 
 Re-started at ~1:30 pm after I changed the time limit to 4d-20 hr.. It was 1d-20hr so are these files just really big and need more than 2 days? That would be surprising..  
+
+### 2024-12-11 
+
+This ran in 5 hr! Not sure what happened the first time around. 
+
+Moving data to Gannet.
+
+```
+rsync --archive --verbose --progress multiqc/star_salmon/multiqc_report.html emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset1/pipeline_info
+rsync --archive --verbose --progress pipeline_info/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset1/pipeline_info
+rsync --archive --verbose --progress pipeline_trace.txt emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset1/pipeline_info
+
+rsync --archive --verbose --progress star_salmon/deseq2_qc/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset1/deseq2_qc
+rsync --archive --verbose --progress star_salmon/log/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset1/log
+rsync --archive --verbose --progress star_salmon/*.tsv emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset1
+```
+
+Now moving onto interpretation of this data via differential abundance workflow and/or custom script in R.
