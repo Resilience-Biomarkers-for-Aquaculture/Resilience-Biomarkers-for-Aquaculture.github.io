@@ -581,3 +581,4 @@ sbatch -J Cvir_disease_rnaseq_dataset3_Cgigas ../scripts/rnaseq_Cgigas.sh \
     /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset3_Cgigas \
     Cvir_disease_rnaseq_dataset3_Cgigas
 ```
+
