@@ -27,7 +27,7 @@ wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/022/765/GCF_002022765.2_C_
 
 ### Final script
 
-`rnaseq.sh`
+`rnaseq_Cvir.sh`
 
 ```
 #!/bin/bash
@@ -47,6 +47,7 @@ wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/022/765/GCF_002022765.2_C_
 samplesheet=$1
 output=$2
 multiqc_title=$3
+fastp=$4
 
 ## paths for all datasets
 genome="/gscratch/scrubbed/elstrand/genomes/C_virginica/GCF_002022765.2_C_virginica-3.0_genomic.fna.gz"
@@ -62,7 +63,7 @@ nextflow run nf-core/rnaseq -resume \
     --gff ${gff} \
     --fasta ${genome} \
     --trimmer fastp \
-    --extra_fastp_args '--cut_mean_quality 30 --trim_front1 10 --trim_front2 10' \
+    --extra_fastp_args $4 \
     --aligner star_salmon \
     --skip_pseudo_alignment \
     --multiqc_title ${multiqc_title} \
@@ -78,7 +79,8 @@ cd /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset4
 sbatch -J Cvir_disease_rnaseq_dataset4 ../scripts/rnaseq.sh \
     /gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets/samplesheet_rnaseq_dataset4.csv \
     /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset4 \
-    Cvir_disease_rnaseq_dataset4
+    Cvir_disease_rnaseq_dataset4 \
+    '--cut_mean_quality 30 --trim_front1 0 --trim_front2 0'
 ```
 
 #### How to check output while script is running:
@@ -582,6 +584,8 @@ sbatch -J Cvir_disease_rnaseq_dataset3_Cgigas ../scripts/rnaseq_Cgigas.sh \
     Cvir_disease_rnaseq_dataset3_Cgigas
 ```
 
+## 2024-12-13 
+
 This ran in 16 mintues! That is so fast.. double check on multiqc that everything ran..
 
 ```
@@ -609,6 +613,7 @@ Running Cvir_Prkns_rnaseq_dataset3_Cgigas in srun to see if I also get this warn
 screen -S rnaseq
 ## (ctrl-A d to detach)
 ## screen -r rnaseq to reattach 
+## screen -X -S [session # you want to kill] kill
 
 ## grab a node 
 salloc -A srlab -p cpu-g2-mem2x -N 1 -c 1 --mem=150GB --time=2-12:00:00
@@ -633,4 +638,45 @@ nextflow run nf-core/rnaseq -resume \
     --skip_pseudo_alignment \
     --multiqc_title Cvir_disease_rnaseq_dataset3_Cgigas \
     --deseq2_vst
+```
+
+I still can't find this warning.. Maybe it's a version issue?
+
+#### Checking rnaseq workflow outputs via multiqc 
+
+Notes:  
+- Re-run dataset3 b/c the trimming is too large compared to the length of the sequences (cutting 10 off 50 bp long)  
+
+##### Re-run dataset3 with new parameters
+
+I first changed parameters in the rnaseq file to be trimming defined by sbatch call. Then I moved the Cgigas data, samplesheet and script to its own folder. 
+
+Cgigas dataset3: 
+
+Only '--cut_mean_quality 30' without the trim parameters
+
+```
+conda activate nextflow
+cd /gscratch/scrubbed/elstrand/Cgigas_disease_meta/dataset3_Cgigas
+
+sbatch -J Cgigas_disease_rnaseq_dataset3 ../scripts/rnaseq_Cgigas.sh \
+    /gscratch/scrubbed/elstrand/Cgigas_disease_meta/samplesheets/samplesheet_rnaseq_dataset3_Cgigas.csv \
+    /gscratch/scrubbed/elstrand/Cgigas_disease_meta/dataset3_Cgigas \
+    Cgigas_disease_rnaseq_dataset3  
+```
+
+Cvir dataset3:
+
+I then changed the samplesheet on github to reflect Cvir only instead of both and `scp C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture\Cvirg_Pmarinus_RNAseq\data\rnaseq_samplesheets\samplesheet_rnaseq_dataset3.csv xxx@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets` 
+
+Only '--cut_mean_quality 30' without the trim parameters
+
+```
+conda activate nextflow
+cd \gscratch\scrubbed\elstrand\Cvir_disease_meta\dataset3
+
+sbatch -J Cvir_disease_rnaseq_dataset3 ../scripts/rnaseq_Cvir.sh \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets/samplesheet_rnaseq_dataset3.csv \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset3 \
+    Cvir_disease_rnaseq_dataset3  
 ```
