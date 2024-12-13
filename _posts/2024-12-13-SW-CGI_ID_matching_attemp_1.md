@@ -30,7 +30,7 @@ Here is the scatter plot filtered for the observation where both methods showed 
 [![](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/blob/main/analyses/2024-12-05_SW_HeatOysterRNAseq/scatter_nonzeros.jpg?raw=true)](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/blob/main/analyses/2024-12-05_SW_HeatOysterRNAseq/scatter_nonzeros.jpg)
 
 Here's the same plot but binned and colored with the number of observations indicated in lighter blue:
-[[](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/blob/main/analyses/2024-12-05_SW_HeatOysterRNAseq/hexbin_nonzeros.jpg?raw=true)](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/blob/main/analyses/2024-12-05_SW_HeatOysterRNAseq/hexbin_nonzeros.jpg)
+[![](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/blob/main/analyses/2024-12-05_SW_HeatOysterRNAseq/hexbin_nonzeros.jpg?raw=true)](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/blob/main/analyses/2024-12-05_SW_HeatOysterRNAseq/hexbin_nonzeros.jpg)
 
 For observations where counts were only detected by either nf-core or Roberto's methods, the majority of these had very low counts.
 [![](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/blob/main/analyses/2024-12-05_SW_HeatOysterRNAseq/hist_zeroVSnonzeros.jpg?raw=true)](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/blob/main/analyses/2024-12-05_SW_HeatOysterRNAseq/hist_zeroVSnonzeros.jpg)
