@@ -582,3 +582,55 @@ sbatch -J Cvir_disease_rnaseq_dataset3_Cgigas ../scripts/rnaseq_Cgigas.sh \
     Cvir_disease_rnaseq_dataset3_Cgigas
 ```
 
+This ran in 16 mintues! That is so fast.. double check on multiqc that everything ran..
+
+```
+rsync --archive --verbose --progress multiqc/star_salmon/multiqc_report.html emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset3_Cgigas/pipeline_info
+rsync --archive --verbose --progress pipeline_info/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset3_Cgigas/pipeline_info
+rsync --archive --verbose --progress pipeline_trace.txt emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset3_Cgigas/pipeline_info
+
+rsync --archive --verbose --progress star_salmon/deseq2_qc/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset3_Cgigas/deseq2_qc
+rsync --archive --verbose --progress star_salmon/log/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset3_Cgigas/log
+rsync --archive --verbose --progress star_salmon/*.tsv emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset3_Cgigas
+
+rsync --archive --verbose --progress ../scripts/output/Cvir_disease_rnaseq_dataset3_Cgigas_* emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset3_Cgigas
+```
+
+Steve was getting this warning: 
+
+```
+WARNING: you specified the options for cutting by quality, but forogt to enable any of cut_front/cut_tail/cut_right. This will have no effect.
+```
+
+Running Cvir_Prkns_rnaseq_dataset3_Cgigas in srun to see if I also get this warning and it doesn't show up in my output files.. 
+
+```
+## start interactive
+screen -S rnaseq
+## (ctrl-A d to detach)
+## screen -r rnaseq to reattach 
+
+## grab a node 
+salloc -A srlab -p cpu-g2-mem2x -N 1 -c 1 --mem=150GB --time=2-12:00:00
+
+## start conda environment 
+conda activate nextflow
+
+## navigate to output 
+cd /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset3_Cgigas
+
+## run nextflow on dataset 3
+nextflow run nf-core/rnaseq -resume \
+    -c /gscratch/scrubbed/elstrand/uw_hyak_srlab_estrand.config \
+    --input /gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets/samplesheet_rnaseq_dataset3_Cgigas.csv \
+    --outdir /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset3_Cgigas \
+    --gtf /gscratch/scrubbed/elstrand/genomes/C_gigas/GCF_963853765.1_xbMagGiga1.1_genomic.gtf.gz \
+    --gff /gscratch/scrubbed/elstrand/genomes/C_gigas/GCF_963853765.1_xbMagGiga1.1_genomic.gff.gz \
+    --fasta /gscratch/scrubbed/elstrand/genomes/C_gigas/GCF_963853765.1_xbMagGiga1.1_genomic.fna.gz \
+    --trimmer fastp \
+    --extra_fastp_args '--cut_mean_quality 30 --trim_front1 10 --trim_front2 10' \
+    --aligner star_salmon \
+    --skip_pseudo_alignment \
+    --multiqc_title Cvir_disease_rnaseq_dataset3_Cgigas \
+    --deseq2_vst
+```
