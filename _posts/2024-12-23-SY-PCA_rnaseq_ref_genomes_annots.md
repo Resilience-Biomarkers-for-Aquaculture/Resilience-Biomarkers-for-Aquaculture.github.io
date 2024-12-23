@@ -115,16 +115,109 @@ With the resulting `salmon.merged.gene_counts.tsv` files from each run in hand, 
 
 <figure>
     <img src="https://github.com/user-attachments/assets/13213250-afa1-4d6e-8bc5-dcdbf4bcb332" alt="Scatter plot for a single sample"/>
-    <figcaption>Scatter plot for a single sample</figcaption>
+    <figcaption class="caption">For a single sample</figcaption>
 </figure>
 
 <figure>
     <img src="https://github.com/user-attachments/assets/5a5a01db-59db-438f-91e3-865afd260f5f" alt="Scatter plot for all samples overlaid"/>
-    <figcaption>Scatter plot for all samples overlaid</figcaption>
+    <figcaption class="caption">For all samples, overlaid</figcaption>
 </figure>
 
+Below is the python script that generated the above diagrams:
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib_venn import venn2
+import matplotlib
+import numpy as np
+
+# Use non-interactive backend for headless environments
+matplotlib.use('Agg')
+
+# Function to load gene count files (ignoring the second column)
+def load_gene_counts(file_path):
+    df = pd.read_csv(file_path, sep='\t')
+    df = df.drop(columns=df.columns[1])  # Drop the second column (gene_name)
+    return df
+
+# Function to prepare the comparison table
+def compare_gene_counts(df1, df2):
+    # Merge data on gene_id
+    # The suffixes modifies the column names for the respective dataframes
+    merged = pd.merge(df1, df2, on='gene_id', how='outer', suffixes=('_run1', '_run2'))
+
+    # Mark presence in each run
+    # : is the row indexer; it means select all rows
+    # 1 selects the second column
+    # len(df1.columns selects the first column in df2 data
+    # The 'present_in' columns are appended to each row
+    # Only one column of each original dataframe is checked because the outer
+    # join assigns NaN to all colums if the joined-on key isn't present.
+    merged['present_in_run1'] = ~merged.iloc[:, 1].isna()
+    merged['present_in_run2'] = ~merged.iloc[:, len(df1.columns)].isna()
+
+    return merged
+
+# Function to generate visualizations
+def generate_visualizations(merged_df, output_prefix, df1_columns):
+    # Venn Diagram
+    only_in_run1 = merged_df['present_in_run1'] & ~merged_df['present_in_run2']
+    only_in_run2 = merged_df['present_in_run2'] & ~merged_df['present_in_run1']
+    in_both_runs = merged_df['present_in_run1'] & merged_df['present_in_run2']
+
+    venn2(
+        subsets=(only_in_run1.sum(), only_in_run2.sum(), in_both_runs.sum()),
+        set_labels=('Run 1', 'Run 2')
+    )
+    plt.title("Gene ID Overlap Between Runs")
+    plt.savefig(f"{output_prefix}_venn.png")
+    plt.clf()
+
+    # Scatter Plot for common genes
+    common_genes = merged_df[merged_df['present_in_run1'] & merged_df['present_in_run2']]
+
+    plt.xlabel("Log2 Run 1 Counts")
+    plt.ylabel("Log2 Run 2 Counts")
+    plt.title(f"Scatter Plot of Log2 Gene Counts for Common Genes")
+    plt.grid(True)
+    for col_idx in range(1, len(df1_columns)):
+        column_name = df1_columns[col_idx]
+        print(f"Processing sample: {column_name}")
+        sample_1_run1 = column_name + '_run1'
+        sample_1_run2 = column_name + '_run2'
+
+        # Check if columns exist before plotting
+        if sample_1_run1 in common_genes.columns and sample_1_run2 in common_genes.columns:
+            x = np.log2(common_genes[sample_1_run1] + 1)
+            y = np.log2(common_genes[sample_1_run2] + 1)
+
+            plt.scatter(x, y, alpha=0.3, s=5)  # Reduced dot size (s=5)
+        else:
+            print(f"Error: Columns {sample_1_run1} or {sample_1_run2} not found in the merged dataset.")
+    plt.savefig(f"{output_prefix}_scatter.png")
+
+# Main Function
+def main(file1, file2, output_prefix):
+    # Load data
+    df1 = load_gene_counts(file1)
+    df2 = load_gene_counts(file2)
+
+    # Perform comparison
+    merged_df = compare_gene_counts(df1, df2)
+
+    # Save tabular comparison
+    merged_df.to_csv(f"{output_prefix}_comparison.csv", index=False)
+
+    # Generate visualizations
+    generate_visualizations(merged_df, output_prefix, df1.columns)
+
+# Example usage:
+# main("run1_counts.tsv", "run2_counts.tsv", "gene_comparison")
 
 
+# Example usage:
+main("ncbi_dataset_GCA_000297895.1/ncbi_dataset/data/GCF_000297895.1/salmon.merged.gene_counts.tsv", "seqera_roberto/salmon.merged.gene_counts_seqera.tsv", "gene_comparison")
+```
 
 
 
