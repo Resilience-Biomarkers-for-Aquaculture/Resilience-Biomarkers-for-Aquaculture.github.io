@@ -1,6 +1,6 @@
 ---
 layout: post
-title: PCA comparison between 2012 and 2023 reference genomes
+title: PCA for gene count comparison between 2012 and 2023 reference genomes
 tags: rnaseq pca 
 ---
 
