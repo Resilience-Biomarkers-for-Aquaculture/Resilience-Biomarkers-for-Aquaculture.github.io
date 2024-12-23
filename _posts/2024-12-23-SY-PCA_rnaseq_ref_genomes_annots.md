@@ -1,6 +1,6 @@
 ---
 layout: post
-title: PCA for gene count comparison between 2012 and 2023 reference genomes
+title: PCA for gene count comparison between 2012 and 2023 reference genomes (post in progress)
 tags: rnaseq pca 
 ---
 
@@ -218,6 +218,8 @@ def main(file1, file2, output_prefix):
 # Example usage:
 main("ncbi_dataset_GCA_000297895.1/ncbi_dataset/data/GCF_000297895.1/salmon.merged.gene_counts.tsv", "seqera_roberto/salmon.merged.gene_counts_seqera.tsv", "gene_comparison")
 ```
+
+
 
 
 
