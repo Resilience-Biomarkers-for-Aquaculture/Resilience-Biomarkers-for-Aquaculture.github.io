@@ -11,8 +11,8 @@ The goal here was to compare gene counts between `rnaseq` runs using
 2. The most recent [reference genome and gene annotations](https://ncbi.nlm.nih.gov/datasets/genome/GCA_963853765.1/) (herein referred to as `2023`) for C. gigas.
 
 ## Motivation
-As previously [noted](https://resilience-biomarkers-for-aquaculture.github.io/SW-CGI_ID_matching_attemp_1/), in attempint to compare gene counts between
-Roberto's results and `rnaseq` results, we encountered a hurdle:
+As previously [noted](https://resilience-biomarkers-for-aquaculture.github.io/SW-CGI_ID_matching_attemp_1/), in attemping to compare gene counts between
+Roberto's results and `rnaseq` results, we encountered the following hurdle:
 The gene count matrix that Roberto provided overwhelmingly used gene IDs prefixed with `MSTRG_` (novel or unannotated genes/transcripts identified by
 StringTie) and `CGI_` (CpG islands), whereas the avaialbe NCBI annotations, and thus gene count data, for `2023` uses gene IDs prefixed with `LOC_`,
 commonly used for annotated genes or predicted genes that do not yet have an official gene symbol or name.
@@ -107,7 +107,12 @@ We ran `rnaseq` on Seqera usnig `2012` using the following parameters, which are
 ```
 
 With the resulting `salmon.merged.gene_counts.tsv` files from each run in hand, I then queried `ChatGPT  4o` for recommendations on visually comparing gene counts. Its result included a Venn diagram to indicate matching/non-matching gene IDs and scatter plots showing gene counts on X and Y axes for matching gene IDs for the respective runs.
-![gene_id_matching_venn](https://github.com/user-attachments/assets/cc6ac25b-f86f-4424-a91d-333613750c50)
+
+<figure>
+  <img src="https://github.com/user-attachments/assets/cc6ac25b-f86f-4424-a91d-333613750c50" alt="Venn diagram"/>
+  <figcaption class="caption">Venn diagram showing common and non-common gene IDs</figcaption>
+</figure>
+
 ![gene_count_scatter_plot_1_sample](https://github.com/user-attachments/assets/13213250-afa1-4d6e-8bc5-dcdbf4bcb332)
 ![gene_count_scatter_plot_all_samples](https://github.com/user-attachments/assets/5a5a01db-59db-438f-91e3-865afd260f5f)
 
