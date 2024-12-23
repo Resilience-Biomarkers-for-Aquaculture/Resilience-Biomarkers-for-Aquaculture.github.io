@@ -113,8 +113,17 @@ With the resulting `salmon.merged.gene_counts.tsv` files from each run in hand, 
   <figcaption class="caption">Venn diagram showing common and non-common gene IDs</figcaption>
 </figure>
 
-![gene_count_scatter_plot_1_sample](https://github.com/user-attachments/assets/13213250-afa1-4d6e-8bc5-dcdbf4bcb332)
-![gene_count_scatter_plot_all_samples](https://github.com/user-attachments/assets/5a5a01db-59db-438f-91e3-865afd260f5f)
+<figure>
+    <img src="https://github.com/user-attachments/assets/13213250-afa1-4d6e-8bc5-dcdbf4bcb332" alt="Scatter plot for a single sample"/>
+    <figcaption>Scatter plot for a single sample</figcaption>
+</figure>
+
+<figure>
+    <img src="https://github.com/user-attachments/assets/5a5a01db-59db-438f-91e3-865afd260f5f" alt="Scatter plot for all samples overlaid"/>
+    <figcaption>Scatter plot for all samples overlaid</figcaption>
+</figure>
+
+
 
 
 
