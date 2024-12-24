@@ -13,14 +13,14 @@ The goal here was to compare gene counts between `rnaseq` runs using
 ## Motivation
 As previously [noted](https://resilience-biomarkers-for-aquaculture.github.io/SW-CGI_ID_matching_attemp_1/), in attemping to compare gene counts between
 Roberto's results and `rnaseq` results, we encountered the following hurdle:
-The gene count matrix that Roberto provided overwhelmingly used gene IDs prefixed with `MSTRG_` (novel or unannotated genes/transcripts identified by
-StringTie) and `CGI_` (CpG islands), whereas the avaialbe NCBI annotations, and thus gene count data, for `2023` uses gene IDs prefixed with `LOC_`,
-commonly used for annotated genes or predicted genes that do not yet have an official gene symbol or name.
+The gene count matrix that Roberto provided predominantly used gene IDs prefixed with `MSTRG_` (novel or unannotated genes/transcripts identified by
+StringTie) and `CGI_` (CpG islands), whereas the available NCBI annotations, and thus gene count data, for `2023` uses gene IDs prefixed with `LOC_`,
+commonly used for annotated or predicted genes that don't yet have an official gene symbol or name.
 However, we found that the `2012` NCBI genome and annotations did use `LOC_` gene IDs, which facilitates matching by ID
 rather than requiring BLAST or other indirect gene ID matching methods.
 
 So, for this current task, we used the `2012`
-reference genome (linked above) as as a proxy for Roberto's, given that it represents the state of the art at the time of his
+reference genome (linked above) as as a proxy for Roberto's, supported by the fact that it represents the state of the art at the time of his
 publication.
 
 ## Method
@@ -106,7 +106,11 @@ We ran `rnaseq` on Seqera usnig `2012` using the following parameters, which are
 }
 ```
 
-With the resulting `salmon.merged.gene_counts.tsv` files from each run in hand, I then queried `ChatGPT  4o` for recommendations on visually comparing gene counts. Its result included a Venn diagram to indicate matching/non-matching gene IDs and scatter plots showing gene counts on X and Y axes for matching gene IDs for the respective runs.
+With the resulting `salmon.merged.gene_counts.tsv` files from each run in hand, I then queried `ChatGPT  4o` for recommendations on visually comparing gene counts. Its recommendations included a Venn diagram to indicate matching/non-matching gene IDs and scatter plots showing gene counts on X and Y axes for matching gene IDs for the respective runs.
+
+Further, to visualize the gene count differences between the `rnaseq` runs using the `2012` and `2023` reference genomes and annotations, I chose PCA among the recommendations made by `ChatGPT 4o`, and interactively worked with it to produce a 2D PCA plot which, with additional metadata for the samples, differentiates the two runs (by color), and each sample's noted resilience, and time interval (day 0 vs. day 30). Satisfied with this, and noting the striking similarity between the two runs, I then had ChatGPT produce an interactive 3D PCA plot to see whether greater differences appeared given a third principal component axis. 
+
+## Results
 
 <figure>
   <img src="https://github.com/user-attachments/assets/cc6ac25b-f86f-4424-a91d-333613750c50" alt="Venn diagram"/>
@@ -123,7 +127,14 @@ With the resulting `salmon.merged.gene_counts.tsv` files from each run in hand, 
     <figcaption class="caption">For all samples, overlaid</figcaption>
 </figure>
 
-Below is the python script that generated the above diagrams:
+<figure>
+    <img src="https://github.com/user-attachments/assets/486d760c-346b-46ef-911c-94dc6f7dd3ba" alt="PCA plot"/>
+    <figcaption class="caption">PCA plot of gene counts for genes IDs in common between runs. Blue indicates `2012` reference genome/annotation, red indicates `2023`, Xs for susceptible and dots for resistant, smaller points for Day 0 and larger for Day 30 </figcaption>
+</figure>
+
+
+## Code
+Below is the python script that generated the above Venn diagram and scatter plots:
 ```python
 import pandas as pd
 import matplotlib.pyplot as plt
