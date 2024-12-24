@@ -132,6 +132,12 @@ Further, to visualize the gene count differences between the `rnaseq` runs using
     <figcaption class="caption">PCA of gene counts for genes IDs in common between runs, for each sample. Blue indicates `2012` reference genome/annotation, red indicates `2023`, Xs for susceptible samples, dots for resistant, smaller points for Day 0 samples and larger for Day 30.</figcaption>
 </figure>
 
+<figure>
+    <img src="https://github.com/user-attachments/assets/a603cac1-0b99-4c17-8f96-e6a76ae4e7cf" alt="3D PCA plot"/>
+    <figcaption class="caption">Screenshot of 3D PCA</figcaption>
+</figure>
+
+The 3rd principal component dimension reveals differences between the two runs. Given time, we will (1) display the contributions of each dimension and (2) the top contributing gene IDs for each dimension.
 
 ## Code
 Below is the python script that generated the above Venn diagram and scatter plots:
