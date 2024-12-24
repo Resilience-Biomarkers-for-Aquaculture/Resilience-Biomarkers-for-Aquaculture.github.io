@@ -129,7 +129,7 @@ Further, to visualize the gene count differences between the `rnaseq` runs using
 
 <figure>
     <img src="https://github.com/user-attachments/assets/486d760c-346b-46ef-911c-94dc6f7dd3ba" alt="PCA plot"/>
-    <figcaption class="caption">PCA plot of gene counts for genes IDs in common between runs. Blue indicates `2012` reference genome/annotation, red indicates `2023`, Xs for susceptible and dots for resistant, smaller points for Day 0 and larger for Day 30 </figcaption>
+    <figcaption class="caption">PCA of gene counts for genes IDs in common between runs, for each sample. Blue indicates `2012` reference genome/annotation, red indicates `2023`, Xs for susceptible samples, dots for resistant, smaller points for Day 0 samples and larger for Day 30.</figcaption>
 </figure>
 
 
