@@ -137,7 +137,7 @@ Further, to visualize the gene count differences between the `rnaseq` runs using
     <figcaption class="caption">Screenshot of 3D PCA</figcaption>
 </figure>
 
-<iframe src="_assets/interactive_3d_pca.html" width="100%" height="600px" frameborder="0"></iframe>
+<iframe src="assets/interactive_3d_pca.html" width="100%" height="600px" frameborder="0"></iframe>
 
 The 3rd principal component dimension reveals differences between the two runs. Given time, we will (1) display the contributions of each dimension and (2) the top contributing gene IDs for each dimension.
 
