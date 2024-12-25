@@ -111,7 +111,7 @@ We ran `rnaseq` on Seqera usnig `NCBI Crassostrea gigas Annotation Release 101` 
 
 With the resulting `salmon.merged.gene_counts.tsv` files from each run in hand, I then queried `ChatGPT  4o` for recommendations on visually comparing gene counts. Its recommendations included a Venn diagram to indicate matching/non-matching gene IDs and scatter plots showing gene counts on X and Y axes for matching gene IDs for the respective runs.
 
-Further, to visualize the gene count differences between the `rnaseq` runs using the `NCBI Crassostrea gigas Annotation Release 101` and `2023` reference genomes and annotations, I chose PCA among the recommendations made by `ChatGPT 4o`, and interactively worked with it to produce a 2D PCA plot which, with additional metadata for the samples, differentiates the two runs (by color), and each sample's noted resilience, and time interval (day 0 vs. day 30). Satisfied with this, and noting the striking similarity between the two runs, I then had ChatGPT produce an interactive 3D PCA plot to see whether greater differences appeared given a third principal component axis. 
+Further, to visualize the gene count differences between the `rnaseq` runs using the `NCBI Crassostrea gigas Annotation Release 101` and `GCF_963853765.1-RS_2024_06` reference genomes and annotations, I chose PCA among the recommendations made by `ChatGPT 4o`, and interactively worked with it to produce a 2D PCA plot which, with additional metadata for the samples, differentiates the two runs (by color), and each sample's noted resilience, and time interval (day 0 vs. day 30). Satisfied with this, and noting the striking similarity between the two runs, I then had ChatGPT produce an interactive 3D PCA plot to see whether greater differences appeared given a third principal component axis. 
 
 ## Results
 
@@ -148,8 +148,11 @@ The 3rd principal component dimension reveals differences between the two runs.
 Determine and show (1) the contributions of each dimension and (2) the top contributing gene IDs for each dimension.
 
 For each PCA component, examine the PCA loadings.
-For PC3, assuming that its scale is not miniscule relative to PC1 and PC2, identify which genes contribute most to the separation, and examine correlation of those genes with changes to the reference genomes as noted in annotation comparisons between `GCF_963853765.1-RS_2024_06` and `NCBI Crassostrea gigas Annotation Release 102` (found [here](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/963/853/765/GCF_963853765.1_GCF_963853765.1-RS_2024_06/Annotation_comparison/) ) and then between `NCBI Crassostrea gigas Annotation Release 102` and `NCBI Crassostrea gigas Annotation Release 101` (found [here](https://ftp.ncbi.nlm.nih.gov/genomes/all/annotation_releases/29159/102/GCF_902806645.1_cgigas_uk_roslin_v1/Annotation_comparison/) ).
-Also see the *Comparison of the current and previous annotations* section of the `GCF_963853765.1-RS_2024_06` [Annotation Report](https://www.ncbi.nlm.nih.gov/refseq/annotation_euk/Magallana_gigas/GCF_963853765.1-RS_2024_06/) and the same section of the Roslin [Annotation Report](https://www.ncbi.nlm.nih.gov/refseq/annotation_euk/Crassostrea_gigas/102/) Our hypothesis would be that genes contributing to PC3 (or indeed PC1 or PC2, if the scales are significantly larger) separation would be the ones with poor mappings (e.g. major changes) between reference genomes.
+For PC3, assuming that its scale is not miniscule relative to PC1 and PC2, identify which genes contribute most to the separation, and examine correlation of those genes with changes noted in annotation comparisons between `GCF_963853765.1-RS_2024_06` and `NCBI Crassostrea gigas Annotation Release 102` (found [here](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/963/853/765/GCF_963853765.1_GCF_963853765.1-RS_2024_06/Annotation_comparison/) ) and then between `NCBI Crassostrea gigas Annotation Release 102` and `NCBI Crassostrea gigas Annotation Release 101` (found [here](https://ftp.ncbi.nlm.nih.gov/genomes/all/annotation_releases/29159/102/GCF_902806645.1_cgigas_uk_roslin_v1/Annotation_comparison/) ).
+
+See also the *Comparison of the current and previous annotations* section of the `GCF_963853765.1-RS_2024_06` [Annotation Report](https://www.ncbi.nlm.nih.gov/refseq/annotation_euk/Magallana_gigas/GCF_963853765.1-RS_2024_06/) and the same section of the Roslin [Annotation Report](https://www.ncbi.nlm.nih.gov/refseq/annotation_euk/Crassostrea_gigas/102/)
+
+Our hypothesis would be that genes contributing to PC3 separation would be the ones with poor mappings (e.g. major changes) between reference genomes.
 Determine if these genes are disproportionately affected by the differences in reference genomes.
 
 ## Code
@@ -247,6 +250,93 @@ def main(file1, file2, output_prefix):
 
 # Example usage:
 main("ncbi_dataset_GCA_000297895.1/ncbi_dataset/data/GCF_000297895.1/salmon.merged.gene_counts.tsv", "seqera_roberto/salmon.merged.gene_counts_seqera.tsv", "gene_comparison")
+```
+
+Below is the code for generating the 3D PCA plot, as generated by `ChatGPT 4o`:
+```python
+import pandas as pd
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+import plotly.express as px
+
+# Load data
+file1_path = 'path_to_first_gene_counts_file.tsv'
+file2_path = 'path_to_second_gene_counts_file.tsv'
+metadata_path = 'path_to_metadata_file.csv'
+
+# Load gene count files and metadata
+data1 = pd.read_csv(file1_path, sep='\t', index_col=0)
+data2 = pd.read_csv(file2_path, sep='\t', index_col=0)
+metadata = pd.read_csv(metadata_path)
+
+# Identify common genes between datasets
+common_genes = data1.index.intersection(data2.index)
+
+# Subset data to common genes
+data1_common = data1.loc[common_genes].iloc[:, 1:]
+data2_common = data2.loc[common_genes].iloc[:, 1:]
+
+# Select top 500 most variable genes based on variance in the first dataset
+variances = data1_common.var(axis=1)
+top_genes = variances.nlargest(500).index
+
+# Subset datasets to top variable genes
+data1_top = data1_common.loc[top_genes]
+data2_top = data2_common.loc[top_genes]
+
+# Standardize the data
+scaler = StandardScaler()
+data1_scaled = scaler.fit_transform(data1_top.T)
+data2_scaled = scaler.fit_transform(data2_top.T)
+
+# Apply PCA to reduce to 3 components
+pca = PCA(n_components=3)
+pca1_results_3d = pca.fit_transform(data1_scaled)
+pca2_results_3d = pca.fit_transform(data2_scaled)
+
+# Convert PCA results to DataFrame
+pca1_df_3d = pd.DataFrame(pca1_results_3d, columns=['PC1', 'PC2', 'PC3'], index=data1_top.columns)
+pca2_df_3d = pd.DataFrame(pca2_results_3d, columns=['PC1', 'PC2', 'PC3'], index=data2_top.columns)
+
+# Filter metadata for valid samples
+metadata.set_index('sample', inplace=True)
+valid_samples = metadata.index.intersection(pca1_df_3d.index.union(pca2_df_3d.index))
+metadata_filtered = metadata.loc[valid_samples]
+
+# Update PCA DataFrames with metadata
+pca1_df_3d = pca1_df_3d.loc[valid_samples.intersection(pca1_df_3d.index)]
+pca2_df_3d = pca2_df_3d.loc[valid_samples.intersection(pca2_df_3d.index)]
+pca1_df_3d['thermal_tolerance'] = metadata_filtered.loc[pca1_df_3d.index, 'thermal.tolerance']
+pca1_df_3d['day'] = metadata_filtered.loc[pca1_df_3d.index, 'day']
+pca2_df_3d['thermal_tolerance'] = metadata_filtered.loc[pca2_df_3d.index, 'thermal.tolerance']
+pca2_df_3d['day'] = metadata_filtered.loc[pca2_df_3d.index, 'day']
+
+# Combine PCA results for visualization
+pca_combined_3d = pd.concat([pca1_df_3d, pca2_df_3d])
+pca_combined_3d['dataset'] = ['Dataset 1'] * len(pca1_df_3d) + ['Dataset 2'] * len(pca2_df_3d)
+pca_combined_3d['color'] = pca_combined_3d['dataset'].map({'Dataset 1': 'blue', 'Dataset 2': 'red'})
+pca_combined_3d['marker'] = pca_combined_3d['thermal_tolerance'].map({'resistant': 'circle', 'susceptible': 'x'})
+pca_combined_3d['size'] = pca_combined_3d['day'].map({0: 10, 30: 20})
+
+# Create interactive 3D plot
+fig = px.scatter_3d(
+    pca_combined_3d,
+    x='PC1',
+    y='PC2',
+    z='PC3',
+    color='dataset',
+    symbol='marker',
+    size='size',
+    hover_name=pca_combined_3d.index,
+    labels={'PC1': 'Principal Component 1', 'PC2': 'Principal Component 2', 'PC3': 'Principal Component 3'},
+    title="Interactive 3D PCA Plot"
+)
+
+# Save the plot as an HTML file
+html_path = "interactive_3d_pca.html"
+fig.write_html(html_path)
+
+print(f"3D PCA plot saved to {html_path}")
 ```
 
 
