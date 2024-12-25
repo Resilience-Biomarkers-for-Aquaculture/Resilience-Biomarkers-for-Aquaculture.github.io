@@ -1,6 +1,6 @@
 ---
 layout: post
-title: PCA for gene count comparison between NCBI Crassostrea gigas Annotation Release 101 and GCF_963853765.1-RS_2024_06 reference genomes (post in progress)
+title: PCA for gene count comparison between NCBI Crassostrea gigas Annotation Release 101 and GCF_963853765.1-RS_2024_06 reference genomes
 tags: rnaseq pca 
 ---
 
@@ -145,7 +145,7 @@ Further, to visualize the gene count differences between the `rnaseq` runs using
 The 3rd principal component dimension reveals differences between the two runs. 
 
 ## Possible further work
-Determine and show (1) the contributions of each dimension and (2) the top contributing gene IDs for each dimension.
+Gven this 3D PCA plot, determine and show (1) the contributions of each dimension and (2) the top contributing gene IDs for each dimension.
 
 For each PCA component, examine the PCA loadings.
 For PC3, assuming that its scale is not miniscule relative to PC1 and PC2, identify which genes contribute most to the separation, and examine correlation of those genes with changes noted in annotation comparisons between `GCF_963853765.1-RS_2024_06` and `NCBI Crassostrea gigas Annotation Release 102` (found [here](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/963/853/765/GCF_963853765.1_GCF_963853765.1-RS_2024_06/Annotation_comparison/) ) and then between `NCBI Crassostrea gigas Annotation Release 102` and `NCBI Crassostrea gigas Annotation Release 101` (found [here](https://ftp.ncbi.nlm.nih.gov/genomes/all/annotation_releases/29159/102/GCF_902806645.1_cgigas_uk_roslin_v1/Annotation_comparison/) ).
