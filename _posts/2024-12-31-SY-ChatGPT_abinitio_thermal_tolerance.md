@@ -4,6 +4,13 @@ title: Exploring thermal resistance based on gene counts via ChatGPT
 tags: rnaseq pca 
 ---
 
+# Intro
+This post has two motivations:
+1. Demonstrate using ChatGPT's specialized `Data Analyst` model to explore a problem starting with the initial problem statement, showing dialog, generated code (often much modified by me). This section is quite long.
+1. In the results note possible overfitting (in this current anlaysis), or other basic challenges to producing statistically significant results given the small sample size in the original study. If you're mostly interested in this, search for the *Overfitting?* heading below.
+
+# ChatGPT dialog
+
 You: 
 
 I have several gene count files and several transcript count files that are the output of an `rnaseq` pipeline, specifically Salmon. In the gene count files, there's a gene ID column, a gene name column which can be ignored, and a column for each biological sample taken from oysters. The samples were taken from thermally-resilient families, from non-resilient families, and on day 0 and day 30 of a 30-day thermal stress regime for each of these families. I have a metadata csv file that represents which sample has each of these characteristics. 
@@ -623,7 +630,7 @@ plt.xlabel("Samples")
 plt.ylabel("Genes")
 plt.show()
 ```
-Heatmap of Top 50 Most Variable Genes Across Samples![Output image](../assets/ChatGPT_heatmap_1.png)
+[Heatmap of Top 50 Most Variable Genes Across Samples](../assets/ChatGPT_heatmap_1.png)
 The heatmap displays the expression patterns of the **top 50 most variable genes**  across all samples. Here’s what you can observe: 
 - **Color intensity**  represents the log-transformed CPM values.
  
@@ -669,7 +676,7 @@ plt.ylabel("Genes")
 plt.xticks(rotation=90, fontsize=8)
 plt.show()
 ```
-Heatmap of Top 50 Most Variable Genes (Grouped by Thermal Resilience and Day)![Output image](../assets/ChatGPT_PCA_2.png)
+[Heatmap of Top 50 Most Variable Genes (Grouped by Thermal Resilience and Day](../assets/ChatGPT_heatmap_2.png)
 The heatmap has been updated with samples grouped by:
  
 1. **Thermal Resilience:**  Samples are grouped into **resistant**  and **susceptible**  categories.
@@ -890,7 +897,8 @@ The Linear Discriminant Analysis (LDA) model results show strong classification 
 ---
 
 These results indicate that the top 10 genes provide a strong basis for separating resistant and susceptible groups using LDA. Would you like to visualize the LDA result (e.g., in 2D space), proceed with cross-validation, or explore another analysis? ​​
-[...]
+
+[Much intervening dialog]
 
 You: 
 
@@ -1113,6 +1121,7 @@ plt.savefig("ChatGPT/PCA_LDA_top_10_mutual_info_genes.png")
 ![alt text](../assets/PCA_top_10_mutual_info_genes.png)
 ![alt text](../assets/PCA_LDA_top_10_mutual_info_genes.png)
 
+## Overfitting?
 You: 
 
 Is there a chance I'm doing any kind of overfitting by selecting the genes with maximum mutual information?
