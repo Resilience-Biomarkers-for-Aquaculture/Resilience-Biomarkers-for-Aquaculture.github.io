@@ -1,4 +1,10 @@
 
+---
+layout: post
+title: Exploring thermal resistance based on gene counts via ChatGPT
+tags: rnaseq pca 
+---
+
 You: 
 
 I have several gene count files and several transcript count files that are the output of an `rnaseq` pipeline, specifically Salmon. In the gene count files, there's a gene ID column, a gene name column which can be ignored, and a column for each biological sample taken from oysters. The samples were taken from thermally-resilient families, from non-resilient families, and on day 0 and day 30 of a 30-day thermal stress regime for each of these families. I have a metadata csv file that represents which sample has each of these characteristics. 
@@ -440,13 +446,12 @@ plt.grid(True)
 plt.show()
 ```
 
-PCA of Samples (Top 2 PCs)![Output image](https://files.oaiusercontent.com/file-BcSFeWfiovkw5Qi7dpnhv2?se=2024-12-31T18%3A01%3A01Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D299%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D3e8b6019-9184-4f2a-b127-c224409f58f7&sig=H7umEQSEh/%2B5%2B%2BDoS7KHv4nmC/hL9/Zz1d6yBskMMmI%3D) 
-
+PCA of Samples (Top 2 PCs)![Output image](../assets/ChatGPT_PCA_1.png)
 The PCA plot is now complete. Here's what it shows:
  
-- **Principal Component 1 (PC1)**  explains $$x\%$$ of the variance.
+- **Principal Component 1 (PC1)**  explains 25.2% of the variance.
  
-- **Principal Component 2 (PC2)**  explains $$y\%$$ of the variance.
+- **Principal Component 2 (PC2)**  explains 9.5% of the variance.
 
 The samples are plotted based on their clustering along these two components. Samples with similar gene expression profiles are closer together. If you observe distinct groupings, these could correlate with biological variables (e.g., resilience or timepoint).
 Let me know if you'd like to proceed with further visualizations or move on to differential gene expression analysis. ​​
@@ -508,8 +513,7 @@ plt.legend(handles=legend_handles, title="Thermal Tolerance")
 plt.show()
 ```
 
-PCA of Samples (Colored by Thermal Tolerance)![Output image](https://files.oaiusercontent.com/file-WjnSz34WbEpavztPtmyUmH?se=2024-12-31T18%3A01%3A01Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D299%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Dfff31686-ffab-40ff-bea7-754459f1aa31&sig=FreIJLKptCS6q%2BJntzRPJcjvTu9/oazf7uT0ZT0jtgI%3D) 
-
+PCA of Samples (Colored by Thermal Tolerance)![Output image](../assets/ChatGPT_PCA_2.png)
 Here’s the updated PCA plot:
  
 - **Color-coded by thermal tolerance:**  
@@ -620,7 +624,7 @@ plt.xlabel("Samples")
 plt.ylabel("Genes")
 plt.show()
 ```
-Heatmap of Top 50 Most Variable Genes Across Samples![Output image](https://files.oaiusercontent.com/file-RVuQhtXzVhAZK8XJ2Y3RGg?se=2024-12-31T18%3A01%3A01Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D299%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D966eb6ce-fd8e-4814-a352-eeb094d223ee&sig=RL816unz/TZQaKcVXupssGPljNbzr1pHqmbIuok//Wo%3D) 
+Heatmap of Top 50 Most Variable Genes Across Samples![Output image](../assets/ChatGPT_heatmap_1.png)
 The heatmap displays the expression patterns of the **top 50 most variable genes**  across all samples. Here’s what you can observe: 
 - **Color intensity**  represents the log-transformed CPM values.
  
@@ -631,7 +635,7 @@ If specific patterns are evident, they may hint at genes driving differences bet
 
 You: 
 
-Please group the samples by (1) thermal resilience and (2) day 0 vs day 30.
+Please group the samples by (1) thermal resilience and (2) day 0 vs day 30. Please show those groupings in the axis labels
 
 ChatGPT: 
 
@@ -645,39 +649,6 @@ sorted_samples = metadata_sorted['sample']
 # Subset and reorder the heatmap data to match the sorted samples
 top_genes_data_sorted = top_genes_data[sorted_samples]
 
-# Create heatmap with samples grouped by thermal resilience and day
-plt.figure(figsize=(12, 10))
-sns.heatmap(
-    top_genes_data_sorted, 
-    cmap="viridis", 
-    yticklabels=False, 
-    xticklabels=sorted_samples, 
-    cbar_kws={"label": "Log2(CPM + 1)"}
-)
-plt.title("Heatmap of Top 50 Most Variable Genes (Grouped by Thermal Resilience and Day)")
-plt.xlabel("Samples (Grouped by Resilience and Day)")
-plt.ylabel("Genes")
-plt.xticks(rotation=90)
-plt.show()
-```
-Heatmap of Top 50 Most Variable Genes (Grouped by Thermal Resilience and Day)![Output image](https://files.oaiusercontent.com/file-8SnnQX3KJN11PxKfiAsZQW?se=2024-12-31T18%3A01%3A01Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D299%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Df2b979b5-6ebb-4811-a644-712e039f2e43&sig=i4CVuICQaBgYq3kyZpc1LiIaiDrPmgypEezK%2B/EM%2BRs%3D) 
-
-The heatmap has been updated with samples grouped by:
- 
-1. **Thermal Resilience:**  Samples are grouped into **resistant**  and **susceptible**  categories.
- 
-2. **Day:**  Within each thermal resilience group, samples are further grouped by **Day 0**  and **Day 30** .
-This organization highlights expression patterns related to thermal resilience and temporal changes. Let me know if you'd like further analysis or move on to identifying genes correlated with resilience. ​​
-
-You: 
-
-Please show those groupings in the axis labels
-
-ChatGPT: 
-
-Analyzed
-
-```python
 # Create custom labels for the x-axis showing both thermal resilience and day
 x_labels = [
     f"{metadata_sorted.loc[metadata_sorted['sample'] == sample, 'thermal.tolerance'].values[0]}-Day{metadata_sorted.loc[metadata_sorted['sample'] == sample, 'day'].values[0]}"
@@ -699,18 +670,17 @@ plt.ylabel("Genes")
 plt.xticks(rotation=90, fontsize=8)
 plt.show()
 ```
-Heatmap of Top 50 Most Variable Genes (Grouped by Thermal Resilience and Day)![Output image](https://files.oaiusercontent.com/file-BN4nbiNz4ic7R9U7yV3zdc?se=2024-12-31T18%3A01%3A01Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D299%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Dc231191c-8843-4b59-88a6-e20e2443ab7d&sig=Q/H/kwN2bNJ5xyT2xLbaF58c30sunWuT%2Bi6cAhERqz0%3D) 
-
-The heatmap now includes detailed x-axis labels indicating both:
+Heatmap of Top 50 Most Variable Genes (Grouped by Thermal Resilience and Day)![Output image](../assets/ChatGPT_PCA_2.png)
+The heatmap has been updated with samples grouped by:
  
-- **Thermal Resilience:**  (`resistant` or `susceptible`)
+1. **Thermal Resilience:**  Samples are grouped into **resistant**  and **susceptible**  categories.
  
-- **Day:**  (`Day 0` or `Day 30`)
-This provides a clearer visual grouping of the samples, allowing you to easily interpret how gene expression patterns relate to these experimental factors. Let me know if you'd like further insights or analysis! ​​
+2. **Day:**  Within each thermal resilience group, samples are further grouped by **Day 0**  and **Day 30** .
+This organization highlights expression patterns related to thermal resilience and temporal changes. Let me know if you'd like further analysis or move on to identifying genes correlated with resilience. ​​
 
 You: 
 
-This looks like random variation by thermal resilience and day count. Is there a way to check whether the entropy?
+This looks like random variation by thermal resilience and day count. Is there a way to check the entropy?
 
 ChatGPT: 
 
@@ -775,235 +745,13 @@ import ace_tools as tools; tools.display_dataframe_to_user(name="Top Genes by Mu
 mutual_info_results.head(10)
 ```
 
+[Much intervening dialog]
 
-```undefined
-undefined
-```
-
-The mutual information calculation took too long to compute for all 50 genes due to the complexity of the operation. To make this process more efficient, we can:
-
-1. Reduce the number of top genes (e.g., analyze the top 20 most variable genes instead of 50).
-
-2. Use a more efficient approximation method for mutual information.
-Would you like me to proceed with a smaller subset of genes or optimize the calculation differently? ​​
-
-You: 
-
-Let's proceed with a smaller subset
-
-ChatGPT: 
-
-Analysis errored
-
-```python
-# Reduce the number of top genes to the top 20 most variable genes
-top_20_genes = gene_variances.nlargest(20).index
-
-# Subset the log-transformed CPM data for these top genes
-top_20_genes_data = log_cpm.loc[top_20_genes]
-
-# Prepare data for mutual information calculation
-expression_data_top_20 = top_20_genes_data.T.values  # Shape: (samples, genes)
-
-# Calculate mutual information for the top 20 genes
-mutual_info_scores_top_20 = mutual_info_classif(expression_data_top_20, encoded_labels, discrete_features=False)
-
-# Create a DataFrame of results for better interpretation
-mutual_info_results_top_20 = pd.DataFrame({
-    'Gene': top_20_genes_data.index,
-    'Mutual_Information': mutual_info_scores_top_20
-}).sort_values(by='Mutual_Information', ascending=False)
-
-# Display the top genes by mutual information
-tools.display_dataframe_to_user(name="Top 20 Genes by Mutual Information", dataframe=mutual_info_results_top_20)
-mutual_info_results_top_20.head(10)
-```
-
-
-```undefined
-undefined
-```
-It seems the tools module was not re-imported correctly. Let me fix this and re-display the results. ​​Analyzed
-
-```python
-# Display the mutual information results for the top 20 genes again
-import ace_tools as tools; tools.display_dataframe_to_user(name="Top 20 Genes by Mutual Information", dataframe=mutual_info_results_top_20)
-mutual_info_results_top_20.head(10)
-```
 
 Result
 
-```undefined
-undefined
-```
-Top 20 Genes by Mutual Information|  | Gene | Mutual_Information | 
-| --- | --- | --- | 
-| 2 | LOC109619892 | 0.7956492505695802 | 
-| 4 | LOC105323594 | 0.5384803863670469 | 
-| 0 | LOC105330469 | 0.43134789288586894 | 
-| 6 | LOC105335470 | 0.39606318848351774 | 
-| 5 | LOC105328024 | 0.3795405652948729 | 
-| 1 | LOC105339256 | 0.315232567579367 | 
-
-
-
-I have displayed the results of the top 20 genes ranked by their mutual information scores, highlighting their association with thermal resilience and day groupings.
-Let me know if you'd like to proceed with interpreting these results, filtering for top candidates, or visualizing their expression patterns. ​​
-
-You: 
-
-Does this mean that only 11 genes had any information? If so, can we assume that the information scores for the 30 genes that we left out will also have zero information?
-
-ChatGPT: 
-
-The mutual information scores for the top 20 genes indicate that **only 11 genes had non-zero mutual information** , meaning they exhibited some association with the combined grouping of **thermal resilience**  and **day** .However, it does **not necessarily imply**  that the remaining 30 genes left out in the earlier step will have **zero mutual information** . It is possible that:
-- Some of the excluded genes might have non-zero scores, but they were not selected for analysis because their variance was not among the top 20.
-
-- Including all 50 genes may still yield a few additional genes with meaningful mutual information scores.
-
-The mutual information is based on how well gene expression patterns align with the grouping labels. To confirm whether excluded genes have zero scores:
- 
-1. **Compute mutual information for all 50 genes** : If computational resources allow.
- 
-2. **Validate key genes** : If certain genes are biologically expected to vary with resilience or day, prioritize them.
-
-Would you like to proceed with a broader calculation for all 50 genes or continue analyzing the results for the top 20?
-
-You: 
-
-Can you analyze mutual information for the 30 genes?
-
-ChatGPT: 
-
-Analyzed
-
-```python
-# Select the next 30 most variable genes (from rank 21 to 50)
-next_30_genes = gene_variances.nlargest(50).iloc[20:].index
-
-# Subset the log-transformed CPM data for these genes
-next_30_genes_data = log_cpm.loc[next_30_genes]
-
-# Prepare data for mutual information calculation
-expression_data_next_30 = next_30_genes_data.T.values  # Shape: (samples, genes)
-
-# Calculate mutual information for the next 30 genes
-mutual_info_scores_next_30 = mutual_info_classif(expression_data_next_30, encoded_labels, discrete_features=False)
-
-# Create a DataFrame of results for better interpretation
-mutual_info_results_next_30 = pd.DataFrame({
-    'Gene': next_30_genes_data.index,
-    'Mutual_Information': mutual_info_scores_next_30
-}).sort_values(by='Mutual_Information', ascending=False)
-
-# Display the results for the next 30 genes
-tools.display_dataframe_to_user(name="Mutual Information for Next 30 Genes", dataframe=mutual_info_results_next_30)
-mutual_info_results_next_30.head(10)
-```
-
-Result
-
-```undefined
-undefined
-```
-Mutual Information for Next 30 Genes|  | Gene | Mutual_Information | 
-| --- | --- | --- | 
-| 21 | LOC105333998 | 0.48137837710752973 | 
-| 10 | LOC105330639 | 0.21332133542916454 | 
-| 19 | LOC105337583 | 0.21247400487014723 | 
-| 7 | LOC105324102 | 0.16068396735062018 | 
-| 2 | LOC105320630 | 0.1392262413892178 | 
-
-
-
-The analysis for the next 30 genes revealed that some of them also exhibit non-zero mutual information scores, indicating a potential association with the thermal resilience and day groupings. The top-ranked gene among this group has a higher score than some genes in the initial top 20.
-
-### Key Observations: 
- 
-1. **Non-zero Scores:**  Not all of the next 30 genes have zero mutual information, meaning some have structured patterns.
- 
-2. **Potential Overlap:**  A few of these genes might even outperform lower-ranked genes from the first analysis.
-
-Would you like to:
-
-- Combine results for all 50 genes and review them together?
-
-- Focus further on genes with the highest scores across all analyses?
- 
-- Investigate specific genes for biological relevance? ​​
-
-You: 
-
-Please combine the results for all 50 genes and review them together.
-
-ChatGPT: 
-
-Analyzed
-
-```python
-# Combine the mutual information results for the top 20 and next 30 genes
-all_50_genes_results = pd.concat([mutual_info_results_top_20, mutual_info_results_next_30]).sort_values(
-    by='Mutual_Information', ascending=False
-)
-
-# Display the combined results for all 50 genes
-tools.display_dataframe_to_user(name="Combined Mutual Information Results for All 50 Genes", dataframe=all_50_genes_results)
-all_50_genes_results.head(10)
-```
-
-Result
-
-```undefined
-undefined
-```
-Combined Mutual Information Results for All 50 Genes|  | Gene | Mutual_Information | 
-| --- | --- | --- | 
-| 2 | LOC109619892 | 0.7956492505695802 | 
-| 4 | LOC105323594 | 0.5384803863670469 | 
-| 21 | LOC105333998 | 0.48137837710752973 | 
-| 0 | LOC105330469 | 0.43134789288586894 | 
-| 6 | LOC105335470 | 0.39606318848351774 | 
-
-
-
-I have combined the mutual information results for all 50 genes, ranking them by their scores. The table highlights the genes with the strongest association to thermal resilience and day groupings.
-
-### Observations: 
-
-1. The top gene from the second set of 30 has a mutual information score that ranks third overall.
-
-2. Some genes from the second group contribute meaningful information and should be considered in the analysis.
-
-Would you like to:
-
-- Focus on top-ranking genes for further analysis?
-
-- Visualize the expression patterns of these genes?
- 
-- Perform additional statistical validation? ​​
-
-You: 
-
-Please remove the first column
-
-ChatGPT: 
-
-Analyzed
-
-```python
-# Remove the index column for better readability
-all_50_genes_results_reset = all_50_genes_results.reset_index(drop=True)
-
-# Display the cleaned table without the first column
-tools.display_dataframe_to_user(name="Combined Mutual Information Results for All 50 Genes (Cleaned)", dataframe=all_50_genes_results_reset)
-```
-
-Result
-
-```undefined
-undefined
-```
-Combined Mutual Information Results for All 50 Genes (Cleaned)| Gene | Mutual_Information | 
+Combined Mutual Information Results for All 50 Genes (Cleaned)
+| Gene | Mutual_Information | 
 | --- | --- | 
 | LOC109619892 | 0.7956492505695802 | 
 | LOC105323594 | 0.5384803863670469 | 
@@ -1011,8 +759,6 @@ Combined Mutual Information Results for All 50 Genes (Cleaned)| Gene | Mutual_In
 | LOC105330469 | 0.43134789288586894 | 
 | LOC105335470 | 0.39606318848351774 | 
 
-
-The table has been updated to remove the first column for a cleaner presentation. Let me know how you'd like to proceed—whether focusing on specific genes, analyzing expression patterns, or another step. ​​
 
 You: 
 
@@ -1044,207 +790,13 @@ Would you like to:
 
 You: 
 
-Let's try the top 6 genes first, and then the top 10. Can you combine the results into a single PCA plot, and differentiate them with two more colors?
-
-ChatGPT: 
-
-We can create a combined PCA plot using the following approach:
- 
-1. Use the **top 6 genes**  for PCA and color-code their points in one color.
- 
-2. Use the **top 10 genes**  for PCA and color-code their points in a different color.
-
-3. Overlay both results in a single plot to compare clustering patterns for the two sets of genes.
-
-Let’s proceed with this combined PCA plot.
-Analyzed
-
-```python
-# Select the top 6 and top 10 genes based on mutual information
-top_6_genes = all_50_genes_results_reset.iloc[:6]['Gene']
-top_10_genes = all_50_genes_results_reset.iloc[:10]['Gene']
-
-# Subset the log-transformed CPM data for these genes
-top_6_data = log_cpm.loc[top_6_genes]
-top_10_data = log_cpm.loc[top_10_genes]
-
-# Perform PCA for the top 6 genes
-scaled_top_6_data = scaler.fit_transform(top_6_data.T)  # Transpose so genes are features
-pca_top_6 = PCA(n_components=2).fit_transform(scaled_top_6_data)
-
-# Perform PCA for the top 10 genes
-scaled_top_10_data = scaler.fit_transform(top_10_data.T)  # Transpose so genes are features
-pca_top_10 = PCA(n_components=2).fit_transform(scaled_top_10_data)
-
-# Plot the combined PCA
-plt.figure(figsize=(10, 8))
-plt.scatter(pca_top_6[:, 0], pca_top_6[:, 1], c='orange', label='Top 6 Genes', alpha=0.7, s=50)
-plt.scatter(pca_top_10[:, 0], pca_top_10[:, 1], c='green', label='Top 10 Genes', alpha=0.7, s=50)
-plt.title("PCA of Samples Based on Top Genes (6 vs 10)")
-plt.xlabel("PC1")
-plt.ylabel("PC2")
-plt.legend()
-plt.grid(True)
-plt.show()
-```
-PCA of Samples Based on Top Genes (6 vs 10)![Output image](https://files.oaiusercontent.com/file-Mu6rJyFqdPrU8KQJt2kqrW?se=2024-12-31T18%3A01%3A01Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D299%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D4e2d89fe-a1cb-4656-9579-e1f08969dc7b&sig=w1KBSE4gWh2DTy02xA8Oug/AeCljKYBsNIn%2ByHLjB4A%3D) 
-
-The PCA plot compares clustering patterns based on:
- 
-1. **Top 6 Genes** : Represented in orange.
- 
-2. **Top 10 Genes** : Represented in green.
-This allows you to evaluate how including more genes affects clustering and whether it better differentiates the groups (e.g., thermal resilience or day). Let me know if you’d like further analysis or if there are other thresholds you’d like to explore. ​​
-
-You: 
-
-Oh, but you need to maintain the previous metadata representations too.
+Let's try the top 10 genes. 
 
 ChatGPT: 
 
 Analyzed
 
 ```python
-# Map metadata for coloring and labeling
-colors = [color_map[sample_metadata.loc[sample, 'thermal.tolerance']] for sample in filtered_gene_counts_high_expression.columns]
-days = sample_metadata.loc[filtered_gene_counts_high_expression.columns, 'day'].tolist()
-
-# Plot the combined PCA with metadata annotations
-plt.figure(figsize=(12, 10))
-
-# Top 6 Genes PCA
-for i, sample in enumerate(filtered_gene_counts_high_expression.columns):
-    plt.scatter(pca_top_6[i, 0], pca_top_6[i, 1], color=colors[i], edgecolor='orange', label='Top 6 Genes' if i == 0 else "", alpha=0.7, s=50)
-    plt.text(pca_top_6[i, 0], pca_top_6[i, 1], f"Day {days[i]}", fontsize=8, ha='right')
-
-# Top 10 Genes PCA
-for i, sample in enumerate(filtered_gene_counts_high_expression.columns):
-    plt.scatter(pca_top_10[i, 0], pca_top_10[i, 1], color=colors[i], edgecolor='green', label='Top 10 Genes' if i == 0 else "", alpha=0.7, s=50)
-
-# Titles and Labels
-plt.title("PCA of Samples Based on Top Genes (6 vs 10) with Metadata")
-plt.xlabel("PC1")
-plt.ylabel("PC2")
-plt.grid(True)
-
-# Add legends for thermal tolerance
-legend_handles = [
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='blue', markersize=10, label='Resistant'),
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='red', markersize=10, label='Susceptible')
-]
-plt.legend(handles=legend_handles, title="Thermal Tolerance")
-
-plt.show()
-```
-
-STDOUT/STDERR
-
-```
-/tmp/ipykernel_12/4209911569.py:10: UserWarning: You passed a edgecolor/edgecolors ('orange') for an unfilled marker ('x').  Matplotlib is ignoring the edgecolor in favor of the facecolor.  This behavior may change in the future.
-  plt.scatter(pca_top_6[i, 0], pca_top_6[i, 1], color=colors[i], edgecolor='orange', label='Top 6 Genes' if i == 0 else "", alpha=0.7, s=50)
-/tmp/ipykernel_12/4209911569.py:15: UserWarning: You passed a edgecolor/edgecolors ('green') for an unfilled marker ('x').  Matplotlib is ignoring the edgecolor in favor of the facecolor.  This behavior may change in the future.
-  plt.scatter(pca_top_10[i, 0], pca_top_10[i, 1], color=colors[i], edgecolor='green', label='Top 10 Genes' if i == 0 else "", alpha=0.7, s=50)
-```
-PCA of Samples Based on Top Genes (6 vs 10) with Metadata![Output image](https://files.oaiusercontent.com/file-3VuiTetRat8Ghx8EqQfDF7?se=2024-12-31T18%3A01%3A02Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D299%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D637bf012-1dd4-432d-9ad0-90100daa3546&sig=3i6DIS0UgB/uzdMtOtFbMs8iSWYHpkXEZJBNWiG8RFw%3D) 
-
-Here’s the updated PCA plot:
- 
-1. **Top 6 Genes**  (orange outline): Represents PCA based on the top 6 genes.
- 
-2. **Top 10 Genes**  (green outline): Represents PCA based on the top 10 genes.
-
-Both sets retain:
- 
-- **Color-coded samples:**  By thermal tolerance (blue = resistant, red = susceptible).
- 
-- **Day labels:**  Indicating whether samples are from Day 0 or Day 30.
-This plot allows you to assess whether the clustering is more distinct with the top 6 genes or with the top 10 genes. Let me know if you'd like further adjustments or analysis! ​​
-
-You: 
-
-I'm not seeing the orange and green outlines
-
-ChatGPT: 
-
-It seems the orange and green outlines may have been affected by the marker settings. To differentiate between the top 6 and top 10 genes properly, I will adjust the marker styles explicitly (e.g., using different shapes or filled markers) while keeping the thermal tolerance colors. Let me correct and replot.
-Analyzed
-
-```python
-# Redo the PCA plot with distinct marker shapes for top 6 and top 10 genes
-plt.figure(figsize=(12, 10))
-
-# Top 6 Genes PCA with distinct marker style
-for i, sample in enumerate(filtered_gene_counts_high_expression.columns):
-    plt.scatter(pca_top_6[i, 0], pca_top_6[i, 1], color=colors[i], marker='o', label='Top 6 Genes' if i == 0 else "", alpha=0.7, s=50)
-    plt.text(pca_top_6[i, 0], pca_top_6[i, 1], f"Day {days[i]}", fontsize=8, ha='right')
-
-# Top 10 Genes PCA with distinct marker style
-for i, sample in enumerate(filtered_gene_counts_high_expression.columns):
-    plt.scatter(pca_top_10[i, 0], pca_top_10[i, 1], color=colors[i], marker='x', label='Top 10 Genes' if i == 0 else "", alpha=0.7, s=50)
-
-# Titles and Labels
-plt.title("PCA of Samples Based on Top Genes (6 vs 10) with Metadata")
-plt.xlabel("PC1")
-plt.ylabel("PC2")
-plt.grid(True)
-
-# Add legends for thermal tolerance and gene sets
-legend_handles = [
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='blue', markersize=10, label='Resistant'),
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='red', markersize=10, label='Susceptible'),
-    plt.Line2D([0], [0], marker='o', color='black', markersize=10, label='Top 6 Genes'),
-    plt.Line2D([0], [0], marker='x', color='black', markersize=10, label='Top 10 Genes')
-]
-plt.legend(handles=legend_handles, title="Legend")
-
-plt.show()
-```
-PCA of Samples Based on Top Genes (6 vs 10) with Metadata![Output image](https://files.oaiusercontent.com/file-8c3URzNvyjy35e8LTfDZTF?se=2024-12-31T18%3A01%3A01Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D299%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D83f0fd5b-01fe-4bd4-b351-513ba97e4d26&sig=9ilNc3dsW03GzbUeNcprtifLh1b%2BEEaNwHlMrxw09dE%3D) 
-
-The PCA plot now differentiates between the top 6 and top 10 genes using:
- 
-1. **Marker Styles:**  
-  - **Circles (`o`)**  represent the PCA for the top 6 genes.
- 
-  - **Crosses (`x`)**  represent the PCA for the top 10 genes.
- 
-2. **Colors:**  Indicate thermal resilience: 
-  - **Blue:**  Resistant.
- 
-  - **Red:**  Susceptible.
- 
-3. **Day Labels:**  Annotated near the points for additional context.
-This updated visualization clearly distinguishes between the two gene sets and retains the metadata overlays. Let me know if there are further refinements or analyses you'd like! ​​
-
-You: 
-
-That didn't work. Please produce two separate plots, one for the top 10 and one for the top 6, and be consistent about indicating the metadata.
-
-ChatGPT: 
-
-Analyzed
-
-```python
-# PCA plot for Top 6 Genes
-plt.figure(figsize=(12, 10))
-for i, sample in enumerate(filtered_gene_counts_high_expression.columns):
-    plt.scatter(pca_top_6[i, 0], pca_top_6[i, 1], color=colors[i], s=50, alpha=0.7)
-    plt.text(pca_top_6[i, 0], pca_top_6[i, 1], f"Day {days[i]}", fontsize=8, ha='right')
-
-plt.title("PCA of Samples Based on Top 6 Genes")
-plt.xlabel("PC1")
-plt.ylabel("PC2")
-plt.grid(True)
-
-# Add legend for thermal tolerance
-legend_handles = [
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='blue', markersize=10, label='Resistant'),
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='red', markersize=10, label='Susceptible')
-]
-plt.legend(handles=legend_handles, title="Thermal Tolerance")
-
-plt.show()
-
 # PCA plot for Top 10 Genes
 plt.figure(figsize=(12, 10))
 for i, sample in enumerate(filtered_gene_counts_high_expression.columns):
@@ -1261,21 +813,7 @@ plt.legend(handles=legend_handles, title="Thermal Tolerance")
 
 plt.show()
 ```
-PCA of Samples Based on Top 6 Genes![Output image](https://files.oaiusercontent.com/file-JnwDnyoLEWcYw61eCAAJEx?se=2024-12-31T18%3A01%3A01Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D299%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Dd26c4b5b-c7b1-42c9-abc3-95fcaed9a88e&sig=rPXWqZFMwh2/QVB8c7k58ol4CxLA4br9TO7S4a9h5QI%3D) 
-PCA of Samples Based on Top 10 Genes![Output image](https://files.oaiusercontent.com/file-JpoemH1ji7ubPW6zU92xS6?se=2024-12-31T18%3A01%3A01Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D299%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D23a55a2e-9c6d-4f43-91aa-6c70cc39c777&sig=/DwfW1s5czRIGjWkZvdU3zwYJxaTUEtrg8fYoyG7r2Q%3D) 
-
-Here are two separate PCA plots:
- 
-1. **Top 6 Genes** :
-  - Displays PCA based on the top 6 genes with mutual information.
-
-  - Includes metadata annotations: thermal resilience (color-coded) and day labels.
- 
-2. **Top 10 Genes** :
-  - Displays PCA based on the top 10 genes with mutual information.
-
-  - Same metadata annotations as the first plot.
-These separate plots allow for a clearer comparison of the clustering patterns driven by the different sets of genes. Let me know if you'd like further analysis or adjustments! ​​
+PCA of Samples Based on Top 10 Genes![Output image](../assets/PCA_top_10_mutual_info_genes.png)
 
 You: 
 
@@ -1415,12 +953,6 @@ lda_conf_matrix = confusion_matrix(lda_labels_encoded, lda_predictions)
 lda_report = classification_report(lda_labels_encoded, lda_predictions, target_names=label_encoder.classes_)
 
 lda_accuracy, lda_conf_matrix, lda_report
-```
-
-Result
-
-```undefined
-undefined
 ```
 
 The Linear Discriminant Analysis (LDA) model results show strong classification performance:
@@ -1700,585 +1232,6 @@ print("Classification Report:\n", lda_report)
 
 Would you like to add visualizations, such as a 2D LDA plot or additional analyses, to complement this script? Let me know!
 
-You: 
-
-Please show a 2D LDA plot
-
-ChatGPT: 
-
-Analysis errored
-
-```python
-import matplotlib.pyplot as plt
-
-# Create a 2D scatter plot of the LDA results
-plt.figure(figsize=(10, 8))
-colors = ['red' if label == 0 else 'blue' for label in lda_labels_encoded]  # Color by class
-
-for i, sample in enumerate(log_cpm.columns):
-    plt.scatter(lda_result[i, 0], lda_result[i, 0], color=colors[i], s=50, alpha=0.7)
-    plt.text(lda_result[i, 0], lda_result[i, 0], sample, fontsize=8, ha='right')
-
-# Add labels and title
-plt.title("LDA Plot: Separation of Resistant and Susceptible Samples")
-plt.xlabel("LDA Component 1")
-plt.ylabel("LDA Component 2")
-plt.grid(True)
-
-# Add legend
-legend_handles = [
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='blue', markersize=10, label='Resistant'),
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='red', markersize=10, label='Susceptible')
-]
-plt.legend(handles=legend_handles, title="Thermal Tolerance")
-
-plt.show()
-```
-It appears the code execution environment has been reset, which has cleared all previously loaded data and state. To proceed with the analysis, you'll need to re-upload your datasets (gene count file and metadata file) so we can restart the process. Let me know how you'd like to proceed! ​​
-
-You: 
-
-Re-upload files to restart analysis.
-
-ChatGPT: 
-
-Please re-upload the necessary files, and I'll help you restart the analysis. Once the files are uploaded, we can pick up from where we left off!
-
-You: 
-
-salmon.merged.gene_counts_2023_seqera.tsv
-Filedeseq metadata2| sample | thermal.tolerance | family | day | 
-| --- | --- | --- | --- | 
-| SRX5644308 | susceptible | 500 | 0 | 
-| SRX5644309 | susceptible | 500 | 0 | 
-| SRX5644323 | susceptible | 500 | 0 | 
-| SRX5644314 | susceptible | 500 | 30 | 
-| SRX5644315 | susceptible | 500 | 30 | 
-| SRX5644316 | susceptible | 500 | 30 | 
-
-
-
-ok, go
-
-ChatGPT: 
-
-Thank you for re-uploading the files. Let’s reload the data and continue the analysis.
-
-### Files Provided: 
- 
-1. `deseq_metadata2.csv`: Metadata file.
- 
-2. `salmon.merged.gene_counts_2023_seqera.tsv`: Gene count file.
-
-I will begin by loading and preparing the data.
-Analyzed
-
-```python
-import pandas as pd
-
-# Reload the data files
-gene_counts_path = '/mnt/data/salmon.merged.gene_counts_2023_seqera.tsv'
-metadata_path = '/mnt/data/deseq_metadata2.csv'
-
-# Read the gene counts and metadata files
-gene_counts = pd.read_csv(gene_counts_path, sep='\t', index_col=0)
-metadata = pd.read_csv(metadata_path)
-
-# Filter gene counts to include only samples present in the metadata
-samples_in_metadata = metadata['sample'].tolist()
-filtered_gene_counts = gene_counts.loc[:, gene_counts.columns.intersection(samples_in_metadata)]
-
-# Display the shape of the data for verification
-filtered_gene_counts.shape, metadata.shape
-```
-
-Result
-
-```undefined
-undefined
-```
-
-The data has been successfully reloaded:
- 
-1. **Gene Count Matrix:**  
-  - **33,695 genes**  (rows).
- 
-  - **24 samples**  (columns), filtered to match the metadata.
- 
-2. **Metadata:**  
-  - Contains **24 samples**  and **4 columns**  of metadata information.
-Next, I'll filter low-expression genes and prepare for analysis. Let me know if you'd like to adjust any parameters or proceed with filtering and normalization. ​​
-
-You: 
-
-Filter low-expression genes and normalize data.
-
-ChatGPT: 
-
-Analysis errored
-
-```python
-# Step 1: Filter low-expression genes
-# Define a threshold for low expression: genes with fewer than 10 counts across all samples
-low_expression_threshold = 10
-gene_sums = filtered_gene_counts.sum(axis=1)
-filtered_gene_counts_high_expression = filtered_gene_counts[gene_sums > low_expression_threshold]
-
-# Step 2: Normalize the data by calculating counts per million (CPM)
-cpm = (filtered_gene_counts_high_expression.T / filtered_gene_counts_high_expression.sum(axis=1)).T * 1e6
-
-# Step 3: Log-transform to stabilize variance
-log_cpm = cpm.apply(lambda x: np.log2(x + 1), axis=1)
-
-# Display the shape of the filtered and normalized data
-filtered_gene_counts_high_expression.shape, log_cpm.shape
-```
-
-
-```undefined
-undefined
-```
-It seems the necessary library for numerical operations (`numpy`) is not imported. Let me fix this and rerun the analysis. ​​Analyzed
-
-```python
-import numpy as np
-
-# Step 3 (re-run): Log-transform to stabilize variance
-log_cpm = cpm.apply(lambda x: np.log2(x + 1), axis=1)
-
-# Display the shape of the filtered and normalized data
-filtered_gene_counts_high_expression.shape, log_cpm.shape
-```
-
-Result
-
-```undefined
-undefined
-```
-
-The data has been successfully filtered and normalized:
- 
-1. **Filtered Genes:**  Reduced from 33,695 to **28,013**  (genes with fewer than 10 total counts removed).
- 
-2. **Samples:**  Still **24** , matching the metadata.
- 
-3. **Normalization:**  Data is log-transformed (log2(CPM + 1)) to stabilize variance.
-Would you like to proceed with mutual information analysis, LDA, or another step? ​​
-
-You: 
-
-Proceed with mutual information analysis.
-
-ChatGPT: 
-
-Analysis errored
-
-```python
-from sklearn.feature_selection import mutual_info_classif
-
-# Step 1: Calculate variance for each gene and select the top 50 most variable genes
-gene_variances = log_cpm.var(axis=1)
-top_50_genes = gene_variances.nlargest(50).index
-top_50_genes_data = log_cpm.loc[top_50_genes]
-
-# Step 2: Prepare labels for mutual information calculation
-metadata.set_index('sample', inplace=True)
-labels_resilience_day = metadata[['thermal.tolerance', 'day']]
-labels_combined = labels_resilience_day['thermal.tolerance'] + "-Day" + labels_resilience_day['day'].astype(str)
-
-# Encode combined labels
-from sklearn.preprocessing import LabelEncoder
-label_encoder = LabelEncoder()
-encoded_labels = label_encoder.fit_transform(labels_combined)
-
-# Step 3: Calculate mutual information for the top 50 genes
-expression_data_top_50 = top_50_genes_data.T.values  # Samples as rows, genes as columns
-mutual_info_scores_top_50 = mutual_info_classif(expression_data_top_50, encoded_labels, discrete_features=False)
-
-# Step 4: Combine results into a DataFrame
-mutual_info_results = pd.DataFrame({
-    'Gene': top_50_genes_data.index,
-    'Mutual_Information': mutual_info_scores_top_50
-}).sort_values(by='Mutual_Information', ascending=False)
-
-# Display the mutual information results
-import ace_tools as tools; tools.display_dataframe_to_user(name="Mutual Information for Top 50 Genes", dataframe=mutual_info_results)
-```
-
-
-```undefined
-undefined
-```
-
-The mutual information calculation for all 50 genes exceeded the computational limit due to the complexity of the operation. To address this:
- 
-1. **Reduce the Number of Genes** :
-  - Start with a smaller subset of genes, such as the top 20 or 10 genes, based on variance.
- 
-2. **Efficient Approximation** :
-  - Use faster approximations for mutual information.
-Would you like to proceed with a smaller subset of genes or try a more optimized calculation? ​​
-
-You: 
-
-Do mutual information with the top 15 genes
-
-ChatGPT: 
-
-Analysis paused
-
-```python
-# Select the top 15 most variable genes based on variance
-top_15_genes = gene_variances.nlargest(15).index
-top_15_genes_data = log_cpm.loc[top_15_genes]
-
-# Prepare data for mutual information calculation
-expression_data_top_15 = top_15_genes_data.T.values
-
-# Calculate mutual information for the top 15 genes
-mutual_info_scores_top_15 = mutual_info_classif(expression_data_top_15, encoded_labels, discrete_features=False)
-
-# Combine results into a DataFrame
-mutual_info_results_top_15 = pd.DataFrame({
-    'Gene': top_15_genes_data.index,
-    'Mutual_Information': mutual_info_scores_top_15
-}).sort_values(by='Mutual_Information', ascending=False)
-
-# Display the mutual information results for the top 15 genes
-import ace_tools as tools; tools.display_dataframe_to_user(name="Mutual Information for Top 15 Genes", dataframe=mutual_info_results_top_15)
-```
-
-You: 
-
-Do mutual information with the top 25 genes and then with the next 25 genes, and combine the results.
-
-ChatGPT: 
-
-Analysis errored
-
-```python
-# Select the top 25 most variable genes and the next 25 genes (26-50)
-top_25_genes = gene_variances.nlargest(25).index
-next_25_genes = gene_variances.nlargest(50).iloc[25:].index
-
-# Subset the data for each group
-top_25_genes_data = log_cpm.loc[top_25_genes]
-next_25_genes_data = log_cpm.loc[next_25_genes]
-
-# Prepare data for mutual information calculation
-expression_data_top_25 = top_25_genes_data.T.values
-expression_data_next_25 = next_25_genes_data.T.values
-
-# Calculate mutual information for the top 25 genes
-mutual_info_scores_top_25 = mutual_info_classif(expression_data_top_25, encoded_labels, discrete_features=False)
-
-# Calculate mutual information for the next 25 genes
-mutual_info_scores_next_25 = mutual_info_classif(expression_data_next_25, encoded_labels, discrete_features=False)
-
-# Combine results into DataFrames
-mutual_info_results_top_25 = pd.DataFrame({
-    'Gene': top_25_genes_data.index,
-    'Mutual_Information': mutual_info_scores_top_25
-}).sort_values(by='Mutual_Information', ascending=False)
-
-mutual_info_results_next_25 = pd.DataFrame({
-    'Gene': next_25_genes_data.index,
-    'Mutual_Information': mutual_info_scores_next_25
-}).sort_values(by='Mutual_Information', ascending=False)
-
-# Combine both results
-combined_mutual_info_results = pd.concat([mutual_info_results_top_25, mutual_info_results_next_25]).sort_values(
-    by='Mutual_Information', ascending=False
-)
-
-# Display the combined results
-tools.display_dataframe_to_user(name="Combined Mutual Information Results for Top 50 Genes", dataframe=combined_mutual_info_results)
-```
-
-
-```undefined
-undefined
-```
-
-It seems the mutual information calculation for the next 25 genes also encountered computational limitations. Here’s how we can proceed to ensure faster results:
- 
-1. **Smaller Subsets:**  Perform calculations on smaller groups of genes (e.g., top 10 or 15 genes at a time).
- 
-2. **Parallel Processing:**  Use parallelized methods for mutual information calculations.
- 
-3. **Optimized Metrics:**  Use faster approximations for information gain.
-Would you like to proceed with smaller subsets or explore another approach to optimize the calculation? ​​
-
-You: 
-
-try parallel processing
-
-ChatGPT: 
-
-Analysis paused
-
-```python
-from joblib import Parallel, delayed
-
-# Define a function to calculate mutual information for each gene individually
-def calculate_mi_single_gene(gene_expression, labels):
-    return mutual_info_classif(gene_expression.reshape(-1, 1), labels, discrete_features=False)[0]
-
-# Use parallel processing to calculate mutual information for the next 25 genes
-next_25_genes_list = next_25_genes_data.index
-expression_data_next_25_genes = next_25_genes_data.T.values
-
-# Parallelize mutual information calculations
-mi_next_25_parallel = Parallel(n_jobs=-1)(
-    delayed(calculate_mi_single_gene)(expression_data_next_25_genes[:, i], encoded_labels)
-    for i in range(expression_data_next_25_genes.shape[1])
-)
-
-# Combine results into a DataFrame
-mutual_info_results_next_25_parallel = pd.DataFrame({
-    'Gene': next_25_genes_list,
-    'Mutual_Information': mi_next_25_parallel
-}).sort_values(by='Mutual_Information', ascending=False)
-
-# Combine these results with the top 25 genes' results
-combined_mutual_info_results_parallel = pd.concat(
-    [mutual_info_results_top_25, mutual_info_results_next_25_parallel]
-).sort_values(by='Mutual_Information', ascending=False)
-
-# Display the combined results
-tools.display_dataframe_to_user(name="Parallel Processed Mutual Information Results for Top 50 Genes", dataframe=combined_mutual_info_results_parallel)
-```
-It seems there was a connection error during the execution. If you would like to continue, you can reinitialize the session or re-upload the necessary files. Let me know how you'd like to proceed! ​​
-
-You: 
-
-salmon.merged.gene_counts_2023_seqera.tsv
-Filedeseq metadata2| sample | thermal.tolerance | family | day | 
-| --- | --- | --- | --- | 
-| SRX5644308 | susceptible | 500 | 0 | 
-| SRX5644309 | susceptible | 500 | 0 | 
-| SRX5644323 | susceptible | 500 | 0 | 
-| SRX5644314 | susceptible | 500 | 30 | 
-| SRX5644315 | susceptible | 500 | 30 | 
-| SRX5644316 | susceptible | 500 | 30 | 
-
-
-
-Let's do smaller subsets. Here are the input files.
-
-ChatGPT: 
-
-Thank you for re-uploading the files. I’ll load the data and
-
-You: 
-
-go
-
-ChatGPT: 
-
-Analysis errored
-
-```python
-# Reload the data files
-gene_counts_path = '/mnt/data/salmon.merged.gene_counts_2023_seqera.tsv'
-metadata_path = '/mnt/data/deseq_metadata2.csv'
-
-# Read the gene counts and metadata files
-gene_counts = pd.read_csv(gene_counts_path, sep='\t', index_col=0)
-metadata = pd.read_csv(metadata_path)
-
-# Filter gene counts to include only samples present in the metadata
-samples_in_metadata = metadata['sample'].tolist()
-filtered_gene_counts = gene_counts.loc[:, gene_counts.columns.intersection(samples_in_metadata)]
-
-# Filter low-expression genes
-low_expression_threshold = 10
-gene_sums = filtered_gene_counts.sum(axis=1)
-filtered_gene_counts_high_expression = filtered_gene_counts[gene_sums > low_expression_threshold]
-
-# Normalize and log-transform data
-cpm = (filtered_gene_counts_high_expression.T / filtered_gene_counts_high_expression.sum(axis=1)).T * 1e6
-log_cpm = cpm.apply(lambda x: np.log2(x + 1), axis=1)
-
-# Calculate variance and prepare for mutual information analysis
-gene_variances = log_cpm.var(axis=1)
-log_cpm.shape, metadata.shape
-```
-The code execution environment was reset again, clearing all previously loaded data. Please re-upload the files, and I’ll reload them to proceed with the analysis. ​​
-
-You: 
-
-Just produce the code, and I'll run it myself
-
-ChatGPT: 
-
-Here’s the complete code for calculating mutual information on smaller subsets, handling data preparation and processing:
-
-
----
-
-**Code to Reload Data** 
-
-```python
-import pandas as pd
-import numpy as np
-from sklearn.feature_selection import mutual_info_classif
-from sklearn.preprocessing import LabelEncoder
-
-# Reload the data files
-gene_counts_path = 'path_to_gene_counts.tsv'
-metadata_path = 'path_to_metadata.csv'
-
-# Read the gene counts and metadata files
-gene_counts = pd.read_csv(gene_counts_path, sep='\t', index_col=0)
-metadata = pd.read_csv(metadata_path)
-
-# Filter gene counts to include only samples present in the metadata
-samples_in_metadata = metadata['sample'].tolist()
-filtered_gene_counts = gene_counts.loc[:, gene_counts.columns.intersection(samples_in_metadata)]
-
-# Filter low-expression genes
-low_expression_threshold = 10
-gene_sums = filtered_gene_counts.sum(axis=1)
-filtered_gene_counts_high_expression = filtered_gene_counts[gene_sums > low_expression_threshold]
-
-# Normalize and log-transform data
-cpm = (filtered_gene_counts_high_expression.T / filtered_gene_counts_high_expression.sum(axis=1)).T * 1e6
-log_cpm = cpm.apply(lambda x: np.log2(x + 1), axis=1)
-
-# Calculate variance and prepare for mutual information analysis
-gene_variances = log_cpm.var(axis=1)
-```
-
-
----
-
-**Code to Perform Mutual Information Analysis on Subsets** 
-
-```python
-# Helper function to calculate mutual information
-def calculate_mutual_info_subset(log_cpm_data, metadata, subset_size=10):
-    # Sort genes by variance and select the top subset_size genes
-    top_genes = gene_variances.nlargest(subset_size).index
-    subset_data = log_cpm.loc[top_genes]
-    
-    # Encode metadata labels
-    metadata.set_index('sample', inplace=True)
-    labels_resilience_day = metadata[['thermal.tolerance', 'day']]
-    labels_combined = labels_resilience_day['thermal.tolerance'] + "-Day" + labels_resilience_day['day'].astype(str)
-    label_encoder = LabelEncoder()
-    encoded_labels = label_encoder.fit_transform(labels_combined)
-    
-    # Calculate mutual information
-    expression_data_subset = subset_data.T.values
-    mi_scores = mutual_info_classif(expression_data_subset, encoded_labels, discrete_features=False)
-    
-    # Create a DataFrame for results
-    mi_results = pd.DataFrame({
-        'Gene': top_genes,
-        'Mutual_Information': mi_scores
-    }).sort_values(by='Mutual_Information', ascending=False)
-    
-    return mi_results
-
-# Calculate mutual information for subsets of 10 genes
-mi_results_subset_1 = calculate_mutual_info_subset(log_cpm, metadata, subset_size=10)
-mi_results_subset_2 = calculate_mutual_info_subset(log_cpm, metadata, subset_size=20)
-
-# Combine results
-combined_results = pd.concat([mi_results_subset_1, mi_results_subset_2]).drop_duplicates().sort_values(
-    by='Mutual_Information', ascending=False)
-
-# Output combined results
-print(combined_results)
-```
-
-
----
-
-
-### Notes: 
- 
-1. Replace `path_to_gene_counts.tsv` and `path_to_metadata.csv` with your actual file paths.
- 
-2. You can adjust `subset_size` to process smaller or larger groups of genes in the helper function.
- 
-3. The `combined_results` table will show the mutual information scores for the processed genes.
-
-Let me know if you need help interpreting the results or modifying the workflow further!
-
-You: 
-
-The second time calculate_mutual_info_subset is called, it fails there's no metadata `sample` column.
-
-ChatGPT: 
-
-You're correct
-
-You: 
-
-go
-
-ChatGPT: 
-
-Here's an updated and corrected version of the code. This ensures that the metadata's indexing is correctly handled for multiple calls to `calculate_mutual_info_subset`:
-
----
-
-**Code to Perform Mutual Information Analysis on Subsets** 
-
-```python
-# Helper function to calculate mutual information
-def calculate_mutual_info_subset(log_cpm_data, metadata_original, subset_size=10):
-    # Make a copy of metadata to avoid modifying the original
-    metadata = metadata_original.copy()
-    
-    # Sort genes by variance and select the top subset_size genes
-    top_genes = gene_variances.nlargest(subset_size).index
-    subset_data = log_cpm.loc[top_genes]
-    
-    # Encode metadata labels
-    metadata.set_index('sample', inplace=True)
-    labels_resilience_day = metadata[['thermal.tolerance', 'day']]
-    labels_combined = labels_resilience_day['thermal.tolerance'] + "-Day" + labels_resilience_day['day'].astype(str)
-    label_encoder = LabelEncoder()
-    encoded_labels = label_encoder.fit_transform(labels_combined)
-    
-    # Calculate mutual information
-    expression_data_subset = subset_data.T.values
-    mi_scores = mutual_info_classif(expression_data_subset, encoded_labels, discrete_features=False)
-    
-    # Create a DataFrame for results
-    mi_results = pd.DataFrame({
-        'Gene': top_genes,
-        'Mutual_Information': mi_scores
-    }).sort_values(by='Mutual_Information', ascending=False)
-    
-    return mi_results
-
-# Call the function for the first subset of 10 genes
-mi_results_subset_1 = calculate_mutual_info_subset(log_cpm, metadata, subset_size=10)
-
-# Call the function for the next subset of 20 genes
-mi_results_subset_2 = calculate_mutual_info_subset(log_cpm, metadata, subset_size=20)
-
-# Combine results
-combined_results = pd.concat([mi_results_subset_1, mi_results_subset_2]).drop_duplicates().sort_values(
-    by='Mutual_Information', ascending=False)
-
-# Output combined results
-print(combined_results)
-```
-
-
----
-
-
-### Key Fix: 
- 
-- The `metadata_original` is explicitly copied within the function to prevent the `sample` column from being removed or modified during repeated calls to the function.
-
-Let me know if you encounter any further issues!
 
 You: 
 
