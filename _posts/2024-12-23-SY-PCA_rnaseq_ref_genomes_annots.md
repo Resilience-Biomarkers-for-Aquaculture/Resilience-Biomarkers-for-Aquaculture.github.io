@@ -142,8 +142,6 @@ Further, to visualize the gene count differences between the `rnaseq` runs using
 
 <iframe src="/assets/interactive_3d_pca.html" width="100%" height="600px" frameborder="0"></iframe>
 
-The 3rd principal component dimension reveals differences between the two runs. 
-
 ## Possible further work
 For each PCA component, examine the PCA loadings.
 Identify which genes contribute most to the separation, and examine correlation of those genes with changes noted in annotation comparisons between `GCF_963853765.1-RS_2024_06` and `NCBI Crassostrea gigas Annotation Release 102` (found [here](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/963/853/765/GCF_963853765.1_GCF_963853765.1-RS_2024_06/Annotation_comparison/) ) and then between `NCBI Crassostrea gigas Annotation Release 102` and `NCBI Crassostrea gigas Annotation Release 101` (found [here](https://ftp.ncbi.nlm.nih.gov/genomes/all/annotation_releases/29159/102/GCF_902806645.1_cgigas_uk_roslin_v1/Annotation_comparison/) ).
