@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Exploring thermal resistance based on gene counts via ChatGPT
+title: Using ChatGPT to explore thermal resistance based on gene counts
 tags: rnaseq pca 
 ---
 
@@ -677,7 +677,7 @@ plt.ylabel("Genes")
 plt.xticks(rotation=90, fontsize=8)
 plt.show()
 ```
-[Heatmap of Top 50 Most Variable Genes (Grouped by Thermal Resilience and Day](../assets/ChatGPT_heatmap_2.png)
+![Heatmap of Top 50 Most Variable Genes (Grouped by Thermal Resilience and Day](../assets/ChatGPT_heatmap_2.png)
 The heatmap has been updated with samples grouped by:
  
 1. **Thermal Resilience:**  Samples are grouped into **resistant**  and **susceptible**  categories.
@@ -1301,7 +1301,7 @@ Would you like to:
 
 let's try a power analysis
 
-### ### ChatGPT: 
+### ChatGPT: 
 
 Analyzed
 
