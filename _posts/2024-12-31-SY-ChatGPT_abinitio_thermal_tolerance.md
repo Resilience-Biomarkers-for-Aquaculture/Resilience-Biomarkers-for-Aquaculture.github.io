@@ -679,6 +679,9 @@ Would you like to:
 
 Let's try the top 10 genes. 
 
+[The following PCA plot was generated after more ChatGPT dialog that resulted with the code
+showng farther below.]
+
 ![PCA of Samples Based on Top 10 Genes](../assets/PCA_top_10_mutual_info_genes.png)
 
 ### Me:
@@ -1035,7 +1038,6 @@ fig.legend(handles=legend_handles, title="Thermal Tolerance", loc="upper center"
 plt.tight_layout()
 plt.savefig("ChatGPT/PCA_LDA_top_10_mutual_info_genes.png")
 ```
-![PCA of top 10_mutual info genes](../assets/PCA_top_10_mutual_info_genes.png)
 
 ![PCA and LDA of top 10_mutual info genes](../assets/PCA_LDA_top_10_mutual_info_genes.png)
 
