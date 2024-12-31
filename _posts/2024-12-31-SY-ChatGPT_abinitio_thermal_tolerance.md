@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: Exploring thermal resistance based on gene counts via ChatGPT
@@ -711,42 +710,7 @@ Would you like to calculate **Shannon Entropy** , **Mutual Information** , or pe
 
 You: 
 
-Mutual information
-
-ChatGPT: 
-
-Analysis errored
-
-```python
-from sklearn.feature_selection import mutual_info_classif
-from sklearn.preprocessing import LabelEncoder
-
-# Prepare data for mutual information calculation
-# Flatten the top genes data for each sample to compare with categorical labels
-expression_data = top_genes_data_sorted.T.values  # Shape: (samples, genes)
-
-# Encode thermal tolerance and day as labels for mutual information analysis
-labels_resilience_day = metadata_sorted[['thermal.tolerance', 'day']]
-labels_combined = labels_resilience_day['thermal.tolerance'] + "-Day" + labels_resilience_day['day'].astype(str)
-label_encoder = LabelEncoder()
-encoded_labels = label_encoder.fit_transform(labels_combined)
-
-# Calculate mutual information for each gene
-mutual_info_scores = mutual_info_classif(expression_data, encoded_labels, discrete_features=False)
-
-# Create a DataFrame of results for better interpretation
-mutual_info_results = pd.DataFrame({
-    'Gene': top_genes_data_sorted.index,
-    'Mutual_Information': mutual_info_scores
-}).sort_values(by='Mutual_Information', ascending=False)
-
-# Display the top genes by mutual information
-import ace_tools as tools; tools.display_dataframe_to_user(name="Top Genes by Mutual Information", dataframe=mutual_info_results)
-mutual_info_results.head(10)
-```
-
-[Much intervening dialog]
-
+Mutual information. [Much intervening dialog omitted] I find that each time I run this, I obtain different results because it's a stochastic algorithm. So let's loop through it several times, taking the average, so we can be assured that we have a stable set of the top mutual information-scoring genes.
 
 Result
 
@@ -792,27 +756,6 @@ You:
 
 Let's try the top 10 genes. 
 
-ChatGPT: 
-
-Analyzed
-
-```python
-# PCA plot for Top 10 Genes
-plt.figure(figsize=(12, 10))
-for i, sample in enumerate(filtered_gene_counts_high_expression.columns):
-    plt.scatter(pca_top_10[i, 0], pca_top_10[i, 1], color=colors[i], s=50, alpha=0.7)
-    plt.text(pca_top_10[i, 0], pca_top_10[i, 1], f"Day {days[i]}", fontsize=8, ha='right')
-
-plt.title("PCA of Samples Based on Top 10 Genes")
-plt.xlabel("PC1")
-plt.ylabel("PC2")
-plt.grid(True)
-
-# Add legend for thermal tolerance
-plt.legend(handles=legend_handles, title="Thermal Tolerance")
-
-plt.show()
-```
 PCA of Samples Based on Top 10 Genes![Output image](../assets/PCA_top_10_mutual_info_genes.png)
 
 You: 
@@ -927,34 +870,6 @@ First let's do LDA.
 
 ChatGPT: 
 
-Analyzed
-
-```python
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
-
-# Prepare data for LDA: Use top 10 genes
-expression_data_top_10 = top_10_data.T.values  # Samples as rows, genes as columns
-
-# Encode thermal tolerance labels
-lda_labels = sample_metadata.loc[filtered_gene_counts_high_expression.columns, 'thermal.tolerance']
-lda_labels_encoded = label_encoder.fit_transform(lda_labels)  # Encode as 0 (susceptible) and 1 (resistant)
-
-# Perform LDA
-lda = LinearDiscriminantAnalysis()
-lda_result = lda.fit_transform(expression_data_top_10, lda_labels_encoded)
-
-# Predict class labels using LDA
-lda_predictions = lda.predict(expression_data_top_10)
-
-# Evaluate LDA performance
-lda_accuracy = accuracy_score(lda_labels_encoded, lda_predictions)
-lda_conf_matrix = confusion_matrix(lda_labels_encoded, lda_predictions)
-lda_report = classification_report(lda_labels_encoded, lda_predictions, target_names=label_encoder.classes_)
-
-lda_accuracy, lda_conf_matrix, lda_report
-```
-
 The Linear Discriminant Analysis (LDA) model results show strong classification performance:
 **Key Metrics**  
 - **Accuracy:**  95.8% (23 out of 24 samples correctly classified).
@@ -975,263 +890,7 @@ The Linear Discriminant Analysis (LDA) model results show strong classification 
 ---
 
 These results indicate that the top 10 genes provide a strong basis for separating resistant and susceptible groups using LDA. Would you like to visualize the LDA result (e.g., in 2D space), proceed with cross-validation, or explore another analysis? ​​
-
-You: 
-
-Please show the full code, starting with the deriviation of `top_10_data`.
-
-ChatGPT: 
-
-Here is the full code, starting from the derivation of `top_10_data` through the LDA analysis:
-
-```python
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
-from sklearn.preprocessing import LabelEncoder
-
-# Step 1: Select the top 10 genes based on mutual information
-top_10_genes = all_50_genes_results_reset.iloc[:10]['Gene']
-
-# Step 2: Subset the log-transformed CPM data for these top 10 genes
-top_10_data = log_cpm.loc[top_10_genes]
-
-# Step 3: Prepare data for LDA: Use top 10 genes (samples as rows, genes as columns)
-expression_data_top_10 = top_10_data.T.values
-
-# Step 4: Encode thermal tolerance labels
-lda_labels = sample_metadata.loc[filtered_gene_counts_high_expression.columns, 'thermal.tolerance']
-label_encoder = LabelEncoder()
-lda_labels_encoded = label_encoder.fit_transform(lda_labels)  # Encode as 0 (susceptible) and 1 (resistant)
-
-# Step 5: Perform LDA
-lda = LinearDiscriminantAnalysis()
-lda_result = lda.fit_transform(expression_data_top_10, lda_labels_encoded)
-
-# Step 6: Predict class labels using LDA
-lda_predictions = lda.predict(expression_data_top_10)
-
-# Step 7: Evaluate LDA performance
-lda_accuracy = accuracy_score(lda_labels_encoded, lda_predictions)
-lda_conf_matrix = confusion_matrix(lda_labels_encoded, lda_predictions)
-lda_report = classification_report(lda_labels_encoded, lda_predictions, target_names=label_encoder.classes_)
-
-# Print results
-print("LDA Accuracy:", lda_accuracy)
-print("Confusion Matrix:\n", lda_conf_matrix)
-print("Classification Report:\n", lda_report)
-```
-
-Let me know if you’d like to visualize the LDA separation or take another step!
-
-You: 
-
-Where
-
-ChatGPT: 
-
-The LDA results are computed in the provided code snippet, and the evaluation metrics (accuracy, confusion matrix, and classification report) are printed at the end of the script. Here's where each step is carried out:
-**Key Outputs**  
-1. **Top 10 Genes** : Derived from the mutual information results.
-
-```python
-top_10_genes = all_50_genes_results_reset.iloc[:10]['Gene']
-```
- 
-2. **Expression Data for LDA** :
-The data is extracted for the top 10 genes:
-
-```python
-top_10_data = log_cpm.loc[top_10_genes]
-expression_data_top_10 = top_10_data.T.values
-```
- 
-3. **Thermal Tolerance Labels** :
-Encoded as `0` (susceptible) and `1` (resistant):
-
-```python
-lda_labels = sample_metadata.loc[filtered_gene_counts_high_expression.columns, 'thermal.tolerance']
-lda_labels_encoded = label_encoder.fit_transform(lda_labels)
-```
- 
-4. **LDA Computation** :
-LDA is performed and class predictions are made:
-
-```python
-lda = LinearDiscriminantAnalysis()
-lda_result = lda.fit_transform(expression_data_top_10, lda_labels_encoded)
-lda_predictions = lda.predict(expression_data_top_10)
-```
- 
-5. **Evaluation** :
-Accuracy, confusion matrix, and classification report are calculated:
-
-```python
-lda_accuracy = accuracy_score(lda_labels_encoded, lda_predictions)
-lda_conf_matrix = confusion_matrix(lda_labels_encoded, lda_predictions)
-lda_report = classification_report(lda_labels_encoded, lda_predictions, target_names=label_encoder.classes_)
-```
-**Would You Like to Visualize the Results?** 
-I can plot the LDA results in 2D to show the separation of resistant and susceptible groups. Let me know!
-
-You: 
-
-Where does `all_50_genes_results_reset` come from? Please tie it to earlier generated code.
-
-ChatGPT: 
-
-Thank you for pointing this out! Let me clarify the relationship between `all_50_genes_results_reset` and the earlier steps in the code workflow.
-
----
-
-**Thank you for pointing this out! Let me clarify the relationship between `all_50_genes_results_reset` and the earlier steps in the code workflow.
-
----
-
-Context of `all_50_genes_results_reset`**  
-1. **Original Mutual Information Analysis:**  
-  - We calculated mutual information scores for the **top 20 genes**  and the **next 30 genes**  based on their variances.
-
-
-```python
-# Calculate mutual information for top 20 genes
-mutual_info_results_top_20 = pd.DataFrame({
-    'Gene': top_20_genes_data.index,
-    'Mutual_Information': mutual_info_scores_top_20
-}).sort_values(by='Mutual_Information', ascending=False)
-
-# Calculate mutual information for next 30 genes
-mutual_info_results_next_30 = pd.DataFrame({
-    'Gene': next_30_genes_data.index,
-    'Mutual_Information': mutual_info_scores_next_30
-}).sort_values(by='Mutual_Information', ascending=False)
-```
- 
-2. **Combining Results:** 
-  - The results for the top 20 and next 30 genes were combined into a single DataFrame.
-
-
-```python
-# Combine the mutual information results
-all_50_genes_results = pd.concat([mutual_info_results_top_20, mutual_info_results_next_30]).sort_values(
-    by='Mutual_Information', ascending=False
-)
-```
- 
-3. **Cleaned Presentation:** 
-  - The combined results were reset for better readability by removing the index:
-
-
-```python
-all_50_genes_results_reset = all_50_genes_results.reset_index(drop=True)
-```
-
-
----
-
-**Connection to LDA Analysis** The LDA analysis begins by selecting the **top 10 genes**  from this final combined DataFrame:
-
-```python
-top_10_genes = all_50_genes_results_reset.iloc[:10]['Gene']
-```
-
-This ensures that the LDA analysis uses the most informative genes based on their mutual information scores.
-
-
----
-
-
-Would you like me to consolidate all the steps into a single coherent script? Or proceed to visualizing the LDA separation?
-
-You: 
-
-yes, please consolidate all the steps into a single coherent script
-
-ChatGPT: 
-
-Here’s a consolidated script that ties all the steps together, from mutual information calculation to LDA analysis:
-
-
----
-
-**Consolidated Script** 
-
-```python
-import pandas as pd
-import numpy as np
-from sklearn.feature_selection import mutual_info_classif
-from sklearn.preprocessing import LabelEncoder
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
-
-# STEP 1: Calculate Mutual Information for Top 50 Genes
-# Assuming `log_cpm` contains log-transformed CPM data (genes as rows, samples as columns)
-
-# Select the top 50 most variable genes
-gene_variances = log_cpm.var(axis=1)
-top_50_genes = gene_variances.nlargest(50).index
-top_50_genes_data = log_cpm.loc[top_50_genes]
-
-# Encode combined labels for thermal tolerance and day
-labels_resilience_day = metadata[['thermal.tolerance', 'day']]
-labels_combined = labels_resilience_day['thermal.tolerance'] + "-Day" + labels_resilience_day['day'].astype(str)
-label_encoder = LabelEncoder()
-encoded_labels = label_encoder.fit_transform(labels_combined)
-
-# Calculate mutual information for top 50 genes
-expression_data_top_50 = top_50_genes_data.T.values
-mutual_info_scores_top_50 = mutual_info_classif(expression_data_top_50, encoded_labels, discrete_features=False)
-
-# Combine results into a DataFrame
-mutual_info_results = pd.DataFrame({
-    'Gene': top_50_genes_data.index,
-    'Mutual_Information': mutual_info_scores_top_50
-}).sort_values(by='Mutual_Information', ascending=False)
-
-# STEP 2: Subset Top 10 Genes Based on Mutual Information
-top_10_genes = mutual_info_results.iloc[:10]['Gene']
-top_10_data = log_cpm.loc[top_10_genes]
-
-# STEP 3: Perform LDA
-# Prepare data for LDA
-expression_data_top_10 = top_10_data.T.values
-lda_labels = metadata.set_index('sample').loc[log_cpm.columns, 'thermal.tolerance']
-lda_labels_encoded = LabelEncoder().fit_transform(lda_labels)
-
-# Perform LDA
-lda = LinearDiscriminantAnalysis()
-lda_result = lda.fit_transform(expression_data_top_10, lda_labels_encoded)
-lda_predictions = lda.predict(expression_data_top_10)
-
-# Evaluate LDA Performance
-lda_accuracy = accuracy_score(lda_labels_encoded, lda_predictions)
-lda_conf_matrix = confusion_matrix(lda_labels_encoded, lda_predictions)
-lda_report = classification_report(lda_labels_encoded, lda_predictions, target_names=LabelEncoder().fit(lda_labels).classes_)
-
-# Print Results
-print("LDA Accuracy:", lda_accuracy)
-print("Confusion Matrix:\n", lda_conf_matrix)
-print("Classification Report:\n", lda_report)
-```
-
-
----
-
-**Key Outputs**  
-- **Mutual Information Results:**  Identifies the most informative genes.
- 
-- **LDA Results:** 
-  - Accuracy, confusion matrix, and classification report.
-
-  - Validates the separation of resistant and susceptible samples.
-
-
----
-
-
-### Next Steps 
-
-Would you like to add visualizations, such as a 2D LDA plot or additional analyses, to complement this script? Let me know!
-
+[...]
 
 You: 
 
@@ -1260,322 +919,139 @@ To obtain consistent results:
 1. **Set the Random Seed:**  
   - `mutual_info_classif` accepts a `random_state` parameter. Set it to a fixed value for reproducibility:
 
-
-```python
-mi_scores = mutual_info_classif(expression_data_subset, encoded_labels, discrete_features=False, random_state=42)
-```
- 
-2. **Repeat Runs and Average:** 
-  - Run the calculation multiple times and average the mutual information scores for more robust results.
-
-
----
-
-Would you like me to modify the code to include a fixed `random_state`, or would you prefer the averaging approach for stability?
-
-You: 
-
-averaging
-
-ChatGPT: 
-
-Here’s the updated code to calculate mutual information multiple times and average the results for more robust rankings:
-
-
----
-
-**Code for Averaging Mutual Information Scores** 
-
-```python
-# Helper function to calculate mutual information with averaging
-def calculate_avg_mutual_info(log_cpm_data, metadata_original, subset_size=10, n_repeats=5):
-    # Make a copy of metadata to avoid modifying the original
-    metadata = metadata_original.copy()
-    
-    # Sort genes by variance and select the top subset_size genes
-    top_genes = gene_variances.nlargest(subset_size).index
-    subset_data = log_cpm.loc[top_genes]
-    
-    # Encode metadata labels
-    metadata.set_index('sample', inplace=True)
-    labels_resilience_day = metadata[['thermal.tolerance', 'day']]
-    labels_combined = labels_resilience_day['thermal.tolerance'] + "-Day" + labels_resilience_day['day'].astype(str)
-    label_encoder = LabelEncoder()
-    encoded_labels = label_encoder.fit_transform(labels_combined)
-    
-    # Calculate mutual information multiple times and average
-    mi_scores_list = []
-    for _ in range(n_repeats):
-        mi_scores = mutual_info_classif(subset_data.T.values, encoded_labels, discrete_features=False, random_state=None)
-        mi_scores_list.append(mi_scores)
-    
-    avg_mi_scores = np.mean(mi_scores_list, axis=0)
-    
-    # Create a DataFrame for averaged results
-    mi_results = pd.DataFrame({
-        'Gene': top_genes,
-        'Mutual_Information': avg_mi_scores
-    }).sort_values(by='Mutual_Information', ascending=False)
-    
-    return mi_results
-
-# Calculate mutual information for subsets of 10 and 20 genes
-mi_results_subset_1_avg = calculate_avg_mutual_info(log_cpm, metadata, subset_size=10, n_repeats=10)
-mi_results_subset_2_avg = calculate_avg_mutual_info(log_cpm, metadata, subset_size=20, n_repeats=10)
-
-# Combine results
-combined_results_avg = pd.concat([mi_results_subset_1_avg, mi_results_subset_2_avg]).drop_duplicates().sort_values(
-    by='Mutual_Information', ascending=False)
-
-# Output combined results
-print(combined_results_avg)
-```
-
-
----
-
-**Key Updates**  
-1. **Repetition:**  
-  - The mutual information calculation is repeated `n_repeats` times (default: 10).
- 
-2. **Averaging:** 
-  - The scores are averaged over all repetitions for each gene.
- 
-3. **Random State:**  
-  - Each repetition uses a different random initialization (`random_state=None`).
-**Benefits** 
-- Ensures more robust and reproducible rankings of genes.
-
-- Reduces noise caused by stochastic aspects of the algorithm.
-
-Let me know if you need further clarification or adjustments!
-
-You: 
-
-Can you visualize top genes' separations?
-
-ChatGPT: 
-
-To visualize the separation of samples based on the top genes, we can use **dimensionality reduction**  techniques such as **PCA**  or **LDA**  to project the data into 2D or 3D space. Here's a step-by-step approach:
-
----
-
-**1. Top Genes Selection** 
-Use the top genes from the averaged mutual information results to subset the data.
-
-
----
-
-**2. Visualization Techniques**  
-1. **PCA (Principal Component Analysis):** 
-  - Reduce the dimensionality of the top genes' expression data.
-
-  - Visualize in 2D or 3D space.
- 
-2. **LDA (Linear Discriminant Analysis):** 
-  - Find the optimal linear separation between resistant and susceptible samples.
-
-
----
-
-**3. Implementation** 
-Here’s the code to visualize separations using PCA:
-
-
-```python
-import matplotlib.pyplot as plt
-from sklearn.decomposition import PCA
-
-# Select the top genes based on averaged mutual information scores
-top_genes_to_visualize = combined_results_avg.iloc[:10]['Gene']  # Adjust number of genes as needed
-top_genes_data = log_cpm.loc[top_genes_to_visualize]
-
-# Encode thermal tolerance labels
-labels = metadata.set_index('sample').loc[log_cpm.columns, 'thermal.tolerance']
-label_encoder = LabelEncoder()
-encoded_labels = label_encoder.fit_transform(labels)  # 0 = susceptible, 1 = resistant
-colors = ['red' if label == 0 else 'blue' for label in encoded_labels]  # Red for susceptible, blue for resistant
-
-# Perform PCA on the selected genes
-pca = PCA(n_components=2)
-pca_result = pca.fit_transform(top_genes_data.T.values)
-
-# Plot the PCA results
-plt.figure(figsize=(10, 8))
-plt.scatter(pca_result[:, 0], pca_result[:, 1], c=colors, alpha=0.7, s=100)
-for i, sample in enumerate(log_cpm.columns):
-    plt.text(pca_result[i, 0], pca_result[i, 1], sample, fontsize=8, ha='right')
-plt.title("PCA Plot of Samples Based on Top Genes")
-plt.xlabel(f"PC1 ({pca.explained_variance_ratio_[0]*100:.2f}% variance)")
-plt.ylabel(f"PC2 ({pca.explained_variance_ratio_[1]*100:.2f}% variance)")
-plt.grid(True)
-
-# Add legend
-legend_handles = [
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='red', markersize=10, label='Susceptible'),
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='blue', markersize=10, label='Resistant')
-]
-plt.legend(handles=legend_handles, title="Thermal Tolerance")
-plt.show()
-```
-
-
----
-
-**Optional: LDA Visualization** 
-If you prefer to see separations optimized for class distinctions, we can replace PCA with LDA. Let me know if you'd like this alternative!
-
-Would you like the PCA visualization, LDA, or both?
-
-You: 
-
-Show LDA visualization for comparison
-
-ChatGPT: 
-
-Here’s the code to create an LDA visualization for comparison with PCA:
-
-
----
-
-**Code for LDA Visualization** 
-
-```python
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-
-# Select the top genes based on averaged mutual information scores
-top_genes_to_visualize = combined_results_avg.iloc[:10]['Gene']  # Adjust number of genes as needed
-top_genes_data = log_cpm.loc[top_genes_to_visualize]
-
-# Encode thermal tolerance labels
-labels = metadata.set_index('sample').loc[log_cpm.columns, 'thermal.tolerance']
-label_encoder = LabelEncoder()
-encoded_labels = label_encoder.fit_transform(labels)  # 0 = susceptible, 1 = resistant
-colors = ['red' if label == 0 else 'blue' for label in encoded_labels]  # Red for susceptible, blue for resistant
-
-# Perform LDA
-lda = LinearDiscriminantAnalysis(n_components=1)
-lda_result = lda.fit_transform(top_genes_data.T.values, encoded_labels)
-
-# Plot the LDA results
-plt.figure(figsize=(10, 8))
-plt.scatter(lda_result, [0] * len(lda_result), c=colors, alpha=0.7, s=100)
-for i, sample in enumerate(log_cpm.columns):
-    plt.text(lda_result[i], 0, sample, fontsize=8, ha='right', va='center')
-plt.title("LDA Plot of Samples Based on Top Genes")
-plt.xlabel("LDA Component 1")
-plt.yticks([])
-plt.grid(True)
-
-# Add legend
-legend_handles = [
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='red', markersize=10, label='Susceptible'),
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='blue', markersize=10, label='Resistant')
-]
-plt.legend(handles=legend_handles, title="Thermal Tolerance")
-plt.show()
-```
-
-
----
-
-**How It Works**  
-1. **Linear Discriminant Analysis (LDA):** 
-  - Optimizes the separation between resistant and susceptible groups based on the top genes.
- 
-2. **1D Projection:** 
-  - Samples are projected onto a single LDA component for maximal separation.
-
-
----
-
-**Comparison with PCA** 
-- PCA shows the variance structure of the data but does not focus on class separations.
-
-- LDA maximizes separation between groups, providing a complementary view.
-
-Let me know if you need any clarification or further steps!
-
-You: 
-
-Show PCA and LDA comparison plots.
-
-ChatGPT: 
-
-Analysis errored
-
-```python
-import matplotlib.pyplot as plt
-from sklearn.decomposition import PCA
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-
-# Select the top genes based on averaged mutual information scores
-top_genes_to_visualize = combined_results_avg.iloc[:10]['Gene']  # Adjust number of genes as needed
-top_genes_data = log_cpm.loc[top_genes_to_visualize]
-
-# Encode thermal tolerance labels
-labels = metadata.set_index('sample').loc[log_cpm.columns, 'thermal.tolerance']
-label_encoder = LabelEncoder()
-encoded_labels = label_encoder.fit_transform(labels)  # 0 = susceptible, 1 = resistant
-colors = ['red' if label == 0 else 'blue' for label in encoded_labels]  # Red for susceptible, blue for resistant
-
-# Perform PCA on the selected genes
-pca = PCA(n_components=2)
-pca_result = pca.fit_transform(top_genes_data.T.values)
-
-# Perform LDA on the selected genes
-lda = LinearDiscriminantAnalysis(n_components=1)
-lda_result = lda.fit_transform(top_genes_data.T.values, encoded_labels)
-
-# Create side-by-side comparison plots
-fig, axs = plt.subplots(1, 2, figsize=(16, 8))
-
-# PCA Plot
-axs[0].scatter(pca_result[:, 0], pca_result[:, 1], c=colors, alpha=0.7, s=100)
-for i, sample in enumerate(log_cpm.columns):
-    axs[0].text(pca_result[i, 0], pca_result[i, 1], sample, fontsize=8, ha='right')
-axs[0].set_title("PCA Plot: Samples Based on Top Genes")
-axs[0].set_xlabel(f"PC1 ({pca.explained_variance_ratio_[0]*100:.2f}% variance)")
-axs[0].set_ylabel(f"PC2 ({pca.explained_variance_ratio_[1]*100:.2f}% variance)")
-axs[0].grid(True)
-
-# LDA Plot
-axs[1].scatter(lda_result, [0] * len(lda_result), c=colors, alpha=0.7, s=100)
-for i, sample in enumerate(log_cpm.columns):
-    axs[1].text(lda_result[i], 0, sample, fontsize=8, ha='right', va='center')
-axs[1].set_title("LDA Plot: Samples Based on Top Genes")
-axs[1].set_xlabel("LDA Component 1")
-axs[1].set_yticks([])
-axs[1].grid(True)
-
-# Add legends
-legend_handles = [
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='red', markersize=10, label='Susceptible'),
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='blue', markersize=10, label='Resistant')
-]
-fig.legend(handles=legend_handles, title="Thermal Tolerance", loc="upper center", ncol=2)
-plt.tight_layout()
-plt.show()
-```
-It appears the code environment has reset again, clearing all the data. To recreate the PCA and LDA plots for comparison, please ensure you have the necessary data (e.g., `log_cpm`, `metadata`, and `combined_results_avg`). Here’s the full consolidated code to produce the plots:
-
----
-
-**Consolidated Code for PCA and LDA Comparison** 
+Below is the code that I finally created. It calculates mutual information
+averaged over several runs, and does a PCA plot and an LDA plot for the
+top ten mutual-information-scoring genes.
 
 ```python
 import pandas as pd
 import numpy as np
+from sklearn.feature_selection import mutual_info_classif
+from sklearn.preprocessing import LabelEncoder
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 import matplotlib.pyplot as plt
+import matplotlib
 
-# Assuming `log_cpm`, `metadata`, and `combined_results_avg` are already defined
+matplotlib.use('Agg')
 
-# Select the top genes based on averaged mutual information scores
-top_genes_to_visualize = combined_results_avg.iloc[:10]['Gene']  # Adjust number of genes as needed
+
+# Reload the data files
+gene_counts_path = '/mnt/c/Users/inter/Downloads/GMGI/ChatGPT/salmon.merged.gene_counts_2023_seqera.tsv'
+metadata_path = '/mnt/c/Users/inter/Downloads/GMGI/ChatGPT/deseq_metadata2.csv'
+
+# Read the gene counts and metadata files
+gene_counts = pd.read_csv(gene_counts_path, sep='\t', index_col=0)
+metadata = pd.read_csv(metadata_path)
+
+# Filter gene counts to include only samples present in the metadata
+samples_in_metadata = metadata['sample'].tolist()
+filtered_gene_counts = \
+    gene_counts.loc[:, gene_counts.columns.intersection(samples_in_metadata)]
+
+# Filter low-expression genes
+low_expression_threshold = 10
+gene_sums = filtered_gene_counts.sum(axis=1)
+filtered_gene_counts_high_expression = \
+    filtered_gene_counts[gene_sums > low_expression_threshold]
+
+# Normalize and log-transform data
+cpm = (filtered_gene_counts_high_expression.T /
+       filtered_gene_counts_high_expression.sum(axis=1)).T * 1e6
+log_cpm = cpm.apply(lambda x: np.log2(x + 1), axis=1)
+
+# Calculate variance and prepare for mutual information analysis
+gene_variances = log_cpm.var(axis=1)
+# Select the top 50 most variable genes
+top_genes = gene_variances.nlargest(50).index
+# Subset the log-transformed CPM data for these top genes
+top_genes_data = log_cpm.loc[top_genes]
+metadata_sorted = metadata.sort_values(by=['thermal.tolerance', 'day'])
+sorted_samples = metadata_sorted['sample']
+
+# Subset and reorder the heatmap data to match the sorted samples
+top_genes_data_sorted = top_genes_data[sorted_samples]
+
+
+# Calculate mutual information for subsets of 10 genes
+sample_metadata = metadata.set_index('sample')
+# Prepare data for mutual information calculation
+# Flatten the top genes data for each sample to compare with categorical labels
+expression_data = top_genes_data_sorted.T.values  # Shape: (samples, genes)
+
+# Prepare data for mutual information calculation
+# Flatten the top genes data for each sample to compare with categorical labels
+expression_data = top_genes_data_sorted.T.values  # Shape: (samples, genes)
+
+# Encode thermal tolerance and day as labels for mutual information analysis
+labels_resilience_day = metadata_sorted[['thermal.tolerance', 'day']]
+labels_combined = labels_resilience_day['thermal.tolerance'] + "-Day" + \
+    labels_resilience_day['day'].astype(str)
+label_encoder = LabelEncoder()
+encoded_labels = label_encoder.fit_transform(labels_combined)
+
+# Calculate mutual information multiple times and average, because
+# it's a stochastic algorithm
+mi_scores_list = []
+n_repeats = 5
+for _ in range(n_repeats):
+    mi_scores = mutual_info_classif(expression_data, encoded_labels,
+                                    discrete_features=False,
+                                    # Each repetition uses a different
+                                    # random initialization
+                                    random_state=None)
+    mi_scores_list.append(mi_scores)
+
+avg_mi_scores = np.mean(mi_scores_list, axis=0)
+
+# Create a DataFrame for averaged results
+mutual_info_results = pd.DataFrame({
+    'Gene': top_genes_data_sorted.index,
+    'Mutual_Information': avg_mi_scores
+}).sort_values(by='Mutual_Information', ascending=False)
+
+print(mutual_info_results.head(10))
+
+
+# Do PCA plot for the top 10, genes in mutual information score
+top_genes_to_visualize = mutual_info_results.iloc[:10]['Gene']
+
+# Subset the log-transformed CPM data for these genes
 top_genes_data = log_cpm.loc[top_genes_to_visualize]
+
+# Perform PCA for the top 10 genes
+scaler = StandardScaler()
+scaled_top_10_data = scaler.fit_transform(top_genes_data.T)  # Transpose so genes are features
+pca_top_10 = PCA(n_components=2).fit_transform(scaled_top_10_data)
+# PCA plot for Top 10 Genes
+plt.figure(figsize=(12, 10))
+color_map = {'resistant': 'blue', 'susceptible': 'red'}
+colors = [color_map[sample_metadata.loc[sample, 'thermal.tolerance']] for sample in filtered_gene_counts_high_expression.columns]
+days = sample_metadata.loc[filtered_gene_counts_high_expression.columns, 'day'].tolist()
+for i, sample in enumerate(filtered_gene_counts_high_expression.columns):
+    plt.scatter(pca_top_10[i, 0], pca_top_10[i, 1], color=colors[i], s=50, alpha=0.7)
+    plt.text(pca_top_10[i, 0], pca_top_10[i, 1], f"Day {days[i]}", fontsize=8, ha='right')
+
+plt.title("PCA of Samples Based on Top 10 Genes")
+plt.xlabel("PC1")
+plt.ylabel("PC2")
+plt.grid(True)
+
+# Add legend for thermal tolerance
+# Add legend
+legend_handles = [
+    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='blue',
+               markersize=10, label='Resistant'),
+    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='red',
+               markersize=10, label='Susceptible')
+]
+plt.legend(handles=legend_handles, title="Thermal Tolerance")
+
+plt.savefig("ChatGPT/PCA_top_10_mutual_info_genes.png")
+
+
 
 # Encode thermal tolerance labels
 labels = metadata.set_index('sample').loc[log_cpm.columns, 'thermal.tolerance']
@@ -1590,6 +1066,19 @@ pca_result = pca.fit_transform(top_genes_data.T.values)
 # Perform LDA on the selected genes
 lda = LinearDiscriminantAnalysis(n_components=1)
 lda_result = lda.fit_transform(top_genes_data.T.values, encoded_labels)
+# Evaluate LDA performance
+# Predict class labels using LDA
+lda_predictions = lda.predict(top_genes_data.T.values)
+
+# Evaluate LDA performance
+lda_accuracy = accuracy_score(encoded_labels, lda_predictions)
+lda_conf_matrix = confusion_matrix(encoded_labels, lda_predictions)
+lda_report = classification_report(encoded_labels, lda_predictions,
+                                   target_names=label_encoder.classes_)
+
+print(lda_accuracy)
+print(lda_conf_matrix)
+print(lda_report)
 
 # Create side-by-side comparison plots
 fig, axs = plt.subplots(1, 2, figsize=(16, 8))
@@ -1619,101 +1108,10 @@ legend_handles = [
 ]
 fig.legend(handles=legend_handles, title="Thermal Tolerance", loc="upper center", ncol=2)
 plt.tight_layout()
-plt.show()
+plt.savefig("ChatGPT/PCA_LDA_top_10_mutual_info_genes.png")
 ```
-
-
----
-
-**Usage**  
-- Ensure the input variables `log_cpm`, `metadata`, and `combined_results_avg` are correctly prepared before running this script.
-
-- This script will produce side-by-side PCA and LDA plots for direct comparison.
-Let me know if you need further help or additional analysis! ​​
-
-You: 
-
-when running the mutual information analysis multiple times, I'd like a report of which genes appear in the results for every run
-
-ChatGPT: 
-
-To report which genes appear in the results for every run during mutual information analysis, we can track and summarize the gene occurrences across multiple repetitions. Here's how to implement it:
-
-
----
-
-**Modified Code for Tracking Gene Occurrences** 
-
-```python
-from collections import Counter
-
-# Helper function to calculate mutual information with tracking
-def calculate_mutual_info_with_tracking(log_cpm_data, metadata_original, subset_size=10, n_repeats=5):
-    # Make a copy of metadata to avoid modifying the original
-    metadata = metadata_original.copy()
-    
-    # Sort genes by variance and select the top subset_size genes
-    top_genes = gene_variances.nlargest(subset_size).index
-    subset_data = log_cpm.loc[top_genes]
-    
-    # Encode metadata labels
-    metadata.set_index('sample', inplace=True)
-    labels_resilience_day = metadata[['thermal.tolerance', 'day']]
-    labels_combined = labels_resilience_day['thermal.tolerance'] + "-Day" + labels_resilience_day['day'].astype(str)
-    label_encoder = LabelEncoder()
-    encoded_labels = label_encoder.fit_transform(labels_combined)
-    
-    # Track gene occurrences and calculate mutual information multiple times
-    all_runs_genes = []
-    for _ in range(n_repeats):
-        mi_scores = mutual_info_classif(subset_data.T.values, encoded_labels, discrete_features=False, random_state=None)
-        run_results = pd.DataFrame({
-            'Gene': top_genes,
-            'Mutual_Information': mi_scores
-        }).sort_values(by='Mutual_Information', ascending=False)
-        top_run_genes = run_results.iloc[:subset_size]['Gene']  # Adjust as needed
-        all_runs_genes.extend(top_run_genes)
-    
-    # Count gene occurrences across all runs
-    gene_occurrences = Counter(all_runs_genes)
-    return gene_occurrences
-
-# Run the analysis and track occurrences
-gene_occurrences_report = calculate_mutual_info_with_tracking(log_cpm, metadata, subset_size=10, n_repeats=10)
-
-# Format the results into a DataFrame for better visualization
-gene_occurrences_df = pd.DataFrame.from_dict(gene_occurrences_report, orient='index', columns=['Occurrences']).sort_values(
-    by='Occurrences', ascending=False
-)
-
-# Display the report of gene occurrences
-print(gene_occurrences_df)
-```
-
-
----
-
-**Key Steps**  
-1. **Track Genes Across Runs:**  
-  - The `all_runs_genes` list collects the top genes from each run.
- 
-2. **Count Occurrences:**  
-  - The `Counter` object tallies how many times each gene appears in the top results across all runs.
- 
-3. **Report Format:** 
-  - Results are returned as a DataFrame showing the occurrence count for each gene.
-
-
----
-
-**Interpretation**  
-- **High Occurrence Genes:** 
-  - Genes appearing in the top results for every run are likely robustly associated with the labels.
- 
-- **Low Occurrence Genes:** 
-  - Genes appearing sporadically may reflect stochastic variation or marginal relevance.
-
-Let me know if you’d like further modifications or additional analysis!
+![alt text](../assets/PCA_top_10_mutual_info_genes.png)
+![alt text](../assets/PCA_LDA_top_10_mutual_info_genes.png)
 
 You: 
 
@@ -1794,128 +1192,6 @@ You are working with **24 samples** , as per the metadata file and the filtered 
 
 Would you like to confirm the exact breakdown of the samples across these categories? If so, I can guide you on how to summarize this from your metadata file.
 
-You: 
-
-Summarize sample breakdown by categories.
-
-ChatGPT: 
-
-Analysis errored
-
-```python
-# Summarize the metadata to understand the sample breakdown
-metadata_summary = metadata.groupby(['thermal.tolerance', 'day']).size()
-
-# Convert to a DataFrame for easier interpretation
-metadata_summary_df = metadata_summary.reset_index(name='Sample Count')
-
-# Display the breakdown
-import ace_tools as tools; tools.display_dataframe_to_user(name="Sample Breakdown by Categories", dataframe=metadata_summary_df)
-```
-The execution environment has been reset again, clearing all previously loaded data. If you'd like me to help summarize the sample breakdown, please re-upload the metadata file, and I’ll reload and analyze it for you. ​​
-
-You: 
-
-deseq metadata2
-| sample | thermal.tolerance | family | day | 
-| --- | --- | --- | --- | 
-| SRX5644308 | susceptible | 500 | 0 | 
-| SRX5644309 | susceptible | 500 | 0 | 
-| SRX5644323 | susceptible | 500 | 0 | 
-| SRX5644314 | susceptible | 500 | 30 | 
-| SRX5644315 | susceptible | 500 | 30 | 
-| SRX5644316 | susceptible | 500 | 30 |
-
-ChatGPT: 
-
-Analysis paused
-
-```python
-# Reload the metadata file
-metadata_path = '/mnt/data/deseq_metadata2.csv'
-metadata = pd.read_csv(metadata_path)
-
-# Summ
-```
-
-You: 
-
-resume
-
-ChatGPT: 
-
-Analysis errored
-
-```python
-# Summarize the metadata to understand the sample breakdown
-metadata_summary = metadata.groupby(['thermal.tolerance', 'day']).size()
-
-# Convert to a DataFrame for easier interpretation
-metadata_summary_df = metadata_summary.reset_index(name='Sample Count')
-
-# Display the breakdown for the user
-import ace_tools as tools; tools.display_dataframe_to_user(name="Sample Breakdown by Categories", dataframe=metadata_summary_df)
-```
-
-It seems the execution environment has been reset, so I’ll need to reload the metadata file to summarize the sample breakdown. Let me fix this. ​​Analysis errored
-
-```python
-# Reload the metadata file
-metadata_path = '/mnt/data/deseq_metadata2.csv'
-metadata = pd.read_csv(metadata_path)
-
-# Summarize the metadata to understand the sample breakdown
-metadata_summary = metadata.groupby(['thermal.tolerance', 'day']).size()
-
-# Convert to a DataFrame for easier interpretation
-metadata_summary_df = metadata_summary.reset_index(name='Sample Count')
-
-# Display the breakdown for the user
-import ace_tools as tools; tools.display_dataframe_to_user(name="Sample Breakdown by Categories", dataframe=metadata_summary_df)
-```
-
-
-```undefined
-undefined
-```
-It seems the necessary libraries were not imported due to the environment reset. Let me import them and reprocess the metadata. ​​Analyzed
-
-```python
-# Import necessary libraries
-import pandas as pd
-
-# Reload the metadata file
-metadata_path = '/mnt/data/deseq_metadata2.csv'
-metadata = pd.read_csv(metadata_path)
-
-# Summarize the metadata to understand the sample breakdown
-metadata_summary = metadata.groupby(['thermal.tolerance', 'day']).size()
-
-# Convert to a DataFrame for easier interpretation
-metadata_summary_df = metadata_summary.reset_index(name='Sample Count')
-
-# Display the breakdown for the user
-import ace_tools as tools; tools.display_dataframe_to_user(name="Sample Breakdown by Categories", dataframe=metadata_summary_df)
-```
-
-
-Sample Breakdown by Categories
-| thermal.tolerance | day | Sample Count | 
-| --- | --- | --- | 
-| resistant | 0 | 6 | 
-| resistant | 30 | 6 | 
-| susceptible | 0 | 6 | 
-| susceptible | 30 | 6 | 
-
-
-
-The sample breakdown by categories is as follows:
- 
-- **Thermal Tolerance:**  
-  - **Resistant:**  6 samples at Day 0 and 6 samples at Day 30.
- 
-  - **Susceptible:**  6 samples at Day 0 and 6 samples at Day 30.
-This confirms a balanced design with equal representation of groups and time points. Let me know how you'd like to proceed with this analysis! ​​
 
 You: 
 
