@@ -245,7 +245,8 @@ You can upload the files here, and we’ll proceed!
 You: 
 
 salmon.merged.gene_counts_2023_seqera.tsv
-Filedeseq metadata2| sample | thermal.tolerance | family | day | 
+Filedeseq metadata2
+| sample | thermal.tolerance | family | day | 
 | --- | --- | --- | --- | 
 | SRX5644308 | susceptible | 500 | 0 | 
 | SRX5644309 | susceptible | 500 | 0 | 
@@ -286,11 +287,6 @@ metadata_summary = metadata.describe()
 filtered_gene_counts.shape, metadata.shape
 ```
 
-Result
-
-```undefined
-undefined
-```
 
 The dataset has been filtered and aligned with the metadata. Here's a summary:
  
@@ -316,11 +312,6 @@ Analyzed
 metadata.head()
 ```
 
-Result
-
-```undefined
-undefined
-```
 
 Here are the first few rows of the metadata for verification:
  
@@ -355,11 +346,6 @@ filtered_gene_counts_high_expression = filtered_gene_counts[gene_sums > low_expr
 filtered_gene_counts_high_expression.shape
 ```
 
-Result
-
-```undefined
-undefined
-```
 
 After filtering low-expression genes, the dataset now contains:
  
@@ -408,12 +394,6 @@ library_sizes = filtered_gene_counts_high_expression.sum(axis=0)
 raw_summary, library_sizes
 ```
 
-Result
-
-```undefined
-undefined
-```
-
 Here’s a summary of the data:
  
 1. **Gene Count Statistics Across Samples (Raw Data):**  
@@ -433,6 +413,7 @@ Next, we’ll normalize the data to address these differences in library sizes. 
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Normalize the data by calculating counts per million (CPM)
 cpm = (filtered_gene_counts_high_expression.T / filtered_gene_counts_high_expression.sum(axis=1)).T * 1e6
@@ -459,64 +440,6 @@ plt.grid(True)
 plt.show()
 ```
 
-
-```undefined
-undefined
-```
-It seems I forgot to import the necessary library for numerical operations. Let me fix this and proceed with the normalization and PCA. ​​Analysis errored
-
-```python
-import numpy as np
-
-# Log-transform to stabilize variance after normalization
-log_cpm = cpm.apply(lambda x: np.log2(x + 1), axis=1)
-
-# Perform PCA
-scaled_data = scaler.fit_transform(log_cpm.T)  # Transpose so genes are features, samples are observations
-
-pca = PCA(n_components=2)
-pca_results = pca.fit_transform(scaled_data)
-
-# Create PCA scatter plot
-plt.figure(figsize=(10, 8))
-plt.scatter(pca_results[:, 0], pca_results[:, 1], s=50, alpha=0.7)
-for i, sample in enumerate(filtered_gene_counts_high_expression.columns):
-    plt.text(pca_results[i, 0], pca_results[i, 1], sample, fontsize=8, ha='right')
-plt.title("PCA of Samples (Top 2 PCs)")
-plt.xlabel(f"PC1 ({pca.explained_variance_ratio_[0]*100:.1f}%)")
-plt.ylabel(f"PC2 ({pca.explained_variance_ratio_[1]*100:.1f}%)")
-plt.grid(True)
-plt.show()
-```
-
-
-```undefined
-undefined
-```
-It seems I need to redefine the scaler for normalization. Let me correct that and rerun the PCA process. ​​Analyzed
-
-```python
-# Reinitialize the scaler
-scaler = StandardScaler()
-
-# Scale the log-transformed CPM data for PCA
-scaled_data = scaler.fit_transform(log_cpm.T)  # Transpose so genes are features, samples are observations
-
-# Perform PCA
-pca = PCA(n_components=2)
-pca_results = pca.fit_transform(scaled_data)
-
-# Create PCA scatter plot
-plt.figure(figsize=(10, 8))
-plt.scatter(pca_results[:, 0], pca_results[:, 1], s=50, alpha=0.7)
-for i, sample in enumerate(filtered_gene_counts_high_expression.columns):
-    plt.text(pca_results[i, 0], pca_results[i, 1], sample, fontsize=8, ha='right')
-plt.title("PCA of Samples (Top 2 PCs)")
-plt.xlabel(f"PC1 ({pca.explained_variance_ratio_[0]*100:.1f}%)")
-plt.ylabel(f"PC2 ({pca.explained_variance_ratio_[1]*100:.1f}%)")
-plt.grid(True)
-plt.show()
-```
 PCA of Samples (Top 2 PCs)![Output image](https://files.oaiusercontent.com/file-BcSFeWfiovkw5Qi7dpnhv2?se=2024-12-31T18%3A01%3A01Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D299%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D3e8b6019-9184-4f2a-b127-c224409f58f7&sig=H7umEQSEh/%2B5%2B%2BDoS7KHv4nmC/hL9/Zz1d6yBskMMmI%3D) 
 
 The PCA plot is now complete. Here's what it shows:
@@ -527,52 +450,6 @@ The PCA plot is now complete. Here's what it shows:
 
 The samples are plotted based on their clustering along these two components. Samples with similar gene expression profiles are closer together. If you observe distinct groupings, these could correlate with biological variables (e.g., resilience or timepoint).
 Let me know if you'd like to proceed with further visualizations or move on to differential gene expression analysis. ​​
-
-You: 
-
-Please show all the code for this step
-
-ChatGPT: 
-
-Here’s the complete code used for the PCA analysis and visualization:
-
-
-```python
-# Import necessary libraries
-import numpy as np
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
-import matplotlib.pyplot as plt
-
-# Normalize the data by calculating counts per million (CPM)
-cpm = (filtered_gene_counts_high_expression.T / filtered_gene_counts_high_expression.sum(axis=1)).T * 1e6
-
-# Log-transform to stabilize variance
-log_cpm = cpm.apply(lambda x: np.log2(x + 1), axis=1)
-
-# Initialize the scaler
-scaler = StandardScaler()
-
-# Scale the log-transformed CPM data for PCA
-scaled_data = scaler.fit_transform(log_cpm.T)  # Transpose so genes are features, samples are observations
-
-# Perform PCA
-pca = PCA(n_components=2)
-pca_results = pca.fit_transform(scaled_data)
-
-# Create PCA scatter plot
-plt.figure(figsize=(10, 8))
-plt.scatter(pca_results[:, 0], pca_results[:, 1], s=50, alpha=0.7)
-for i, sample in enumerate(filtered_gene_counts_high_expression.columns):
-    plt.text(pca_results[i, 0], pca_results[i, 1], sample, fontsize=8, ha='right')
-plt.title("PCA of Samples (Top 2 PCs)")
-plt.xlabel(f"PC1 ({pca.explained_variance_ratio_[0]*100:.1f}%)")
-plt.ylabel(f"PC2 ({pca.explained_variance_ratio_[1]*100:.1f}%)")
-plt.grid(True)
-plt.show()
-```
-
-Let me know if you’d like to modify this, add annotations (e.g., resilience or day), or proceed with the next analysis steps.
 
 You: 
 
@@ -604,56 +481,9 @@ OK, let's create that new plot. Don't add family information.
 
 ChatGPT: 
 
-Analysis errored
-
 ```python
 # Map metadata to samples for thermal tolerance and day
 sample_metadata = metadata.set_index('sample')
-color_map = {'resilient': 'blue', 'susceptible': 'red'}
-colors = [color_map[sample_metadata.loc[sample, 'thermal.tolerance']] for sample in filtered_gene_counts_high_expression.columns]
-days = sample_metadata.loc[filtered_gene_counts_high_expression.columns, 'day'].tolist()
-
-# Create PCA scatter plot with thermal tolerance color coding and day labels
-plt.figure(figsize=(10, 8))
-for i, sample in enumerate(filtered_gene_counts_high_expression.columns):
-    plt.scatter(pca_results[i, 0], pca_results[i, 1], color=colors[i], s=50, alpha=0.7)
-    plt.text(pca_results[i, 0], pca_results[i, 1], f"Day {days[i]}", fontsize=8, ha='right')
-
-plt.title("PCA of Samples (Colored by Thermal Tolerance)")
-plt.xlabel(f"PC1 ({pca.explained_variance_ratio_[0]*100:.1f}%)")
-plt.ylabel(f"PC2 ({pca.explained_variance_ratio_[1]*100:.1f}%)")
-plt.grid(True)
-
-# Add legend
-legend_handles = [
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='blue', markersize=10, label='Resilient'),
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='red', markersize=10, label='Susceptible')
-]
-plt.legend(handles=legend_handles, title="Thermal Tolerance")
-plt.show()
-```
-
-
-```undefined
-undefined
-```
-It seems there's an issue with matching the thermal tolerance values in the metadata. The expected categories might not match the metadata values directly. Let me inspect the thermal tolerance column in the metadata to resolve this. ​​Analyzed
-
-```python
-# Check unique values in the 'thermal.tolerance' column of the metadata
-unique_tolerance_values = sample_metadata['thermal.tolerance'].unique()
-unique_tolerance_values
-```
-
-Result
-
-```undefined
-undefined
-```
-The thermal tolerance categories in the metadata are `'susceptible'` and `'resistant'`. I will adjust the color mapping to reflect this and recreate the PCA plot. ​​Analyzed
-
-```python
-# Update color map to match 'resistant' instead of 'resilient'
 color_map = {'resistant': 'blue', 'susceptible': 'red'}
 colors = [color_map[sample_metadata.loc[sample, 'thermal.tolerance']] for sample in filtered_gene_counts_high_expression.columns]
 days = sample_metadata.loc[filtered_gene_counts_high_expression.columns, 'day'].tolist()
@@ -677,6 +507,7 @@ legend_handles = [
 plt.legend(handles=legend_handles, title="Thermal Tolerance")
 plt.show()
 ```
+
 PCA of Samples (Colored by Thermal Tolerance)![Output image](https://files.oaiusercontent.com/file-WjnSz34WbEpavztPtmyUmH?se=2024-12-31T18%3A01%3A01Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D299%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Dfff31686-ffab-40ff-bea7-754459f1aa31&sig=FreIJLKptCS6q%2BJntzRPJcjvTu9/oazf7uT0ZT0jtgI%3D) 
 
 Here’s the updated PCA plot:
@@ -754,44 +585,6 @@ Yes, focusing on identifying genes correlated with thermal resilience is a logic
 
 
 Would you like to proceed with this workflow? If so, I’ll set up the analysis using the filtered data and metadata.
-
-You: 
-
-OK. Before we proceed, please show all the code for the previous step.
-
-ChatGPT: 
-
-Here is the complete code for the PCA plot with metadata characteristics overlaid:
-
-
-```python
-# Map metadata to samples for thermal tolerance and day
-sample_metadata = metadata.set_index('sample')
-color_map = {'resistant': 'blue', 'susceptible': 'red'}
-colors = [color_map[sample_metadata.loc[sample, 'thermal.tolerance']] for sample in filtered_gene_counts_high_expression.columns]
-days = sample_metadata.loc[filtered_gene_counts_high_expression.columns, 'day'].tolist()
-
-# Create PCA scatter plot with thermal tolerance color coding and day labels
-plt.figure(figsize=(10, 8))
-for i, sample in enumerate(filtered_gene_counts_high_expression.columns):
-    plt.scatter(pca_results[i, 0], pca_results[i, 1], color=colors[i], s=50, alpha=0.7)
-    plt.text(pca_results[i, 0], pca_results[i, 1], f"Day {days[i]}", fontsize=8, ha='right')
-
-plt.title("PCA of Samples (Colored by Thermal Tolerance)")
-plt.xlabel(f"PC1 ({pca.explained_variance_ratio_[0]*100:.1f}%)")
-plt.ylabel(f"PC2 ({pca.explained_variance_ratio_[1]*100:.1f}%)")
-plt.grid(True)
-
-# Add legend
-legend_handles = [
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='blue', markersize=10, label='Resistant'),
-    plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='red', markersize=10, label='Susceptible')
-]
-plt.legend(handles=legend_handles, title="Thermal Tolerance")
-plt.show()
-```
-
-Let me know if you'd like further clarification on any part of this or if you’d like me to proceed with finding genes correlated with thermal resilience.
 
 You: 
 
@@ -3070,7 +2863,8 @@ The execution environment has been reset again, clearing all previously loaded d
 
 You: 
 
-deseq metadata2| sample | thermal.tolerance | family | day | 
+deseq metadata2
+| sample | thermal.tolerance | family | day | 
 | --- | --- | --- | --- | 
 | SRX5644308 | susceptible | 500 | 0 | 
 | SRX5644309 | susceptible | 500 | 0 | 
@@ -3110,10 +2904,6 @@ metadata_summary_df = metadata_summary.reset_index(name='Sample Count')
 import ace_tools as tools; tools.display_dataframe_to_user(name="Sample Breakdown by Categories", dataframe=metadata_summary_df)
 ```
 
-
-```undefined
-undefined
-```
 It seems the execution environment has been reset, so I’ll need to reload the metadata file to summarize the sample breakdown. Let me fix this. ​​Analysis errored
 
 ```python
@@ -3155,12 +2945,9 @@ metadata_summary_df = metadata_summary.reset_index(name='Sample Count')
 import ace_tools as tools; tools.display_dataframe_to_user(name="Sample Breakdown by Categories", dataframe=metadata_summary_df)
 ```
 
-Result
 
-```undefined
-undefined
-```
-Sample Breakdown by Categories| thermal.tolerance | day | Sample Count | 
+Sample Breakdown by Categories
+| thermal.tolerance | day | Sample Count | 
 | --- | --- | --- | 
 | resistant | 0 | 6 | 
 | resistant | 30 | 6 | 
@@ -3294,11 +3081,7 @@ required_sample_size_total = required_sample_size_per_group * 2  # Total for bot
 required_sample_size_per_group, required_sample_size_total
 ```
 
-Result
 
-```undefined
-undefined
-```
 For a **medium effect size (Cohen's d = 0.8)** , **alpha = 0.05** , and **power = 0.8** : 
 - **Required sample size per group:**  26
  
@@ -3313,376 +3096,3 @@ This indicates that your current sample size of 12 per group (24 total) is under
 3. Apply feature selection or prioritize specific candidate genes to reduce the scope of analysis.
 Would you like to analyze for larger effect sizes or adjust the parameters? ​​
 
-You: 
-
-Would you be able to generate a markdown file of this conversation, including the generated code and images?
-
-ChatGPT: 
-
-Analysis errored
-
-```python
-# Create a markdown file containing the conversation and outputs
-conversation_content = """
-# RNA-Seq Analysis Conversation Log
-
-This document contains the detailed conversation about RNA-Seq data analysis, including generated code, outputs, and visualizations.
-
----
-
-## **Topics Covered**
-
-1. **Data Preparation**
-    - Loading gene count and metadata files.
-    - Filtering low-expression genes.
-    - Normalizing data using CPM and log transformation.
-
-2. **Exploratory Analysis**
-    - Summarizing sample distribution by categories.
-    - PCA and LDA visualizations of top genes.
-
-3. **Mutual Information Analysis**
-    - Identifying top genes associated with thermal resilience.
-    - Averaging mutual information scores for stability.
-    - Tracking genes appearing consistently in top results.
-
-4. **Statistical Power Analysis**
-    - Estimating sample size requirements for detecting significant genetic biomarkers.
-
----
-
-### **Generated Code**
-
-#### Data Preparation and Filtering
-```python
-import pandas as pd
-import numpy as np
-
-# Reload and process gene count data
-gene_counts_path = 'path_to_gene_counts.tsv'
-metadata_path = 'path_to_metadata.csv'
-
-gene_counts = pd.read_csv(gene_counts_path, sep='\\t', index_col=0)
-metadata = pd.read_csv(metadata_path)
-
-# Filter samples in metadata
-samples_in_metadata = metadata['sample'].tolist()
-filtered_gene_counts = gene_counts.loc[:, gene_counts.columns.intersection(samples_in_metadata)]
-
-# Filter low-expression genes
-low_expression_threshold = 10
-gene_sums = filtered_gene_counts.sum(axis=1)
-filtered_gene_counts_high_expression = filtered_gene_counts[gene_sums > low_expression_threshold]
-
-# Normalize and log-transform data
-cpm = (filtered_gene_counts_high_expression.T / filtered_gene_counts_high_expression.sum(axis=1)).T * 1e6
-log_cpm = cpm.apply(lambda x: np.log2(x + 1), axis=1)
-```
-
-#### Power Analysis 
-
-
-```python
-from statsmodels.stats.power import TTestIndPower
-
-# Parameters for power analysis
-effect_size = 0.8  # Medium effect size
-alpha = 0.05       # Significance level
-power = 0.8        # Desired power
-
-# Perform power analysis
-analysis = TTestIndPower()
-required_sample_size = analysis.solve_power(effect_size=effect_size, alpha=alpha, power=power, alternative='two-sided')
-
-required_sample_size_per_group = round(required_sample_size)
-required_sample_size_total = required_sample_size_per_group * 2
-
-print(f"Required samples per group: {required_sample_size_per_group}")
-print(f"Total required samples: {required_sample_size_total}")
-```
-
-
----
-
-**Visualizations** 
-#### PCA and LDA Comparison 
-
-PCA and LDA visualizations showing the separation of resistant and susceptible groups based on the top genes.
- 
-- **PCA Plot** : Highlights variance structure in the data.
- 
-- **LDA Plot** : Optimizes class separation for thermal resilience groups.
-
-[Include images here if applicable]
-
-
----
-
-**Key Insights** 
-- Current sample size (24) is underpowered for medium effect sizes.
-
-- Feature selection and focusing on larger effects can improve analysis feasibility.
-
-- Robust statistical validation (e.g., cross-validation, hold-out testing) is crucial to avoid overfitting.
-
-
----
-
-**Next Steps** 
-- Consider increasing sample size or prioritizing larger effect sizes.
-
-- Apply cross-validation or nested validation to ensure robustness.
-
-- Use biological pathways or external validation to refine candidate genes.
-"""
-
-# Save the conversation content as a markdown file 
-
-file_path = "/mnt/data/RNASeq_Analysis_Conversation_Log.md"
-with open(file_path, "w") as file:
-file.write(conversation_content)
-
-file_path
-
-
-```
-Always show details
-Copy code
-```
-The code execution environment was reset, so the markdown file could not be generated. However, I can provide you with the markdown text as-is for manual saving. Let me know if you'd like me to regenerate the markdown or provide any specific part of the conversation in markdown format. ​​
-
-You: 
-
-Regenerate
-
-ChatGPT: 
-
-Analyzed
-
-```python
-# Rewriting the markdown content and regenerating the file
-markdown_content = """
-# RNA-Seq Analysis Conversation Log
-
-This document contains the detailed conversation about RNA-Seq data analysis, including generated code, outputs, and visualizations.
-
----
-
-## **Topics Covered**
-
-1. **Data Preparation**
-    - Loading gene count and metadata files.
-    - Filtering low-expression genes.
-    - Normalizing data using CPM and log transformation.
-
-2. **Exploratory Analysis**
-    - Summarizing sample distribution by categories.
-    - PCA and LDA visualizations of top genes.
-
-3. **Mutual Information Analysis**
-    - Identifying top genes associated with thermal resilience.
-    - Averaging mutual information scores for stability.
-    - Tracking genes appearing consistently in top results.
-
-4. **Statistical Power Analysis**
-    - Estimating sample size requirements for detecting significant genetic biomarkers.
-
----
-
-### **Generated Code**
-
-#### Data Preparation and Filtering
-```python
-import pandas as pd
-import numpy as np
-
-# Reload and process gene count data
-gene_counts_path = 'path_to_gene_counts.tsv'
-metadata_path = 'path_to_metadata.csv'
-
-gene_counts = pd.read_csv(gene_counts_path, sep='\\t', index_col=0)
-metadata = pd.read_csv(metadata_path)
-
-# Filter samples in metadata
-samples_in_metadata = metadata['sample'].tolist()
-filtered_gene_counts = gene_counts.loc[:, gene_counts.columns.intersection(samples_in_metadata)]
-
-# Filter low-expression genes
-low_expression_threshold = 10
-gene_sums = filtered_gene_counts.sum(axis=1)
-filtered_gene_counts_high_expression = filtered_gene_counts[gene_sums > low_expression_threshold]
-
-# Normalize and log-transform data
-cpm = (filtered_gene_counts_high_expression.T / filtered_gene_counts_high_expression.sum(axis=1)).T * 1e6
-log_cpm = cpm.apply(lambda x: np.log2(x + 1), axis=1)
-```
-
-#### Power Analysis 
-
-
-```python
-from statsmodels.stats.power import TTestIndPower
-
-# Parameters for power analysis
-effect_size = 0.8  # Medium effect size
-alpha = 0.05       # Significance level
-power = 0.8        # Desired power
-
-# Perform power analysis
-analysis = TTestIndPower()
-required_sample_size = analysis.solve_power(effect_size=effect_size, alpha=alpha, power=power, alternative='two-sided')
-
-required_sample_size_per_group = round(required_sample_size)
-required_sample_size_total = required_sample_size_per_group * 2
-
-print(f"Required samples per group: {required_sample_size_per_group}")
-print(f"Total required samples: {required_sample_size_total}")
-```
-
-
----
-
-**Visualizations** 
-#### PCA and LDA Comparison 
-
-PCA and LDA visualizations showing the separation of resistant and susceptible groups based on the top genes.
- 
-- **PCA Plot** : Highlights variance structure in the data.
- 
-- **LDA Plot** : Optimizes class separation for thermal resilience groups.
-
-[Include images here if applicable]
-
-
----
-
-**Key Insights** 
-- Current sample size (24) is underpowered for medium effect sizes.
-
-- Feature selection and focusing on larger effects can improve analysis feasibility.
-
-- Robust statistical validation (e.g., cross-validation, hold-out testing) is crucial to avoid overfitting.
-
-
----
-
-**Next Steps** 
-- Consider increasing sample size or prioritizing larger effect sizes.
-
-- Apply cross-validation or nested validation to ensure robustness.
-
-- Use biological pathways or external validation to refine candidate genes.
-"""
-
-# Save the markdown content as a markdown file 
-
-file_path = "/mnt/data/RNASeq_Analysis_Conversation_Log.md"
-with open(file_path, "w") as file:
-file.write(markdown_content)
-
-file_path
-
-
-```
-Always show details
-Copy code
-```
-
-Result
-
-```undefined
-undefined
-```
-
-The markdown file has been successfully generated. You can download it using the link below:
-[Download RNASeq_Analysis_Conversation_Log.md]() Let me know if there’s anything else you’d like to include or adjust! ​​
-
-You: 
-
-The markdown file you created is minimal. Please generate a markdown file for this entire chat.
-
-ChatGPT: 
-
-Analysis errored
-
-```python
-# Markdown content for the entire chat
-full_chat_markdown = """
-# RNA-Seq Analysis Conversation Log
-
-This document contains the complete conversation about RNA-Seq data analysis, including generated code, explanations, and suggestions.
-
----
-
-### **Conversation History**
-
-#### **User Input**:
-I have several gene count files and several transcript count files that are the output of an `rnaseq` pipeline, specifically Salmon. In the gene count files, there's a gene ID,  column, a gene name column which can be ignored, and a column for each biological sample taken from oysters. The samples were taken from thermally-resilient families, from non-resilient families, and on day 0 and day 30 of a 30-day thermal stress regime for each of these families. I have a metadata csv file that represents which sample has each of these characteristics. 
-
-I'd like to explore whether there are genes that are statistically significantly associated with the thermal resilience, and further whether these genes if they exist, or other genes are present differently on day 0 and day 30 of the experiment. Can you recommend methods?
-
-#### **Assistant Response**:
-[Details of the initial response outlining methods]
-
----
-
-### **Generated Code Examples**
-
-#### Data Preparation
-```python
-[Data preparation code provided]
-```
-
-#### PCA and LDA Comparison 
-
-
-```python
-[Comparison code provided]
-```
-
-#### Statistical Power Analysis 
-
-
-```python
-[Power analysis code provided]
-```
-
-
----
-
-**Key Discussions** 
-#### Filtering Low-Expression Genes 
-
-[Discussion details]
-
-#### Statistical Power Analysis 
-
-[Explanation and calculated results]
-
-#### Mutual Information Analysis 
-
-[Details of suggestions, corrections, and averaging mutual information]
-
-
----
-
-**Visualizations** 
-- PCA and LDA comparisons
-
-- Highlighting significant genes
-
-
----
-
-**Key Takeaways** 
-- Current sample size limitations
-
-- Strategies to improve robustness
-
-- Statistical methods and their application
-
-
----
-
-
-"""
