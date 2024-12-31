@@ -46,17 +46,17 @@ This is an exciting biological question, and exploring RNA-seq data for differen
 
 **3. Differential Gene Expression Analysis** 
 Use statistical methods to identify genes associated with thermal resilience and temporal changes. Here are the key steps:
-**i. Set Up Your Model**  
-- Use a tool like `DESeq2` or `edgeR` to analyze differential expression. Define factors and contrasts: 
-  - **Thermal Resilience:**  Compare resilient vs. non-resilient families.
+- **Set Up Your Model**
+    - Use a tool like `DESeq2` or `edgeR` to analyze differential expression. Define factors and contrasts: 
+        - **Thermal Resilience:**  Compare resilient vs. non-resilient families.
  
-  - **Day 0 vs. Day 30:**  Test for temporal changes within each family type.
+        - **Day 0 vs. Day 30:**  Test for temporal changes within each family type.
  
-  - **Interaction Effect:**  Test whether changes from day 0 to day 30 differ between resilient and non-resilient families.
-**ii. Statistical Tests** 
-- Adjust for multiple testing using methods like Benjamini-Hochberg (FDR correction).
+        - **Interaction Effect:**  Test whether changes from day 0 to day 30 differ between resilient and non-resilient families.
+- **Statistical Tests** 
+    - Adjust for multiple testing using methods like Benjamini-Hochberg (FDR correction).
 
-- Look for genes with significant adjusted p-values and log2 fold-changes.
+    - Look for genes with significant adjusted p-values and log2 fold-changes.
 
 
 ---
