@@ -257,7 +257,8 @@ You can upload the files here, and we’ll proceed!
 You: 
 
 salmon.merged.gene_counts_2023_seqera.tsv
-Filedeseq metadata2
+Filedeseq metadata
+
 | sample | thermal.tolerance | family | day | 
 | --- | --- | --- | --- | 
 | SRX5644308 | susceptible | 500 | 0 | 
@@ -630,7 +631,7 @@ plt.xlabel("Samples")
 plt.ylabel("Genes")
 plt.show()
 ```
-[Heatmap of Top 50 Most Variable Genes Across Samples](../assets/ChatGPT_heatmap_1.png)
+![Heatmap of Top 50 Most Variable Genes Across Samples](../assets/ChatGPT_heatmap_1.png)
 The heatmap displays the expression patterns of the **top 50 most variable genes**  across all samples. Here’s what you can observe: 
 - **Color intensity**  represents the log-transformed CPM values.
  
@@ -722,6 +723,7 @@ Mutual information. [Much intervening dialog omitted] I find that each time I ru
 Result
 
 Combined Mutual Information Results for All 50 Genes (Cleaned)
+
 | Gene | Mutual_Information | 
 | --- | --- | 
 | LOC109619892 | 0.7956492505695802 | 
@@ -763,7 +765,7 @@ You:
 
 Let's try the top 10 genes. 
 
-PCA of Samples Based on Top 10 Genes![Output image](../assets/PCA_top_10_mutual_info_genes.png)
+![PCA of Samples Based on Top 10 Genes](../assets/PCA_top_10_mutual_info_genes.png)
 
 You: 
 
@@ -1118,8 +1120,9 @@ fig.legend(handles=legend_handles, title="Thermal Tolerance", loc="upper center"
 plt.tight_layout()
 plt.savefig("ChatGPT/PCA_LDA_top_10_mutual_info_genes.png")
 ```
-![alt text](../assets/PCA_top_10_mutual_info_genes.png)
-![alt text](../assets/PCA_LDA_top_10_mutual_info_genes.png)
+![PCA of top 10_mutual info genes](../assets/PCA_top_10_mutual_info_genes.png)
+
+![PCA and LDA of top 10_mutual info genes](../assets/PCA_LDA_top_10_mutual_info_genes.png)
 
 ## Overfitting?
 You: 
