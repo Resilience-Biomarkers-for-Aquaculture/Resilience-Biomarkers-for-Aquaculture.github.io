@@ -111,7 +111,7 @@ We ran `rnaseq` on Seqera usnig `NCBI Crassostrea gigas Annotation Release 101` 
 
 With the resulting `salmon.merged.gene_counts.tsv` files from each run in hand, I then queried `ChatGPT  4o` for recommendations on visually comparing gene counts. Its recommendations included a Venn diagram to indicate matching/non-matching gene IDs and scatter plots showing gene counts on X and Y axes for matching gene IDs for the respective runs.
 
-Further, to visualize the gene count differences between the `rnaseq` runs using the `NCBI Crassostrea gigas Annotation Release 101` and `GCF_963853765.1-RS_2024_06` reference genomes and annotations, I chose PCA among the recommendations made by `ChatGPT 4o`, and interactively worked with it to produce a 2D PCA plot which, with additional metadata for the samples, differentiates the two runs (by color), and each sample's noted resilience, and time interval (day 0 vs. day 30). Satisfied with this, and noting the striking similarity between the two runs, I then had ChatGPT produce an interactive 3D PCA plot to see whether greater differences appeared given a third principal component axis. 
+Further, to visualize the gene count differences between the `rnaseq` runs using the `NCBI Crassostrea gigas Annotation Release 101` and `GCF_963853765.1-RS_2024_06` reference genomes and annotations, I chose PCA among the recommendations made by `ChatGPT 4o`, and interactively worked with it to produce a 2D PCA plot which, with additional metadata for the samples, differentiates the two runs (by color), and each sample's noted resilience, and time interval (day 0 vs. day 30). Satisfied with this, and noting the striking similarity between the two runs, I then had ChatGPT produce an interactive 3D PCA plot to see whether greater differences appeared given a third principal component axis. Figures below show the PC1/PC2 and PC1/PC3 planar projections, and an interactive 3D plot is shown.
 
 ## Results
 
@@ -131,13 +131,13 @@ Further, to visualize the gene count differences between the `rnaseq` runs using
 </figure>
 
 <figure>
-    <img src="https://github.com/user-attachments/assets/486d760c-346b-46ef-911c-94dc6f7dd3ba" alt="PCA plot"/>
-    <figcaption class="caption">PCA of gene counts for genes IDs in common between runs, for each sample. Blue indicates `NCBI Crassostrea gigas Annotation Release 101` reference genome/annotation, red indicates `GCF_963853765.1-RS_2024_06`, Xs for susceptible samples, dots for resistant, smaller points for Day 0 samples and larger for Day 30.</figcaption>
+    <img src="/assets/2D_PCA_PC1_PC2.png" alt="PCA plot"/>
+    <figcaption class="caption">Front projection of 3D PCA of gene counts for genes IDs in common between runs, for each sample. Blue indicates `NCBI Crassostrea gigas Annotation Release 101` reference genome/annotation, red indicates `GCF_963853765.1-RS_2024_06`, Xs for susceptible samples, dots for resistant, smaller points for Day 0 samples and larger for Day 30.</figcaption>
 </figure>
 
 <figure>
-    <img src="https://github.com/user-attachments/assets/a603cac1-0b99-4c17-8f96-e6a76ae4e7cf" alt="3D PCA plot"/>
-    <figcaption class="caption">Screenshot of 3D PCA</figcaption>
+    <img src="/assets/2D_PCA_PC1_PC3.png" alt="PCA plot"/>
+    <figcaption class="caption">Top projection of 3D PCA of gene counts for genes IDs in common between runs, for each sample. Blue indicates `NCBI Crassostrea gigas Annotation Release 101` reference genome/annotation, red indicates `GCF_963853765.1-RS_2024_06`, Xs for susceptible samples, dots for resistant, smaller points for Day 0 samples and larger for Day 30.</figcaption>
 </figure>
 
 <iframe src="/assets/interactive_3d_pca.html" width="100%" height="600px" frameborder="0"></iframe>
@@ -145,14 +145,12 @@ Further, to visualize the gene count differences between the `rnaseq` runs using
 The 3rd principal component dimension reveals differences between the two runs. 
 
 ## Possible further work
-Gven this 3D PCA plot, determine and show (1) the contributions of each dimension and (2) the top contributing gene IDs for each dimension.
-
 For each PCA component, examine the PCA loadings.
-For PC3, assuming that its scale is not miniscule relative to PC1 and PC2, identify which genes contribute most to the separation, and examine correlation of those genes with changes noted in annotation comparisons between `GCF_963853765.1-RS_2024_06` and `NCBI Crassostrea gigas Annotation Release 102` (found [here](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/963/853/765/GCF_963853765.1_GCF_963853765.1-RS_2024_06/Annotation_comparison/) ) and then between `NCBI Crassostrea gigas Annotation Release 102` and `NCBI Crassostrea gigas Annotation Release 101` (found [here](https://ftp.ncbi.nlm.nih.gov/genomes/all/annotation_releases/29159/102/GCF_902806645.1_cgigas_uk_roslin_v1/Annotation_comparison/) ).
+Identify which genes contribute most to the separation, and examine correlation of those genes with changes noted in annotation comparisons between `GCF_963853765.1-RS_2024_06` and `NCBI Crassostrea gigas Annotation Release 102` (found [here](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/963/853/765/GCF_963853765.1_GCF_963853765.1-RS_2024_06/Annotation_comparison/) ) and then between `NCBI Crassostrea gigas Annotation Release 102` and `NCBI Crassostrea gigas Annotation Release 101` (found [here](https://ftp.ncbi.nlm.nih.gov/genomes/all/annotation_releases/29159/102/GCF_902806645.1_cgigas_uk_roslin_v1/Annotation_comparison/) ).
 
 See also the *Comparison of the current and previous annotations* section of the `GCF_963853765.1-RS_2024_06` [Annotation Report](https://www.ncbi.nlm.nih.gov/refseq/annotation_euk/Magallana_gigas/GCF_963853765.1-RS_2024_06/) and the same section of the Roslin [Annotation Report](https://www.ncbi.nlm.nih.gov/refseq/annotation_euk/Crassostrea_gigas/102/)
 
-Our hypothesis would be that genes contributing to PC3 separation would be the ones with poor mappings (e.g. major changes) between reference genomes.
+Our hypothesis would be that genes contributing to Data1-Data2 separation would be the ones with poor mappings (e.g. major changes) between reference genomes.
 Determine if these genes are disproportionately affected by the differences in reference genomes.
 
 ## Code
@@ -252,91 +250,206 @@ def main(file1, file2, output_prefix):
 main("ncbi_dataset_GCA_000297895.1/ncbi_dataset/data/GCF_000297895.1/salmon.merged.gene_counts.tsv", "seqera_roberto/salmon.merged.gene_counts_seqera.tsv", "gene_comparison")
 ```
 
-Below is the code for generating the 3D PCA plot, as generated by `ChatGPT 4o`:
+Below is the code for generating the 3D PCA plot, as generated by `ChatGPT 4o` and subsequently modified.
 ```python
+# Import required libraries
 import pandas as pd
+import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-import plotly.express as px
+import matplotlib
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import plotly.graph_objects as go
 
-# Load data
-file1_path = 'path_to_first_gene_counts_file.tsv'
-file2_path = 'path_to_second_gene_counts_file.tsv'
-metadata_path = 'path_to_metadata_file.csv'
+matplotlib.use('Agg')
 
-# Load gene count files and metadata
-data1 = pd.read_csv(file1_path, sep='\t', index_col=0)
-data2 = pd.read_csv(file2_path, sep='\t', index_col=0)
-metadata = pd.read_csv(metadata_path)
+destdir = '/mnt/c/Users/inter/Downloads/GMGI/ChatGPT/'
+# Load the files
+data1_file = f'{destdir}salmon.merged.gene_counts_2023_seqera.tsv'
+data2_file = f'{destdir}salmon.merged.gene_counts_roberto_seqera.tsv'
+metadata_file = f'{destdir}deseq_metadata2.csv'
 
-# Identify common genes between datasets
+# Load the data1 and data2, ignoring the second column
+data1 = pd.read_csv(data1_file, sep='\t', index_col=0).iloc[:, 1:]
+data2 = pd.read_csv(data2_file, sep='\t', index_col=0).iloc[:, 1:]
+
+# Load the metadata
+metadata = pd.read_csv(metadata_file)
+
+# Find common genes between data1 and data2
 common_genes = data1.index.intersection(data2.index)
 
-# Subset data to common genes
-data1_common = data1.loc[common_genes].iloc[:, 1:]
-data2_common = data2.loc[common_genes].iloc[:, 1:]
+# Subset both datasets to include only these common genes
+data1_common = data1.loc[common_genes]
+data2_common = data2.loc[common_genes]
 
-# Select top 500 most variable genes based on variance in the first dataset
-variances = data1_common.var(axis=1)
+# Compute variance for each gene in the common data
+variances = data1_common.var(axis=1) + data2_common.var(axis=1)
+
+# Select the top 500 most variable genes
 top_genes = variances.nlargest(500).index
-
-# Subset datasets to top variable genes
 data1_top = data1_common.loc[top_genes]
 data2_top = data2_common.loc[top_genes]
 
-# Standardize the data
+# Standardize the gene counts
 scaler = StandardScaler()
-data1_scaled = scaler.fit_transform(data1_top.T)
-data2_scaled = scaler.fit_transform(data2_top.T)
-
-# Apply PCA to reduce to 3 components
-pca = PCA(n_components=3)
-pca1_results_3d = pca.fit_transform(data1_scaled)
-pca2_results_3d = pca.fit_transform(data2_scaled)
-
-# Convert PCA results to DataFrame
-pca1_df_3d = pd.DataFrame(pca1_results_3d, columns=['PC1', 'PC2', 'PC3'], index=data1_top.columns)
-pca2_df_3d = pd.DataFrame(pca2_results_3d, columns=['PC1', 'PC2', 'PC3'], index=data2_top.columns)
-
-# Filter metadata for valid samples
-metadata.set_index('sample', inplace=True)
-valid_samples = metadata.index.intersection(pca1_df_3d.index.union(pca2_df_3d.index))
-metadata_filtered = metadata.loc[valid_samples]
-
-# Update PCA DataFrames with metadata
-pca1_df_3d = pca1_df_3d.loc[valid_samples.intersection(pca1_df_3d.index)]
-pca2_df_3d = pca2_df_3d.loc[valid_samples.intersection(pca2_df_3d.index)]
-pca1_df_3d['thermal_tolerance'] = metadata_filtered.loc[pca1_df_3d.index, 'thermal.tolerance']
-pca1_df_3d['day'] = metadata_filtered.loc[pca1_df_3d.index, 'day']
-pca2_df_3d['thermal_tolerance'] = metadata_filtered.loc[pca2_df_3d.index, 'thermal.tolerance']
-pca2_df_3d['day'] = metadata_filtered.loc[pca2_df_3d.index, 'day']
-
-# Combine PCA results for visualization
-pca_combined_3d = pd.concat([pca1_df_3d, pca2_df_3d])
-pca_combined_3d['dataset'] = ['Dataset 1'] * len(pca1_df_3d) + ['Dataset 2'] * len(pca2_df_3d)
-pca_combined_3d['color'] = pca_combined_3d['dataset'].map({'Dataset 1': 'blue', 'Dataset 2': 'red'})
-pca_combined_3d['marker'] = pca_combined_3d['thermal_tolerance'].map({'resistant': 'circle', 'susceptible': 'x'})
-pca_combined_3d['size'] = pca_combined_3d['day'].map({0: 10, 30: 20})
-
-# Create interactive 3D plot
-fig = px.scatter_3d(
-    pca_combined_3d,
-    x='PC1',
-    y='PC2',
-    z='PC3',
-    color='dataset',
-    symbol='marker',
-    size='size',
-    hover_name=pca_combined_3d.index,
-    labels={'PC1': 'Principal Component 1', 'PC2': 'Principal Component 2', 'PC3': 'Principal Component 3'},
-    title="Interactive 3D PCA Plot"
+data1_standardized = pd.DataFrame(
+    scaler.fit_transform(data1_top.T).T, index=data1_top.index, columns=data1_top.columns
+)
+data2_standardized = pd.DataFrame(
+    scaler.fit_transform(data2_top.T).T, index=data2_top.index, columns=data2_top.columns
 )
 
-# Save the plot as an HTML file
-html_path = "interactive_3d_pca.html"
+# Perform PCA to reduce to 3 components
+pca1 = PCA(n_components=3)
+pca2 = PCA(n_components=3)
+pca1_results = pd.DataFrame(
+    pca1.fit_transform(data1_standardized.T), 
+    index=data1_standardized.columns, 
+    columns=["PC1", "PC2", "PC3"]
+)
+pca2_results = pd.DataFrame(
+    pca2.fit_transform(data2_standardized.T), 
+    index=data2_standardized.columns, 
+    columns=["PC1", "PC2", "PC3"]
+)
+
+# Merge PCA results with metadata
+metadata_subset = metadata.set_index("sample")
+pca1_metadata = pca1_results.join(metadata_subset, how="inner")
+pca2_metadata = pca2_results.join(metadata_subset, how="inner")
+
+# Combine PCA results for both datasets
+pca1_metadata['Dataset'] = 'Data1'
+pca2_metadata['Dataset'] = 'Data2'
+pca_combined = pd.concat([pca1_metadata, pca2_metadata], axis=0)
+
+# Marker mapping
+pca_combined['Marker'] = pca_combined['thermal.tolerance'].map(
+    {'resistant': 'o', 'susceptible': 'x'}
+)
+# pca_combined['Marker Size'] = pca_combined['day'].map({0: 5, 30: 15})
+pca_combined['Marker Size'] = pca_combined['day'].map({0: 3, 30: 8})
+
+
+# Marker size adjustment is necessary for the 3D plot
+def marker_size(row):
+    if row['day'] == 30:
+        return row['Marker Size'] * (1.5 if row['Marker'] == 'o' else 0.6)
+    return row['Marker Size'] * (2.2 if row['Marker'] == 'o' else 1.4)
+
+
+pca_combined['Scaled Marker Size'] = pca_combined.apply(
+    lambda row: marker_size(row), axis=1
+)
+
+# Interactive 3D PCA plot with updated marker styles
+fig = go.Figure()
+
+# Add Data1 points with markers
+data1_points = pca_combined[pca_combined['Dataset'] == 'Data1']
+fig.add_trace(go.Scatter3d(
+    x=data1_points['PC1'],
+    y=data1_points['PC2'],
+    z=data1_points['PC3'],
+    mode='markers+text',
+    marker=dict(
+        size=data1_points['Scaled Marker Size'],
+        color='blue',
+        symbol=data1_points['Marker'].map({'o': 'circle', 'x': 'x'})
+    ),
+    name='Data1',
+    text=data1_points.index.str[-2:],  # Sample ID as last two digits
+    textposition='top center'
+))
+
+# Add Data2 points with markers
+data2_points = pca_combined[pca_combined['Dataset'] == 'Data2']
+fig.add_trace(go.Scatter3d(
+    x=data2_points['PC1'],
+    y=data2_points['PC2'],
+    z=data2_points['PC3'],
+    mode='markers+text',
+    marker=dict(
+        size=data2_points['Scaled Marker Size'],
+        color='red',
+        symbol=data2_points['Marker'].map({'o': 'circle', 'x': 'x'})
+    ),
+    name='Data2',
+    text=data2_points.index.str[-2:],  # Sample ID as last two digits
+    textposition='top center'
+))
+
+# Update layout
+fig.update_layout(
+    title="Interactive 3D PCA Plot",
+    scene=dict(
+        xaxis_title=f'PC1 ({pca1.explained_variance_ratio_[0]*100:.2f}%)',
+        yaxis_title=f'PC2 ({pca1.explained_variance_ratio_[1]*100:.2f}%)',
+        zaxis_title=f'PC3 ({pca1.explained_variance_ratio_[2]*100:.2f}%)',
+    ),
+    scene_camera=dict(
+        up=dict(x=0, y=1, z=0),
+        eye=dict(x=0, y=0, z=2.5)  # Adjust perspective to make PC1 horizontal and PC2 vertical
+    ),
+    legend=dict(title="Dataset")
+)
+
+# Save interactive 3D plot as HTML
+html_path = f'{destdir}/Interactive_3D_PCA_Plot.html'
 fig.write_html(html_path)
 
-print(f"3D PCA plot saved to {html_path}")
+
+# Create static 2D PCA plots with markers
+def plot_2d_pca(data, x, y, title, xlabel, ylabel, filename):
+    fig, ax = plt.subplots(figsize=(8, 6))
+    for (thermal_tolerance, marker), color in [
+        (('resistant', 'o'), 'blue'), (('susceptible', 'x'), 'red')
+    ]:
+        subset = data[(data['thermal.tolerance'] == thermal_tolerance) & (data['Dataset'] == 'Data1')]
+        ax.scatter(
+            subset[x], subset[y], c='blue', alpha=0.7, label=f'{thermal_tolerance} Data1',
+            marker=marker, s=subset['Marker Size'] * 10
+        )
+        for i, txt in enumerate(subset.index):
+            ax.annotate(txt[-2:], (subset[x].iloc[i], subset[y].iloc[i]), fontsize=8)
+
+        subset = data[(data['thermal.tolerance'] == thermal_tolerance) & (data['Dataset'] == 'Data2')]
+        ax.scatter(
+            subset[x], subset[y], c='red', alpha=0.7, label=f'{thermal_tolerance} Data2',
+            marker=marker, s=subset['Marker Size'] * 10
+        )
+        for i, txt in enumerate(subset.index):
+            ax.annotate(txt[-2:], (subset[x].iloc[i], subset[y].iloc[i]), fontsize=8)
+
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    plt.title(title)
+    handles, _labels = ax.get_legend_handles_labels()
+    handles.extend([
+        plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='gray', markersize=6, label='Day 0'),
+        plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='gray', markersize=10, label='Day 30')
+    ])
+    ax.legend(handles=handles, title="Legend")
+    plt.savefig(f'{destdir}{filename}.png')
+    plt.close()
+
+# Regenerate 2D PCA projections
+plot_2d_pca(
+    pca_combined, 'PC1', 'PC2',
+    "2D PCA Projection (PC1 vs PC2)", 
+    f'PC1 ({pca1.explained_variance_ratio_[0]*100:.2f}%)',
+    f'PC2 ({pca1.explained_variance_ratio_[1]*100:.2f}%)',
+    "2D_PCA_PC1_PC2"
+)
+plot_2d_pca(
+    pca_combined, 'PC1', 'PC3',
+    "2D PCA Projection (PC1 vs PC3)", 
+    f'PC1 ({pca1.explained_variance_ratio_[0]*100:.2f}%)',
+    f'PC3 ({pca1.explained_variance_ratio_[2]*100:.2f}%)',
+    "2D_PCA_PC1_PC3"
+)
 ```
 
 
