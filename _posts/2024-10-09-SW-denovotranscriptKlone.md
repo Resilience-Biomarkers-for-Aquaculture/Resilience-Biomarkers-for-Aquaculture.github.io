@@ -6,7 +6,7 @@ tags: nextflow Klone denovotranscript
 
 
 The 9/25/24 attempt failed
-![](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/master/analyses/20240925/Screenshot%202024-10-01%142013.png)
+![](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_thermo_RNAseq/master/analyses/20240925/Screenshot%202024-10-01%142013.png)
 
 I can't find the log because I'm not sure where I ran the code from.
 
@@ -37,9 +37,9 @@ nextflow run nf-core/denovotranscript \
 
 ```
 This failed at Trinity step
-- [nextflow report](https://htmlpreview.github.io/?https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/blob/main/analyses/20241009/attempt01/nf_report.html)
+- [nextflow report](https://htmlpreview.github.io/?https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_thermo_RNAseq/blob/main/analyses/20241009/attempt01/nf_report.html)
 
-![](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/blob/main/analyses/20241009/attempt01/Screenshot%202024-10-09%20100350.png)
+![](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_thermo_RNAseq/blob/main/analyses/20241009/attempt01/Screenshot%202024-10-09%20100350.png)
 
 I reran the pipeline specifying to only use RNAspades as an assembler:
 ```
@@ -58,7 +58,7 @@ nextflow run nf-core/denovotranscript \
 ```
 
 This completed with errors
-- [nextflow report](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cgigas_denovotranscript/20241009/nf_report.html)
+- [nextflow report](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cgigas_thermo_RNAseq/20241009/nf_report.html)
 
 There seemed to be an issue with BUSCO and RNAQUAST
 ```

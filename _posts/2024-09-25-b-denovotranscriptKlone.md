@@ -6,7 +6,7 @@ tags: nextflow Klone denovotranscript
 
 This entry describes running denovotranscript on the UW HPC Klone server. I generally followed the [example workflow](https://nf-co.re/denovotranscript/dev/docs/usage/example_workflow) provided in the [denovotranscript usage documentation](https://nf-co.re/denovotranscript/dev/docs/usage).
 
-It's going to use the [samplesheet.csv](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/blob/main/analyses/20240925/samplesheet.csv) as input that was created by fetchngs
+It's going to use the [samplesheet.csv](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_thermo_RNAseq/blob/main/analyses/20240925/samplesheet.csv) as input that was created by fetchngs
 #### 1. Run the pipeline with --qc_only with default params to check the quality of your reads.
 
 ```
@@ -31,10 +31,10 @@ nf-core/denovotranscript \
 ```
 
 This completed successfully
-![](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/master/analyses/20240925/Screenshot%202024-09-25%20164327.png)
+![](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_thermo_RNAseq/master/analyses/20240925/Screenshot%202024-09-25%20164327.png)
 
-I looked at the [multiqc](https://htmlpreview.github.io/?https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/blob/main/analyses/20240925/multiqc_report_qc_only.html) and decided the first 10 bases should be trimmed from all reads. Example below
-![](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/master/analyses/20240925/Screenshot%202024-09-25%20175800.png)
+I looked at the [multiqc](https://htmlpreview.github.io/?https://github.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_thermo_RNAseq/blob/main/analyses/20240925/multiqc_report_qc_only.html) and decided the first 10 bases should be trimmed from all reads. Example below
+![](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_thermo_RNAseq/master/analyses/20240925/Screenshot%202024-09-25%20175800.png)
 
 2. Run the pipeline with qc_only and any custom parameters that you have decided to use based on your data. Use resume to avoid unnecessarily rerunning unchanged steps. I next ran:
 ```bash
@@ -48,7 +48,7 @@ nextflow run nf-core/denovotranscript \
 -resume
 ```
 this failed.
-![](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_denovotranscript/master/analyses/20240925/Screenshot%202024-09-25%20182046.png)
+![](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cgigas_thermo_RNAseq/master/analyses/20240925/Screenshot%202024-09-25%20182046.png)
 I closed the screen with ctrl + A + D and then screen -XS nextflow quit
 
 I decided to just try the whole pipeline and ran:
