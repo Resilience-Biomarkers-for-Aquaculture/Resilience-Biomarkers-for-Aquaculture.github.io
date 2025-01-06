@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Run Seqera rnaseq pipeline for C. gigas study
+author: Steve Yost
 tags: nextflow seqera aws rnaseq
 ---
 

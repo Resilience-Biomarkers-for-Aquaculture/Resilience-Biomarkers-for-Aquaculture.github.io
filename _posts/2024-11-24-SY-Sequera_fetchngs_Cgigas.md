@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Run Seqera fetchngs pipeline for C. gigas study
+author: Steve Yost
 tags: nextflow seqera aws fetchngs
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: AWS Batch compute environment on Seqera
+author: Steve Yost
 tags: nextflow seqera aws rnaseq test
 ---
 

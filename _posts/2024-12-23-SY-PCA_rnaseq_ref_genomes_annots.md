@@ -1,6 +1,7 @@
 ---
 layout: post
 title: PCA for gene count comparison between NCBI Crassostrea gigas Annotation Release 101 and GCF_963853765.1-RS_2024_06 reference genomes
+author: Steve Yost
 tags: rnaseq pca 
 ---
 

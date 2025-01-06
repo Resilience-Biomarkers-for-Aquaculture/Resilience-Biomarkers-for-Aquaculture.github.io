@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Using ChatGPT to explore thermal resistance based on gene counts
+author: Steve Yost
 tags: rnaseq pca 
 ---
 
