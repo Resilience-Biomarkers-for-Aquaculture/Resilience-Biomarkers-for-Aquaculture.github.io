@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Compare genes after CGI id conversion attempt 1
+author: Shelly Wanamaker
 tags: name-conversion identifiers genome-versions
 ---
 

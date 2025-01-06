@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Run RNAseq on perkinsus datasets
+author: Shelly Wanamaker
 tags: nextflow Klone RNAseq
 ---
 

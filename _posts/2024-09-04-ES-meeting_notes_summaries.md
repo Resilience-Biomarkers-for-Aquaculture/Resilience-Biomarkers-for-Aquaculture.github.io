@@ -1,6 +1,7 @@
 ---
 layout: post
 title: SW-ES Meeting Summaries
+author: Emma Strand
 tags: meetings
 ---
 

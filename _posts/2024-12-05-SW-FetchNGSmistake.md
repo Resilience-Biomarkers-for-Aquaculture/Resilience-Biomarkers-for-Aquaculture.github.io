@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Re-run FetchNGS for Cvirg_Perkinsus_RNAseq
+author: Shelly Wanamaker
 tags: nextflow Klone FetchNGS Perkinsus Dermo
 ---
 

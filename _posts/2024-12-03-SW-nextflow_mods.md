@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Repoint nf-core projectDir to srlab directory
+author: Shelly Wanamaker
 tags: nextflow nf-core klone
 ---
 

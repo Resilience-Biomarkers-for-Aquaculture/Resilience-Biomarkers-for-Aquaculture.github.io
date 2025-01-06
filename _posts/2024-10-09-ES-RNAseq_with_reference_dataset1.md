@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Running RNAseq pipeline with reference transcript for C.Gigas Dataset #1
+author: Emma Strand
 tags: RNAseq nextflow Klone referencetranscript Cgigas
 ---
 

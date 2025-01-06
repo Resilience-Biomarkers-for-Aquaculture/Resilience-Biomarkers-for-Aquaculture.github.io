@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Run denovotranscript on Klone attempt 3
+author: Shelly Wanamaker
 tags: nextflow Klone denovotranscript
 ---
 

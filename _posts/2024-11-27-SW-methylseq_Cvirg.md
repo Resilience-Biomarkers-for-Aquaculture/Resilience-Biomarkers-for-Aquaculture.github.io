@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Run methylseq on Klone
+author: Shelly Wanamaker
 tags: nextflow Klone denovotranscript
 ---
 ### Purpose

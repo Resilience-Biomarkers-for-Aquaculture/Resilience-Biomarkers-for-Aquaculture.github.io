@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Exploring nf-core differential abundance workflow
+author: Emma Strand
 tags: nextflow Klone differential-abundance
 ---
 

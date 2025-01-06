@@ -1,6 +1,7 @@
 ---
 layout: post
 title: RNASeq workflow with reference genome
+author: Emma Strand
 ---
 
 ## RNASeq workflow construction with reference genome

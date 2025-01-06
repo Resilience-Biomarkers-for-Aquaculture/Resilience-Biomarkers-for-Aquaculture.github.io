@@ -1,6 +1,7 @@
 ---
 layout: post
 title: UW bioinformatic resources and project set-up
+author: Emma Strand
 tags: project-setup HPC-server UW-resources
 ---
 
