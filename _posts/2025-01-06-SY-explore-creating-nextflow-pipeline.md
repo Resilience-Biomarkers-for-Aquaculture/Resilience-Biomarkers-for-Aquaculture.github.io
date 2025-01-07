@@ -30,7 +30,7 @@ by starting from the basics.
 A key realization was the need to create a Docker container or other virtualization
 to run this -- Sequera doesn't handle this. My python script used several major packages, and finding versions that didn't have version-conflicting dependencies on lower-level package was a challenge. Seqera's container-building service was
 not capable of resolving conflicts, and I produced several failed container builds in sequence. I eventually found a solution to this classic python "versioning hell" by using `conda` locally to load and automatically resolve package
-versions, and building my own Docker container and posting it to DockerHub.
+versions, and building my own Docker container and [posting it to DockerHub](https://hub.docker.com/r/journeymansix/gmgi_nf_gene_count_pca).
 ## Parameter schema
 Creating a `nextflow_schema.json` file allowed Seqera to present the
 familiar friendly interface for setting parameters, including browsing
