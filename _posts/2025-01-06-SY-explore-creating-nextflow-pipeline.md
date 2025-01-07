@@ -44,7 +44,7 @@ S3 for files and directories.
 ## Compute environment
 The current implementation makes use of my pre-configured AWS Batch compute environment. I haven't yet run it locally, though there's the promise of doing so with alternate configuration parameters.
 ## Writing to AWS S3
-In previous work, packages that were used were able to transparently handle writing to either a local file system or an S3 bucket. This wasn't the case for `matplotlib`'s `saveFigure` function, and so I wrote a function to emulate that behavior.
+In previous work, packages that were used were able to transparently handle writing to either a local file system or an S3 bucket. This wasn't the case for `matplotlib`'s `savefig` function, and so I wrote a function to emulate that behavior.
 ## Future work
 To pursue this further as both a learning experiment and something practically useful, I would do the following:
 * Break the single script down into its discrete `process` steps, each of which uses a distinct set
