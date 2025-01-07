@@ -37,7 +37,7 @@ familiar friendly interface for setting parameters, including browsing
 S3 for files and directories.
 
 <figure>
-    <img src="/assets/ seqera-gmgi-nextflow-params.png" alt="Seqera params page"/>
+    <img src="/assets/seqera-gmgi-nextflow-params.png" alt="Seqera params page"/>
     <figcaption class="caption">Seqera Run params page</figcaption>
 </figure>
 
