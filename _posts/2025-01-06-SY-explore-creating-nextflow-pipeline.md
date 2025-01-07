@@ -7,7 +7,7 @@ tags: NextFlow
 
 # Motivation
 Given the interesting results found during the previously posted ChatGPT work,
-there was some sentiment that the code I had consolidated from that session
+there was some sentiment that the python script that I had consolidated from that session
 might be reusable if it were generalized. I used this as an opportunity to
 explore creating a NextFlow pipeline, taking that python script as a starting
 point. 
@@ -19,21 +19,28 @@ I've run it successfully on the Seqera platform, producing result files -- heatm
 
 # Method
 ## Reflecting on ChatGPT
-Having had success with ChatGPT interaction, I started this by attempting to have it generate an entire NextFlow pipeline as a zip file. This was not as successful
-as before; ChatGPT generated a config file with bad sytax (perhaps simply outdated). Working through these errors was time-consuming, especially starting with my faulty assumption that ChatGPT's code should be correct.
-In retrospect
+Having had success with ChatGPT interaction, I started this effort by attempting to have ChatGPT generate an entire NextFlow pipeline as a zip file, based on my python script. This was not as successful
+as before; ChatGPT generated a `nextflow.config` file with bad sytax (perhaps simply outdated). Working through these errors was time-consuming, especially starting with my faulty assumption that ChatGPT's code would be correct.
+In retrospect,
 it would have been more efficient if I'd started by thoroughly reading the basic [NextFlow documentation](https://www.nextflow.io/docs/latest/), espcially to get
 a better sense of its philosophy and approach. However, muddling through did
 cause me to touch upon many aspects of NextFlow that I wouldn't have encountered
 by starting from the basics.
 ## Containers
 A key realization was the need to create a Docker container or other virtualization
-to run this -- Sequera doesn't handle this. My final script used several packages, and finding versions that didn't have version-conflicting dependencies on lower-level package was a challenge. Seqera's container-building service was
-not effective. I eventually found a solution by using `conda` locally to load and automatically resolve
-versions, and building my own container and posting it to DockerHub.
+to run this -- Sequera doesn't handle this. My python script used several major packages, and finding versions that didn't have version-conflicting dependencies on lower-level package was a challenge. Seqera's container-building service was
+not capable of resolving conflicts, and I produced several failed container builds in sequence. I eventually found a solution to this classic python "versioning hell" by using `conda` locally to load and automatically resolve package
+versions, and building my own Docker container and posting it to DockerHub.
 ## Compute environment
-... to be continued.
-
+The current implementation makes use of my pre-configured AWS Batch compute environment. I haven't yet run it locally, though there's the promise of doing so with alternate configuration parameters.
+## Writing to AWS S3
+In previous work, packages that were used were able to transparently handle writing to either a local file system or an S3 bucket. This wasn't the case for `matplotlib`'s `saveFigure` function, and so I wrote a function to emulate that behavior.
+## Future work
+To pursue this further as both a learning experiment and something practically useful, I would do the following:
+* Break the single script down into its discrete `process` steps, each of which uses a distinct set
+of python packages. Each `process`'s outputs and inputs (between the steps) would be handled by NextFlow `Channels`.
+* Specializing each process might allow the use of *existing* Seqera containers for each step, as each process could use its own container with few package dependencies.
+* Parallelization of the mutual-information iterations via NextFlow channel multiplicities. This would be an artificial usage -- too cumbersome for this scale -- but a good learning exercise.
 
 
 
