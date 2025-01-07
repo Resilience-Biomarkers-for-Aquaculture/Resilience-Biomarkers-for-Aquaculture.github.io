@@ -31,6 +31,16 @@ A key realization was the need to create a Docker container or other virtualizat
 to run this -- Sequera doesn't handle this. My python script used several major packages, and finding versions that didn't have version-conflicting dependencies on lower-level package was a challenge. Seqera's container-building service was
 not capable of resolving conflicts, and I produced several failed container builds in sequence. I eventually found a solution to this classic python "versioning hell" by using `conda` locally to load and automatically resolve package
 versions, and building my own Docker container and posting it to DockerHub.
+## Parameter schema
+Creating a `nextflow_schema.json` file allowed Seqera to present the
+familiar friendly interface for setting parameters, including browsing
+S3 for files and directories.
+
+<figure>
+    <img src="/assets/ seqera-gmgi-nextflow-params.png" alt="Seqera params page"/>
+    <figcaption class="caption">Seqera Run params page</figcaption>
+</figure>
+
 ## Compute environment
 The current implementation makes use of my pre-configured AWS Batch compute environment. I haven't yet run it locally, though there's the promise of doing so with alternate configuration parameters.
 ## Writing to AWS S3
