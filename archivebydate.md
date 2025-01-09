@@ -14,6 +14,7 @@ sitemap: false
     {% capture year %}{{ post.date | date: '%Y' }}{% endcapture %}
     {% capture nyear %}{{ post.next.date | date: '%Y' }}{% endcapture %}
     {% if year != nyear %}
+      {% if forloop.index != 1 %}</ul>{% endif %}
       <h2 class="archivetitletopbottom">{{ post.date | date: '%Y' }}</h2>
     {% endif %}
   {% endunless %}
@@ -21,11 +22,8 @@ sitemap: false
   {% capture month %}{{ post.date | date: '%m%Y' }}{% endcapture %}
   {% capture nmonth %}{{ post.next.date | date: '%m%Y' }}{% endcapture %}
   {% if month != nmonth %}
-    {% if forloop.index != 1 %}
-      </ul>
-    {% endif %}
-    <h2 class="archivetitle">{{ post.date | date: '%B %Y' }}</h2>
-    <ul>
+    {% if forloop.index != 1 %}</ul>{% endif %}
+    <h2 class="archivetitle">{{ post.date | date: '%B %Y' }}</h2><ul>
   {% endif %}
 
   {% if post.link %}
