@@ -8,7 +8,6 @@ sitemap: false
 
 <div id="index">
 {% for post in site.posts %}
-  {% assign need_ul_close = true %}
   {% capture year %}{{ post.date | date: '%Y' }}{% endcapture %}
   {% capture nyear %}{{ post.next.date | date: '%Y' }}{% endcapture %}
   {% unless post.next %}
@@ -16,7 +15,6 @@ sitemap: false
   {% else %}
     {% if year != nyear %}
       {% if forloop.index != 1 %}</ul><!-- year -->
-      {% need_ul_close = false %}
       {% endif %}
       <h2 class="archivetitletopbottom">{{ post.date | date: '%Y' }}</h2>
     {% endif %}
@@ -25,7 +23,7 @@ sitemap: false
   {% capture month %}{{ post.date | date: '%m%Y' }}{% endcapture %}
   {% capture nmonth %}{{ post.next.date | date: '%m%Y' }}{% endcapture %}
   {% if month != nmonth %}
-    {% if forloop.index != 1 && need_ul_close %}</ul><!-- month -->{% endif %}
+    {% if forloop.index != 1 and year == nyear %}</ul><!-- month -->{% endif %}
     <h2 class="archivetitle">{{ post.date | date: '%B %Y' }}</h2><ul>
   {% endif %}
 
