@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Using ChatGPT to explore thermal resistance based on gene counts
+title: Using ChatGPT to explore thermal resilience based on gene counts
 author: Steve Yost
 tags: rnaseq pca 
 ---
@@ -8,7 +8,7 @@ tags: rnaseq pca
 # Intro
 This post has two motivations:
 1. Demonstrate using ChatGPT's specialized `Data Analyst` model to explore a problem starting with the initial problem statement, showing dialog, generated code (often much modified by me). This section is quite long, but I'd be interested in your thoughts about the options it suggests in each step along the way.
-1. In the results note possible overfitting (in this current anlaysis), or other basic challenges to producing statistically significant results given the small sample size in the original study. If you're mostly interested in this, search for the *Overfitting?* heading below.
+1. In the results, note possible overfitting (in this current anlaysis), or other basic challenges to producing statistically significant results given the small sample size in the original study. If you're mostly interested in this, search for the *Overfitting?* heading below.
 
 # ChatGPT dialog
 
