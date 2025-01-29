@@ -33,8 +33,8 @@ wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/022/765/GCF_002022765.2_C_
 ```
 #!/bin/bash
 #SBATCH --account=srlab
-#SBATCH --error=/gscratch/scrubbed/elstrand/Cvir_disease_meta/scripts/output/"%x_error.%j" #if your job fails, the error report will be put in this file
-#SBATCH --output=/gscratch/scrubbed/elstrand/Cvir_disease_meta/scripts/output/"%x_output.%j" #once your job is completed, any final job report comments will be put in this file
+#SBATCH --error=/gscratch/scrubbed/elstrand/Cvir_disease_meta/"%x_error.%j" #if your job fails, the error report will be put in this file
+#SBATCH --output=/gscratch/scrubbed/elstrand/Cvir_disease_meta/"%x_output.%j" #once your job is completed, any final job report comments will be put in this file
 #SBATCH --partition=cpu-g2-mem2x
 #SBATCH --nodes=1
 #SBATCH --time=1-20:00:00
@@ -220,8 +220,9 @@ nextflow run nf-core/fetchngs -resume \
 --input /mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset5/Cvir_prkns_dataset5_SRAids.csv \
 --outdir /mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset5 \
 --download_method sratools
-
 ```
+
+After this finished ~22 min then I renamed the data files and moved output to a new fetchnegs folder.
 
 ### Workflow 
 
@@ -240,11 +241,14 @@ Create new samplesheet to fit rnaseq workflow:
 ```
 scp xxx@klone.hyak.uw.edu:/gscratch/scrubbed/strigg/analyses/20241108_RNAseq/samplesheet/samplesheet.csv C:\Users\EmmaStrand\Downloads
 scp xxx@klone.hyak.uw.edu:/gscratch/scrubbed/strigg/analyses/20241205_FetchNGS/samplesheet/samplesheet.csv C:\Users\EmmaStrand\Downloads
+scp xxx@klone.hyak.uw.edu:/gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset5/fetchngs/samplesheet/samplesheet.csv C:\Users\EmmaStrand\Downloads
 
 scp C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture\samplesheet_rnaseq_Cvir_disease_set1.csv xxx@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_2024Nov11/
 
 scp C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture\Cvirg_Pmarinus_RNAseq\data\rnaseq samplesheets\*.csv xxx@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets
 scp C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture\Cvirg_Pmarinus_RNAseq\data\rnaseq samplesheets\*.csv xxx@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets
+
+scp C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture\Cvirg_Pmarinus_RNAseq\data\rnaseq_samplesheets\samplesheet_rnaseq_dataset5.csv xxx@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets
 ```
 
 R script on my computer to fix this sample sheet. I realized after that I over-wrote the .csv file but just moving on to uploading.
@@ -764,4 +768,30 @@ sbatch -J Cvir_disease_rnaseq_dataset3 ../scripts/rnaseq_Cvir.sh \
     /gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets/samplesheet_rnaseq_dataset3.csv \
     /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset3 \
     Cvir_disease_rnaseq_dataset3  
+```
+
+### Running dataset 5
+
+```
+conda activate nextflow
+cd /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset5/rnaseq
+
+sbatch -J Cvir_disease_rnaseq_dataset5 ../../scripts/rnaseq_Cvir.sh \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset5/rnaseq/samplesheet_rnaseq_dataset5.csv \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset5 \
+    Cvir_disease_rnaseq_dataset5 \
+    '--cut_mean_quality 30 --trim_front1 10 --trim_front2 10'
+```
+
+I ran into this error. Which is weird because I didn't get this before when I used the same code?
+
+```
+WARN: The following invalid input values have been detected:
+
+* --cut_mean_quality: 30
+* --trim_front1: 10
+* --trim_front2: 10
+
+
+ERROR ~ Validation of pipeline parameters failed!
 ```
