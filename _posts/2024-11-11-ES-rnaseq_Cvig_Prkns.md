@@ -9,7 +9,7 @@ tags: nextflow Klone RNAseq
 
 ## Summary 
 
-We are analyzing 4 datasets of Eastern Oyster, *C. virginica*, exposed to *Perkinsus marinus* infections.    
+We are analyzing 5 datasets of Eastern Oyster, *C. virginica*, exposed to *Perkinsus marinus* infections.    
 
 [Github repository](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/tree/main) 
 
@@ -138,6 +138,90 @@ See [ABOUT](https://resilience-biomarkers-for-aquaculture.github.io/about/) page
 | 3     | C.   gigas & virginica | T         | disease      | Perkinsus | infection   tolerance | resilience       | Chan et al. 2021             | 10.3389/fgene.2021.795706                         | SRX564s | https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SAMN11031730&o=acc_s%3Aa      | SraRunTable(2).csv |              |          |
 | 4     | C.   virginica         | T         | disease      | Perkinsus | infection             | sensitivity      | Sullivan   and Proestou 2021 | https://doi.org/10.1016/j.aquaculture.2021.736831 | SRX984s | https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP301630&o=acc_s%3Aa         | SraRunTable(3).csv |              |          |
 
+Shelly downloaded set 1-4 and I downloaded #5 on 1-28-2025 once we added the fifth dataset. I followed her instructions in this [post](https://resilience-biomarkers-for-aquaculture.github.io/a-fetchNGSKlone/). 
+
+I went to SRA Run selector webpage and used PRJNA590205 to find the associated files. I then clicked download accession list which downloads a .txt file. I copied these into an excel and saved as `Cvir_prkns_dataset5_SRAids.csv`. I used `scp C:/Users/EmmaStrand/MyProjects/Resilience_Biomarkers_Aquaculture/Cvirg_Pmarinus_RNAseq/data/Cvir_prkns_dataset5_SRAids.csv elstrand@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset5`
+
+Custom config for nextflow: (`/gscratch/scrubbed/elstrand/uw_hyak_srlab_estrand.config`)
+
+```
+nano uw_hyak_srlab_estrand.config
+
+### paste below information 
+
+params {
+    config_profile_description = 'UW Hyak Roberts labs cluster profile provided by nf-core/configs.'
+    config_profile_contact = 'Emma Strand emma.strand@gmgi.org'
+    config_profile_url = 'https://faculty.washington.edu/sr320/'
+}
+
+process {
+    executor = 'slurm'
+    queue = { task.attempt == 1 ? 'ckpt' : 'cpu-g2-mem2x' }
+    maxRetries = 1
+    clusterOptions = { "-A srlab" }
+    scratch = '/gscratch/scrubbed/elstrand/'
+    resourceLimits = [
+                cpus: 16,
+                memory: '150.GB',
+                time: '72.h'
+        ]
+}
+
+executor {
+    queuesize = 50
+    submitRateLimit = '1 sec'
+}
+
+singularity {
+    enabled = true
+    autoMounts = true
+    cacheDir = '/gscratch/scrubbed/elstrand/.apptainer'
+}
+
+trace {
+    enabled = true
+    file = 'pipeline_trace.txt'
+    fields = 'task_id,hash,name,status,exit,submit,duration,realtime,%cpu,rss,vmem,rchar,wchar,disk,queue,hostname,cpu_model'
+}
+
+debug {
+    cleanup = false
+}
+
+k8s {
+    projectDir = '/gscratch/scrubbed/elstrand'
+}
+```
+
+Running fetchngs after activating conda: `conda activate nextflow`
+
+`fetchngs.sh` 
+
+```
+#!/bin/bash
+#SBATCH --job-name=fetchngs
+#SBATCH --account=srlab
+#SBATCH --error="%x_error.%j" #if your job fails, the error report will be put in this file
+#SBATCH --output="%x_output.%j" #once your job is completed, any final job report comments will be put in this file
+#SBATCH --partition=cpu-g2-mem2x
+#SBATCH --nodes=1
+#SBATCH --time=1-20:00:00
+#SBATCH --mem=50G
+#SBATCH --ntasks=7
+#SBATCH --cpus-per-task=2
+#SBATCH --chdir=/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset5
+
+## conda environment needs to be activated prior 
+
+# run nextflow pipeline
+nextflow run nf-core/fetchngs -resume \
+-c /gscratch/scrubbed/elstrand/uw_hyak_srlab_estrand.config \
+--input /mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset5/Cvir_prkns_dataset5_SRAids.csv \
+--outdir /mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset5 \
+--download_method sratools
+
+```
 
 ### Workflow 
 
