@@ -60,7 +60,7 @@ footer-link-col: "#404040"
 # Important: you must keep the "name" parameter, everything else you can remove
 author:
   name: Shelly A. Wanamaker
-  email: "https://github.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/issues/new?template=Blank+issue"
+  email: https://github.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/issues/new?template=Blank+issue
   github:  Resilience-Biomarkers-for-Aquaculture
   og_image: "/img/logo_8x8.jpg"
 
