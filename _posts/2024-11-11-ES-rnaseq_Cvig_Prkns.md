@@ -24,17 +24,22 @@ mkdir C_gigas
 wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/022/765/GCF_002022765.2_C_virginica-3.0/GCF_002022765.2_C_virginica-3.0_genomic.fna.gz
 wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/022/765/GCF_002022765.2_C_virginica-3.0/GCF_002022765.2_C_virginica-3.0_genomic.gff.gz
 wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/022/765/GCF_002022765.2_C_virginica-3.0/GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz
+
+## modifying the empty gene id columns 
+zcat GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz | awk -F"\t" '{if($9 ~/gene_id ""/ ) gsub(/gene_id ""/,"gene_id \"unknown_transcript_1\"",$9);print $0}' | gzip > mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz
 ```
 
 ### Final script
+
+I was messing with haivng the fastp arguments with $4 but was getting errors with that. So changed the clipping parameters as needed. 
 
 `rnaseq_Cvir.sh`
 
 ```
 #!/bin/bash
 #SBATCH --account=srlab
-#SBATCH --error=/gscratch/scrubbed/elstrand/Cvir_disease_meta/"%x_error.%j" #if your job fails, the error report will be put in this file
-#SBATCH --output=/gscratch/scrubbed/elstrand/Cvir_disease_meta/"%x_output.%j" #once your job is completed, any final job report comments will be put in this file
+#SBATCH --error=/gscratch/scrubbed/elstrand/Cvir_disease_meta/scripts/output/"%x_error.%j" #if your job fails, the error report will be put in this file
+#SBATCH --output=/gscratch/scrubbed/elstrand/Cvir_disease_meta/scripts/output/"%x_output.%j" #once your job is completed, any final job report comments will be put in this file
 #SBATCH --partition=cpu-g2-mem2x
 #SBATCH --nodes=1
 #SBATCH --time=1-20:00:00
@@ -48,7 +53,7 @@ wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/022/765/GCF_002022765.2_C_
 samplesheet=$1
 output=$2
 multiqc_title=$3
-fastp=$4
+# fastp=$4
 
 ## paths for all datasets
 genome="/gscratch/scrubbed/elstrand/genomes/C_virginica/GCF_002022765.2_C_virginica-3.0_genomic.fna.gz"
@@ -64,7 +69,7 @@ nextflow run nf-core/rnaseq -resume \
     --gff ${gff} \
     --fasta ${genome} \
     --trimmer fastp \
-    --extra_fastp_args $4 \
+    --extra_fastp_args '--cut_mean_quality 30 --trim_front1 10 --trim_front2 10' \
     --aligner star_salmon \
     --skip_pseudo_alignment \
     --multiqc_title ${multiqc_title} \
@@ -77,7 +82,7 @@ nextflow run nf-core/rnaseq -resume \
 conda activate nextflow
 cd /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset4
 
-sbatch -J Cvir_disease_rnaseq_dataset4 ../scripts/rnaseq.sh \
+sbatch -J Cvir_disease_rnaseq_dataset4 ../scripts/rnaseq_Cvir.sh \
     /gscratch/scrubbed/elstrand/Cvir_disease_meta/samplesheets/samplesheet_rnaseq_dataset4.csv \
     /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset4 \
     Cvir_disease_rnaseq_dataset4 \
@@ -160,7 +165,7 @@ process {
     queue = { task.attempt == 1 ? 'ckpt' : 'cpu-g2-mem2x' }
     maxRetries = 1
     clusterOptions = { "-A srlab" }
-    scratch = '/gscratch/scrubbed/elstrand/'
+    scratch = '/gscratch/scrubbed/srlab/'
     resourceLimits = [
                 cpus: 16,
                 memory: '150.GB',
@@ -176,7 +181,7 @@ executor {
 singularity {
     enabled = true
     autoMounts = true
-    cacheDir = '/gscratch/scrubbed/elstrand/.apptainer'
+    cacheDir = '/gscratch/scrubbed/srlab/.apptainer'
 }
 
 trace {
@@ -772,6 +777,10 @@ sbatch -J Cvir_disease_rnaseq_dataset3 ../scripts/rnaseq_Cvir.sh \
 
 ### Running dataset 5
 
+1-28-2025 - 1-29-2025 
+
+If re-running this, remove the pipeline_trace.txt file. It won't re-run if there is already an existing file 
+
 ```
 conda activate nextflow
 cd /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset5/rnaseq
@@ -783,7 +792,7 @@ sbatch -J Cvir_disease_rnaseq_dataset5 ../../scripts/rnaseq_Cvir.sh \
     '--cut_mean_quality 30 --trim_front1 10 --trim_front2 10'
 ```
 
-I ran into this error. Which is weird because I didn't get this before when I used the same code?
+I ran into this error. Figured out that I needed ${fastp} in the script rather than $4 in the actual nextflow code. Changed that and re-ran, but still getting this same error even with ${fastp}..
 
 ```
 WARN: The following invalid input values have been detected:
@@ -792,6 +801,49 @@ WARN: The following invalid input values have been detected:
 * --trim_front1: 10
 * --trim_front2: 10
 
-
 ERROR ~ Validation of pipeline parameters failed!
 ```
+
+Moved `'--cut_mean_quality 30 --trim_front1 10 --trim_front2 10'` to the slurm script and ran again with this embedded in nextflow.
+
+```
+conda activate nextflow
+cd /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset5/rnaseq
+
+sbatch -J Cvir_disease_rnaseq_dataset5 ../../scripts/rnaseq_Cvir.sh \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset5/samplesheet_rnaseq_dataset5.csv \
+    /gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset5 \
+    Cvir_disease_rnaseq_dataset5
+```
+
+I'm getting this error: `ERROR ~ Validation of pipeline parameters failed!` but no mention of which parameters. This is because I need to modify the gtf file so did that again and re-ran the script. I STILL get the parameters issue. Cannot validate pipeline parameters.. Is the config file wrong? I changed the paths of the .apptainer back to srlab to mimic Shelly's and only changing the directory at the bottom of the file. Re-ran script. I realized `rnaseq/` was in the samplesheet path when it shouldn't have been. Fixed and re-ran. Still got this issue.. Removed the srlab directories from my config file so it's all directed to my user on scrubbed. Tried again.
+
+Got this error: 
+
+```
+* --input (/gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset5/samplesheet_rnaseq_dataset5.csv): Validation of file failed:
+        -> Entry 1: Error for field 'fastq_2' (/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/dataset5/fastq/SRX7172518_SRR10482877_2.fastq.gz): FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'
+```
+
+I had changed the fastq folder to raw_data but fastq is in the path in the samplesheet. So I changed that folder back. Re-ran again and it worked!! 
+
+This output was in dataset5 and then afterwards I moved this to rnaseq. This dataset took 3 hours to complete.
+
+Moving to gannet: 
+
+```
+rsync --archive --verbose --progress multiqc/star_salmon/multiqc_report.html emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset5/pipeline_info
+rsync --archive --verbose --progress pipeline_info/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset5/pipeline_info
+rsync --archive --verbose --progress pipeline_trace.txt emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset5/pipeline_info
+
+rsync --archive --verbose --progress star_salmon/deseq2_qc/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset5/deseq2_qc
+rsync --archive --verbose --progress star_salmon/log/ emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset5/log
+
+cd \gscratch\scrubbed\elstrand\Cvir_disease_meta\dataset5\rnaseq\star_salmon
+rsync --archive --verbose --progress *.tsv emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset5
+
+cd \gscratch\scrubbed\elstrand\Cvir_disease_meta\scripts\output
+rsync --archive --verbose --progress * emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset5
+```
+
+Moved genomes, scripts, and config file to /gscratch/srlab/elstrand
