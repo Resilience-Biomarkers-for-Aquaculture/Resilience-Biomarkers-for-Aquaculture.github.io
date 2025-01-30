@@ -66,6 +66,10 @@ Postdoctoral Scientist
 [emma.strand@gmgi.org](mailto:emma.strand@gmgi.org)  
 [https://github.com/emmastrand](https://github.com/emmastrand)
 
+Steve Yost (he/him)  
+Bioinformatics Software Engineer  
+[steve.yost+gmgi@gmail.com](mailto:steve.yost@gmail.com)
+
  **Office and mailing address:**  
 Gloucester Marine Genomics Institute  
 417 Main Street  
