@@ -61,8 +61,7 @@ footer-link-col: "#404040"
 author:
   name: Shelly A. Wanamaker
   email: "strigg@uw.edu"
-  github: shellywanamaker
-  twitter: striggosaurus
+  github:  Resilience-Biomarkers-for-Aquaculture
   linkedin: shelly-wanamaker-ph-d-670b6121
   og_image: "/img/logo_8x8.jpg"
 
@@ -72,11 +71,8 @@ author:
 # If you want to add a new link that isn't here, you'll need to also edit the file _data/SocialNetworks.yml
 social-network-links:
 # rss: false
-  email: "strigg@uw.edu"
 # facebook: false
-  github: shellywanamaker
-  twitter: striggosaurus
-  linkedin: shelly-wanamaker-ph-d-670b6121
+  github: Resilience-Biomarkers-for-Aquaculture
 #  xing: yourname
 #  stackoverflow: "3943160/daattali"
 #  snapchat: deanat78
