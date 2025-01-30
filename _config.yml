@@ -60,9 +60,8 @@ footer-link-col: "#404040"
 # Important: you must keep the "name" parameter, everything else you can remove
 author:
   name: Shelly A. Wanamaker
-  email: "strigg@uw.edu"
+  email: "https://github.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/issues/new?template=Blank+issue"
   github:  Resilience-Biomarkers-for-Aquaculture
-  linkedin: shelly-wanamaker-ph-d-670b6121
   og_image: "/img/logo_8x8.jpg"
 
 # Select your active Social Network Links.
@@ -87,9 +86,9 @@ social-network-links:
 
 # Select which share links to show in posts
 share-links-active:
-  twitter: true
+#  twitter: true
 #  facebook: true
-  linkedin: true
+#  linkedin: true
   github: true
 
 
