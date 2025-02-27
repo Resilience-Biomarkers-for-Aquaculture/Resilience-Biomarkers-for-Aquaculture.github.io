@@ -130,6 +130,15 @@ Command output:
   [1] "Reading mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf elements of type transcript"
 ```
 
+I tried `awk '$3 == "transcript"' mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf` to see if there are any transcripts and this returned nothing. I then tried `awk '{print $3}' mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf | sort | uniq` and this resulted in:
+
+CDS
+Crassostrea
+exon
+gene
+start_codon
+stop_codon
+
 
 
 #### Examples from other projects 
