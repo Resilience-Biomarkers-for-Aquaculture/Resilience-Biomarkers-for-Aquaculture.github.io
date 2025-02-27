@@ -139,6 +139,20 @@ gene
 start_codon
 stop_codon
 
+The gtf file I'm using looks like:
+
+```
+#gtf-version 2.2
+#!genome-build C_virginica-3.0
+#!genome-build-accession NCBI_Assembly:GCF_002022765.2
+#!annotation-source NCBI Crassostrea virginica Annotation Release 100
+NC_035780.1     Gnomon  gene    13578   14594   .       +       .       gene_id "LOC111116054"; db_xref "GeneID:111116054"; gbkey "Gene"; gene "LOC111116054"; gene_biotype "lncRNA";
+NC_035780.1     Gnomon  exon    13578   13603   .       +       .       gene_id "LOC111116054"; transcript_id "XR_002636969.1"; db_xref "GeneID:111116054"; gbkey "ncRNA"; gene "LOC111116054"; model_evidence "Supporting evidence includes similarity to: 100% coverage of the annotated genomic feature by RNAseq alignments, including 1 sample with support for all annotated introns"; product "uncharacterized LOC111116054"; exon_number "1";
+NC_035780.1     Gnomon  exon    14237   14290   .       +       .       gene_id "LOC111116054"; transcript_id "XR_002636969.1"; db_xref "GeneID:111116054"; gbkey "ncRNA"; gene "LOC111116054"; model_evidence "Supporting evidence includes similarity to: 100% coverage of the annotated genomic feature by RNAseq alignments, including 1 sample with support for all annotated introns"; product "uncharacterized LOC111116054"; exon_number "2";
+NC_035780.1     Gnomon  exon    14557   14594   .       +       .       gene_id "LOC111116054"; transcript_id "XR_002636969.1"; db_xref "GeneID:111116054"; gbkey "ncRNA"; gene "LOC111116054"; model_evidence "Supporting evidence includes similarity to: 100% coverage of the annotated genomic feature by RNAseq alignments, including 1 sample with support for all annotated introns"; product "uncharacterized LOC111116054"; exon_number "3";
+NC_035780.1     Gnomon  gene    28961   33324   .       +       .       gene_id "LOC111126949"; db_xref "GeneID:111126949"; gbkey "Gene"; gene "LOC111126949"; gene_biotype "protein_coding";
+NC_035780.1     Gnomon  exon    28961   29073   .       +       .       gene_id "LOC111126949"; transcript_id "XM_022471938.1"; db_xref "GeneID:111126949"; gbkey "mRNA"; gene "LOC111126949"; model_evidence "Supporting evidence includes similarity to: 3 Proteins, and 100% coverage of the annotated genomic feature by RNAseq alignments, including 21 samples with support for all annotated introns"; product "UNC5C-like protein"; exon_number "1";
+```
 
 
 #### Examples from other projects 
