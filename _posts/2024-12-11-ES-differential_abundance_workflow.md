@@ -11,35 +11,63 @@ We want to test out this nf-core workflow: https://github.com/nf-core/differenti
 
 ### Required files 
 
-Observations / Samplesheet input: `--input '[path to samplesheet file]'`
+Observations / Samplesheet input: `--input rnaseq_difabundance_fullset_samplesheet.csv`
 
 ```
-sample,fastq_1,fastq_2,condition,replicate,batch
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz,control,1,A
-CONTROL_REP2,AEG588A1_S1_L003_R1_001.fastq.gz,AEG588A1_S1_L003_R2_001.fastq.gz,control,2,B
+sample,fastq_1,fastq_2,condition
+SRX13037862,/gscratch/scrubbed/strigg/analyses/20241205_FetchNGS/fastq/SRX13037862_SRR16844801.fastq.gz,,tolerant
+SRX13037863,/gscratch/scrubbed/strigg/analyses/20241205_FetchNGS/fastq/SRX13037863_SRR16844800.fastq.gz,,tolerant
+SRX18040005,/gscratch/scrubbed/strigg/analyses/20241205_FetchNGS/fastq/SRX18040005_SRR22059186_1.fastq.gz,/gscratch/scrubbed/strigg/analyses/20241205_FetchNGS/fastq/SRX18040005_SRR22059186_2.fastq.gz,tolerant
+SRX18040006,/gscratch/scrubbed/strigg/analyses/20241205_FetchNGS/fastq/SRX18040006_SRR22059167_1.fastq.gz,/gscratch/scrubbed/strigg/analyses/20241205_FetchNGS/fastq/SRX18040006_SRR22059167_2.fastq.gz,tolerant
 ```
 
-RNAseq data:
+RNAseq data: I used the `salmon.merged.gene_length_scaled.tsv` files and merged them in R to be `merged_gene_counts_scaled.tsv`. 
 
 ```
---matrix 'salmon.merged.gene_counts.tsv' \
---transcript_length_matrix 'salmon.merged.gene_lengths.tsv'
+--matrix 'merged_gene_counts_scaled.tsv'
 ```
 
-Contrasts information: `--contrasts '[path to contrasts file]'`
+Contrasts information: `--contrasts rnaseq_diffabundance_contrasts.csv`
 
 ```
-id,variable,reference,target,blocking
-condition_control_treated,condition,control,treated,
-condition_control_treated_blockrep,condition,control,treated,replicate;batch
+id,variable,reference,target
+condition_sensitive_tolerant,condition,sensitive,tolerant
 ```
 
 Feature annotations `--gtf '[path to gtf file]'`
 
+```
+/gscratch/srlab/elstrand/genomes/C_virginica/mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz
+```
+
+Transfer files 
+
+```
+scp C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture\Cvirg_Pmarinus_RNAseq\data\rnaseq_gene_counts\merged_gene_counts_scaled.tsv elstrand@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/differential_abundance/merged_gene_counts_scaled.tsv
+
+scp C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture\Cvirg_Pmarinus_RNAseq\data\differential_abundance_sheets\rnaseq_difabundance_fullset_samplesheet.csv elstrand@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/differential_abundance/rnaseq_difabundance_fullset_samplesheet.csv
+
+scp C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture\Cvirg_Pmarinus_RNAseq\data\differential_abundance_sheets\rnaseq_diffabundance_contrasts.csv elstrand@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/differential_abundance/rnaseq_diffabundance_contrasts.csv
+```
+
+### Downloading Shinyngs to the conda environment I created for nextflow 
+
+The output of differential abundance uses r-shinyngs so I'm downloading that within the mamba environment we I created called `nextflow`. 
+
+```
+## Activate current environment
+mamba activate nextflow
+
+## Install r-shinyngs
+conda config --add channels bioconda
+mamba install r-shinyngs
+```
 
 ### Script 
 
-`rnaseq_diffab.sh`
+Trying to run this on the full dataset.
+
+`differential_abundance_full.sh`
 
 ```
 #!/bin/bash
@@ -54,12 +82,11 @@ Feature annotations `--gtf '[path to gtf file]'`
 #SBATCH --cpus-per-task=2
 
 ## Set paths 
-samplesheet=""
-contrasts=""
-gene_counts=""
-transcript_counts=""
-output_dir=""
-gtf=""
+samplesheet="/gscratch/scrubbed/elstrand/Cvir_disease_meta/differential_abundance/rnaseq_difabundance_fullset_samplesheet.csv"
+contrasts="/gscratch/scrubbed/elstrand/Cvir_disease_meta/differential_abundance/rnaseq_diffabundance_contrasts.csv"
+gene_counts="/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/differential_abundance/merged_gene_counts_scaled.tsv"
+output_dir="/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/differential_abundance/results"
+gtf="/gscratch/srlab/elstrand/genomes/C_virginica/mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz"
 
 ## Run differential abundance workflow 
 nextflow run nf-core/differentialabundance -resume \
@@ -67,15 +94,45 @@ nextflow run nf-core/differentialabundance -resume \
 --input ${samplesheet} \
 --contrasts ${contrasts} \
 --matrix ${gene_counts} \
---transcript_length_matrix ${transcript_counts} \
 --outdir ${output_dir} \
 --gtf ${gtf}
 ```
 
-To run: `sbatch rnaseq_diffab.sh`
+To run: 
+- Activate conda environment: `mamba activate nextflow`   
+- Run script: `sbatch differential_abundance_full.sh`  
+
+Notes:  
+- 2-27-2025 Tried to run on full dataset. Got error from gtf file. There is something about the file that it can't read.. Possible that it's looking for 'transcript' and can't find any? This R script is within the workflow so if I wanted to change any parameters then I'd have to include a custom config file. 
+
+```
+ERROR ~ Error executing process > 'NFCORE_DIFFERENTIALABUNDANCE:DIFFERENTIALABUNDANCE:GTF_TO_TABLE (mod_GCF_002022765)'
+
+Caused by:
+  Process `NFCORE_DIFFERENTIALABUNDANCE:DIFFERENTIALABUNDANCE:GTF_TO_TABLE (mod_GCF_002022765)` terminated with an error exit status (1)
+
+Command executed:
+  gtf2featureAnnotation.R \
+      --gtf-file mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf \
+      --output-file mod_GCF_002022765.anno.tsv \
+       \
+      --feature-type 'transcript' --first-field 'gene_id'
+
+  cat <<-END_VERSIONS > versions.yml
+  "NFCORE_DIFFERENTIALABUNDANCE:DIFFERENTIALABUNDANCE:GTF_TO_TABLE":
+      atlas-gene-annotation-manipulation: 1.1.1
+  END_VERSIONS
+
+Command exit status:
+  1
+
+Command output:
+  [1] "Reading mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf elements of type transcript"
+```
 
 
-#### Examples 
+
+#### Examples from other projects 
 
 Riss ran this on thier rnaseq from sea urchins. They ended up with log2change values that seemed unrealistic so they ended up doing this on their own. I wonder if this was because the output from rnaseq was run with --deseq_vst so if the differential abundance workflow is also normalizing these value it would be a problem..?
 
