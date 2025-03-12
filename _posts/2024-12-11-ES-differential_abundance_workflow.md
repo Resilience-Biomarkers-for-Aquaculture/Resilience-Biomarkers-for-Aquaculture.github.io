@@ -72,8 +72,8 @@ Trying to run this on the full dataset.
 ```
 #!/bin/bash
 #SBATCH --account=srlab
-#SBATCH --error=/output/"%x_error.%j" #if your job fails, the error report will be put in this file
-#SBATCH --output=/output/"%x_output.%j" #once your job is completed, any final job report comments will be put in this file
+#SBATCH --error="%x_error.%j" #if your job fails, the error report will be put in this file
+#SBATCH --output="%x_output.%j" #once your job is completed, any final job report comments will be put in this file
 #SBATCH --partition=cpu-g2-mem2x
 #SBATCH --nodes=1
 #SBATCH --time=1-20:00:00
@@ -157,7 +157,7 @@ NC_035780.1     Gnomon  exon    28961   29073   .       +       .       gene_id 
 
 3-10-2025: I figured out that I can change the feature type that the workflow is looking for. Originally this was 'transcript', but I'll try to change it to 'exon' and see if that works. This is adding the `--features_gtf_feature_type` flag to the workflow. 
 
-3-12-2025: I had `gtf.gz"` at the end of the gtf file. I removed `.gz` and tried again. Nextflow couldn't find the file bc of the extension. Running again.
+3-12-2025: I had `gtf.gz"` at the end of the gtf file. I removed `.gz` and tried again. Nextflow couldn't find the file bc of the extension. Running again. I also changed the path of output files to be within `differential_abundance/scripts`. This is running! Check back in later. 
 
 #### Examples from other projects 
 
