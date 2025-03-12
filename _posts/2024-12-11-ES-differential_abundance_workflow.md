@@ -72,8 +72,8 @@ Trying to run this on the full dataset.
 ```
 #!/bin/bash
 #SBATCH --account=srlab
-#SBATCH --error=/gscratch/scrubbed/elstrand/Cvir_disease_meta/scripts/output/"%x_error.%j" #if your job fails, the error report will be put in this file
-#SBATCH --output=/gscratch/scrubbed/elstrand/Cvir_disease_meta/scripts/output/"%x_output.%j" #once your job is completed, any final job report comments will be put in this file
+#SBATCH --error=/output/"%x_error.%j" #if your job fails, the error report will be put in this file
+#SBATCH --output=/output/"%x_output.%j" #once your job is completed, any final job report comments will be put in this file
 #SBATCH --partition=cpu-g2-mem2x
 #SBATCH --nodes=1
 #SBATCH --time=1-20:00:00
@@ -86,7 +86,7 @@ samplesheet="/gscratch/scrubbed/elstrand/Cvir_disease_meta/differential_abundanc
 contrasts="/gscratch/scrubbed/elstrand/Cvir_disease_meta/differential_abundance/rnaseq_diffabundance_contrasts.csv"
 gene_counts="/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/differential_abundance/merged_gene_counts_scaled.tsv"
 output_dir="/mmfs1/gscratch/scrubbed/elstrand/Cvir_disease_meta/differential_abundance/results"
-gtf="/gscratch/srlab/elstrand/genomes/C_virginica/mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf.gz"
+gtf="/gscratch/srlab/elstrand/genomes/C_virginica/mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf"
 
 ## Run differential abundance workflow 
 nextflow run nf-core/differentialabundance -resume \
@@ -95,7 +95,8 @@ nextflow run nf-core/differentialabundance -resume \
 --contrasts ${contrasts} \
 --matrix ${gene_counts} \
 --outdir ${output_dir} \
---gtf ${gtf}
+--gtf ${gtf} \
+--features_gtf_feature_type exon
 ```
 
 To run: 
@@ -154,6 +155,9 @@ NC_035780.1     Gnomon  gene    28961   33324   .       +       .       gene_id 
 NC_035780.1     Gnomon  exon    28961   29073   .       +       .       gene_id "LOC111126949"; transcript_id "XM_022471938.1"; db_xref "GeneID:111126949"; gbkey "mRNA"; gene "LOC111126949"; model_evidence "Supporting evidence includes similarity to: 3 Proteins, and 100% coverage of the annotated genomic feature by RNAseq alignments, including 21 samples with support for all annotated introns"; product "UNC5C-like protein"; exon_number "1";
 ```
 
+3-10-2025: I figured out that I can change the feature type that the workflow is looking for. Originally this was 'transcript', but I'll try to change it to 'exon' and see if that works. This is adding the `--features_gtf_feature_type` flag to the workflow. 
+
+3-12-2025: I had `gtf.gz"` at the end of the gtf file. I removed `.gz` and tried again. Nextflow couldn't find the file bc of the extension. Running again.
 
 #### Examples from other projects 
 
