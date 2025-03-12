@@ -159,6 +159,17 @@ NC_035780.1     Gnomon  exon    28961   29073   .       +       .       gene_id 
 
 3-12-2025: I had `gtf.gz"` at the end of the gtf file. I removed `.gz` and tried again. Nextflow couldn't find the file bc of the extension. Running again. I also changed the path of output files to be within `differential_abundance/scripts`. This is running! Check back in later. 
 
+I ran into this issue with the gff file. This is saying that line 1531480 has 8 columns which might be different than the rest? We have had many issues with this gtf file that I'm wondering if this workflow is worth it.
+
+```
+
+[1] "Reading mod_GCF_002022765.2_C_virginica-3.0_genomic.gtf elements of type exon"
+  Error in readGFF(filepath, version = version, filter = filter) :
+    reading GFF file: line 1531480 has less than 8 tab-separated columns
+  Calls: import ... import -> import -> .local -> readGFFAsGRanges -> readGFF
+```
+
+
 #### Examples from other projects 
 
 Riss ran this on thier rnaseq from sea urchins. They ended up with log2change values that seemed unrealistic so they ended up doing this on their own. I wonder if this was because the output from rnaseq was run with --deseq_vst so if the differential abundance workflow is also normalizing these value it would be a problem..?
