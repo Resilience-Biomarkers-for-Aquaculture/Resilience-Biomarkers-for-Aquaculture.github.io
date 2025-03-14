@@ -169,6 +169,66 @@ I ran into this issue with the gff file. This is saying that line 1531480 has 8 
   Calls: import ... import -> import -> .local -> readGFFAsGRanges -> readGFF
 ```
 
+3-13-2025: I'm trying this workflow on Cgigas to see if I can get it work with a different gtf file. This Cgigas group was determined to be the tolerant group so there isn't a comparison. I made 2 of those samples 'test' and 3 of those samples 'experiment' just to get the pipeline going. 
+
+Downloading genomes and rnaseq data again 
+
+```
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/963/853/765/GCF_963853765.1_xbMagGiga1.1/GCF_963853765.1_xbMagGiga1.1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/963/853/765/GCF_963853765.1_xbMagGiga1.1/GCF_963853765.1_xbMagGiga1.1_genomic.gff.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/963/853/765/GCF_963853765.1_xbMagGiga1.1/GCF_963853765.1_xbMagGiga1.1_genomic.gtf.gz
+
+wget https://gannet.fish.washington.edu/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset3_Cgigas/salmon.merged.gene_counts_length_scaled.tsv
+
+scp C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture\Cvirg_Pmarinus_RNAseq\data\differential_abundance_sheets\rnaseq_difabundance_dataset3_Cgigas_samplesheet.csv elstrand@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/elstrand/Cgigas_disease_meta/samplesheets/rnaseq_difabundance_dataset3_Cgigas_samplesheet.csv
+
+scp C:\Users\EmmaStrand\MyProjects\Resilience_Biomarkers_Aquaculture\Cvirg_Pmarinus_RNAseq\data\differential_abundance_sheets\rnaseq_diffabundance_contrasts_Cgigas_test.csv elstrand@klone.hyak.uw.edu:/mmfs1/gscratch/scrubbed/elstrand/Cgigas_disease_meta/samplesheets/rnaseq_diffabundance_contrasts_Cgigas_test.csv
+```
+
+`differential_abundance_Cgigas.sh`
+
+```
+#!/bin/bash
+#SBATCH --account=srlab
+#SBATCH --error="%x_error.%j" #if your job fails, the error report will be put in this file
+#SBATCH --output="%x_output.%j" #once your job is completed, any final job report comments will be put in this file
+#SBATCH --partition=cpu-g2-mem2x
+#SBATCH --nodes=1
+#SBATCH --time=1-20:00:00
+#SBATCH --mem=50G
+#SBATCH --ntasks=7
+#SBATCH --cpus-per-task=2
+
+## Set paths 
+samplesheet="/gscratch/scrubbed/elstrand/Cgigas_disease_meta/samplesheets/rnaseq_difabundance_dataset3_Cgigas_samplesheet.csv"
+contrasts="/gscratch/scrubbed/elstrand/Cgigas_disease_meta/samplesheets/rnaseq_diffabundance_contrasts_Cgigas_test.csv"
+gene_counts="/gscratch/scrubbed/elstrand/Cgigas_disease_meta/dataset3_Cgigas/salmon.merged.gene_counts_length_scaled.tsv"
+output_dir="/gscratch/scrubbed/elstrand/Cgigas_disease_meta/differential_abundance_results"
+gtf="/gscratch/srlab/elstrand/genomes/C_gigas/GCF_963853765.1_xbMagGiga1.1_genomic.gtf.gz"
+
+## Run differential abundance workflow 
+nextflow run nf-core/differentialabundance -resume \
+-profile rnaseq,singularity \
+--input ${samplesheet} \
+--contrasts ${contrasts} \
+--matrix ${gene_counts} \
+--outdir ${output_dir} \
+--gtf ${gtf}
+```
+
+To run: 
+- Activate conda environment: `mamba activate nextflow`   
+- Run script: `sbatch differential_abundance_Cgigas.sh`  
+
+This worked!!! Bummer that the gtf file for Cvirginica was giving errors. 
+
+Pushing output to gannet:
+
+```
+cd /gscratch/scrubbed/elstrand/Cgigas_disease_meta/differential_abundance_results
+
+rsync --archive --verbose --progress * emma.strand@gannet.fish.washington.edu:/volume2/web/emma.strand/differentialabundance/Cgigas_test
+```
 
 #### Examples from other projects 
 
