@@ -193,6 +193,7 @@ nextflow run nf-core/rnaseq -resume \
 multiqc report is here:[https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20250407_RNAseq/adapter_fasta/3ILL_5ILL_sw/multiqc/star_salmon/multiqc_report.html](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_RNAseq/20250407_RNAseq/adapter_fasta/3ILL_5ILL_sw/multiqc/star_salmon/multiqc_report.html)
 
 ## Summary of Results
+
 | Method| Adapter Content   |  GC Content |
 :--|:-------------------------:|:-------------------------:
 default FastP | ![](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/images/CvirgDataSet2FastP_screenshots/Screen%20Shot%202025-04-11%20at%203.43.01%20PM.png?raw=true)| ![](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/images/CvirgDataSet2FastP_screenshots/Screen%20Shot%202025-04-11%20at%203.47.25%20PM.png?raw=true)
