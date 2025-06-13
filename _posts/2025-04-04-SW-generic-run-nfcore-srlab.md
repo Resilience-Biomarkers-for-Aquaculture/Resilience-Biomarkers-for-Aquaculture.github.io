@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Compare fastp parameters with TAG-seq data
+title: Generic run with nf-core FetchNGS
 author: Shelly Wanamaker
 tags: TAG-seq RNA-seq fastp adapter
 ---
