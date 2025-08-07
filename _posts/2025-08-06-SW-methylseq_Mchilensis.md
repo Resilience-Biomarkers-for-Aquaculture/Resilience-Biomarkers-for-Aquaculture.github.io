@@ -123,6 +123,7 @@ nextflow run nf-core/methylseq \
 --clip_r2 10 \
 -resume \
 -with-trace \
+-with-report nf_report.html \
 -with-timeline nf_timeline.html \
 --nomeseq 
 ```
