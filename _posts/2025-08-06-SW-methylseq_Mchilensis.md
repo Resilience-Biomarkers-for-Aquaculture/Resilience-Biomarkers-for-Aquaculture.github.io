@@ -111,7 +111,7 @@ activate the nextflow environment
 mamba activate nextflow
 ```
 
-run the methylseq nf-core pipeline with the improved trimming parameter. NOTE: you need to change the outdir to your working directory that you created above. You will also have to change the paths of the `.config` file, the samplesheet.csv, and the genome file if you run this after 8/21/2025 (because of the file shelflife on scrubbed). 
+run the methylseq nf-core pipeline with the improved trimming parameter. NOTE: you need to change the `outdir` to your working directory that you created above. You will also have to change the paths of the `.config` file, the `--input samplesheet.csv`, and the `--fasta genome.fa` if you run this after 8/21/2025 because of the file shelf life on scrubbed. 
 
 ```
 nextflow run nf-core/methylseq \
