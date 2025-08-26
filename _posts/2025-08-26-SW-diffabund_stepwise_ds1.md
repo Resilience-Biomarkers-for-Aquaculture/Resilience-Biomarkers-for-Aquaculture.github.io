@@ -127,6 +127,10 @@ rsync --progress --verbose --archive 20250730_diffabund shellytrigg@gannet.fish.
 ```
 awk -F"\t" 'NR==FNR{a[$1]=$1;next}$1 in a{print $0}' ctrl_filt/tables/differential/trait_dose.deseq2.results_filtered.tsv tables/processed_abundance/all.vst.tsv > vst_ctrlDEseq2filt.tsv
 ```
+
+- plot PCA
+	- code here: [https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/scripts/20250806_dataset1_stepwise_diffAbund.ipynb](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/scripts/20250806_dataset1_stepwise_diffAbund.ipynb)
+	
 The PCA shows a good separation of the sensitive vs. tolerant animals using the 26 significant DEGs identified in step 2, which makes the results believable.
 
 [![](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/analyses/DiffAbundStepwise_pca_ds1.png?raw=true)](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/analyses/DiffAbundStepwise_pca_ds1.png?raw=true)
