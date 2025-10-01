@@ -24,7 +24,7 @@ the studies separately, with the notion that pooling of data may have overwhelme
 ## Details
 I used [ChatGPT](https://chatgpt.com/share/68dd7d68-de68-800d-b502-35056dd548a1) to generate [an R script](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/analyses/six_gene_biomarker/voom_batchcorr_pca_dendogram.R).
 
-[Resulting plots](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/tree/main/analyses/six_gene_biomarker/plots)
+[Resulting plots](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/tree/main/analyses/six_gene_biomarker/plots) (click for per-study plots, dendograms, and heatmaps)
 
 Across-study PCA:
 [![A click on the image links to its own URL.](
