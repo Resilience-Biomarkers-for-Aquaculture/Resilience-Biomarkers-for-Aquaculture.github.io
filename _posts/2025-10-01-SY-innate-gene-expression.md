@@ -12,7 +12,7 @@ a series of exploratory DESeq2 runs, using variations of contrasts and sample se
 
 ## Discussion
 
-Among the five studies that we're currently working with, Study 1 and Study 5 are the most compatible in terms of experimental design. Both use pre-identified tolerant and sensitive families, have Control and Treatment groups, sample gill tissue, and use similar preparation and analysis methodology. So at this juncture we chose to pursue our meta-analysis route with this more constrained set. Each of the two studies included samples taken at Day 7 after infection, and that seemed to be a point where differential expression was well manifested, so we used only Day 7 samples from each study.
+Among the five studies that we're currently working with, [Study 1](https://www.frontiersin.org/journals/genetics/articles/10.3389/fgene.2023.1054558/full) and [Study 5](https://www.sciencedirect.com/science/article/abs/pii/S1050464819311295?via%3Dihub) are the most compatible in terms of experimental design. Both use pre-identified tolerant and sensitive families, have Control and Treatment groups, sample gill tissue, and use similar preparation and analysis methodology. So at this juncture we chose to pursue our meta-analysis route with this more constrained set. Each of the two studies included samples taken at Day 7 after infection, and that seemed to be a point where differential expression was well manifested, so we used only Day 7 samples from each study.
 
 We were working intially with the notion that the presence of Control and Treatment groups was important, allowing us to examine primarly the _differences_ between Controls and treated samples across studies.  
 We ran a series of [nf-core/differentialabundance] runs for exploration.  
