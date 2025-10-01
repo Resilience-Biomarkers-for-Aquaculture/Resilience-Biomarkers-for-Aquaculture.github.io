@@ -22,12 +22,12 @@ was a PCA that, as expected, showed very good separation between sensitive and t
 the studies separately, with the notion that pooling of data may have overwhelmed PCA. Separation was more notable here in P&S 2021, but still not in the Johnson et. al study.
 
 ## Details
-I used (ChatGPT)[https://chatgpt.com/share/68dd7d68-de68-800d-b502-35056dd548a1] to generate (an R script)[https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/analyses/six_gene_biomarker/voom_batchcorr_pca_dendogram.R].
+I used [ChatGPT](https://chatgpt.com/share/68dd7d68-de68-800d-b502-35056dd548a1) to generate [an R script](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/analyses/six_gene_biomarker/voom_batchcorr_pca_dendogram.R).
 
-(Resulting plots)[https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/tree/main/analyses/six_gene_biomarker/plots]
+[Resulting plots](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/tree/main/analyses/six_gene_biomarker/plots)
 
 Across-study PCA:
-[!(
-PCA_six_genes_voom.png
+[![A click on the image links to its own URL.](
+https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/refs/heads/main/analyses/six_gene_biomarker/plots/PCA_six_genes_voom.png
 "A click on the image links to its own URL (inline-style).")
 ](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/refs/heads/main/analyses/six_gene_biomarker/plots/PCA_six_genes_voom.png)
