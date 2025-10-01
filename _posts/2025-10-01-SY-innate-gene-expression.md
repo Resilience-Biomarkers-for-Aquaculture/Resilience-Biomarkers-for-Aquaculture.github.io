@@ -31,25 +31,25 @@ PCA showed separation in Condition in PC2, little separation in Treatment, and s
 Only two genes were significantly up-regulated for Treatment; none down-regulated.  
 This led to the hunch that tolerance/sensitivity is shown more in innate expression rather than response to treatment (infection).
 
-Seqera run `disturbed_fermat_2` combined Study 1 and Study 5 samples, **but only treated samples** (no controls) and contrasted for Condition.  
+Seqera run `disturbed_fermat_2` ([config](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/data/differentialabundance_configs/disturbed_fermat_2.config)) combined Study 1 and Study 5 samples, **but only treated samples** (no controls) and contrasted for Condition.  
 [Sample sheet](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/refs/heads/main/data/differential_abundance_sheets/rnaseq_diffabundance_study1and5_samplesheet_no_controls.csv)  
 [Contrasts file](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/refs/heads/main/data/differential_abundance_sheets/rnaseq_diffabundance_study1and5_D7_condition_contrasts.csv) Contrast on condition, block for batch.   
 [Matrix](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/raw/refs/heads/main/data/rnaseq_gene_counts/merged_gene_counts_gene_name_study1_study5_common.tsv)  
 Results are in s3://steveyost-seqera/Cvirg_Pmarinus/deseq2/study1and5_D7_no_controls_results
 Only one gene was found to be differentially expressed for Condition among these treated samples.
 
-Seqera run `crazy_newton` used Study 5 only, including Control and Treatment samples, but contrasting only on Condition, with no blocking.  
+Seqera run `crazy_newton` ([config](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/data/differentialabundance_configs/crazy_newton.config)) used Study 5 only, including Control and Treatment samples, but contrasting only on Condition, with no blocking.  
 [Sample sheet](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/data/differential_abundance_sheets/rnaseq_diffabundance_study5_D7_samplesheet.csv)  
 [Contrasts file](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/data/differential_abundance_sheets/rnaseq_diffabundance_D7_condition_nobatch_contrasts.csv)  
 Results are in s3://steveyost-seqera/Cvirg_Pmarinus/deseq2/study5_D7_condition_results  
 PCA showed clear separation between Condition tolerant and sensitive in PC1, some separation of Batch in PC2 and little separation of Treatment.
 1158 genes were significantly up-regulated for Condition, 1099 down-regulated.
 
-Seqera run `mad_mayer_3` is the same as `crazy_newton`, but for Study 1 only.   
+Seqera run `mad_mayer_3` ([config](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/data/differentialabundance_configs/mad_mayer_3.config)) is the same as `crazy_newton`, but for Study 1 only.   
 PCA showed strong separation in Treatment in PC1 and PC2, and good separation in Condition in PC2 and PC3.
 1448 genes were significantly up-regulated for Condition, 1313 down-regulated.
 
-Seqera run `Issue_44_study1and5_condition` used all samples (Control and Treatment) from Study 1 and Study 5, contrasting on Condition, blocking for Batch.  
+Finally, Seqera run `Issue_44_study1and5_condition` ([config](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/data/differentialabundance_configs/Issue_44_study1and5_condition.config)) used all samples (Control and Treatment) from Study 1 and Study 5, contrasting on Condition, blocking for Batch.  
 [Sample sheet](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/refs/heads/main/data/differential_abundance_sheets/rnaseq_diffabundance_study1and5_samplesheet_filled.csv) ( same as `condescending_davinci_5`)  
 [Contrasts file](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/refs/heads/main/data/differential_abundance_sheets/rnaseq_diffabundance_study1and5_D7_condition_contrasts.csv) (Same as `disturbed_fermat_2`)  
 Note it used filtering_min_samples: 10
