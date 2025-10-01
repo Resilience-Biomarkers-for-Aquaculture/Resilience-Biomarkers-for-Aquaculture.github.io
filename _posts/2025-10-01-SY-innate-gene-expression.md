@@ -22,7 +22,7 @@ Further [differentialabundance]([nf-core/differentialabundance]) runs, first on 
 ## Details
 All runs were performed on the Seqera platform.
 
-Seqera run `condescending_davinci_5` combined Study 1 and Study 5 samples and contrasted for Treatment.  
+Seqera run `condescending_davinci_5` ([config](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/data/differentialabundance_configs/condescending_davinci_5.config)) combined Study 1 and Study 5 samples and contrasted for Treatment.  
 [Sample sheet](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/refs/heads/main/data/differential_abundance_sheets/rnaseq_diffabundance_study1and5_samplesheet_filled.csv)  
 [Contrasts file](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/refs/heads/main/data/differential_abundance_sheets/rnaseq_diffabundance_study1and5_D7_contrasts.csv") Contrast on Treatment, block for batch.  
 [Matrix](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/raw/refs/heads/main/data/rnaseq_gene_counts/merged_gene_counts_gene_name_study1_study5_common.tsv)  
@@ -42,11 +42,11 @@ Seqera run `crazy_newton` ([config](https://github.com/Resilience-Biomarkers-for
 [Sample sheet](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/data/differential_abundance_sheets/rnaseq_diffabundance_study5_D7_samplesheet.csv)  
 [Contrasts file](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/data/differential_abundance_sheets/rnaseq_diffabundance_D7_condition_nobatch_contrasts.csv)  
 Results are in s3://steveyost-seqera/Cvirg_Pmarinus/deseq2/study5_D7_condition_results  
-PCA showed clear separation between Condition tolerant and sensitive in PC1, some separation of Batch in PC2 and little separation of Treatment.
+PCA showed clear separation between Condition tolerant and sensitive in PC1, some separation of Batch in PC2 and little separation of Treatment.  
 1158 genes were significantly up-regulated for Condition, 1099 down-regulated.
 
 Seqera run `mad_mayer_3` ([config](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/data/differentialabundance_configs/mad_mayer_3.config)) is the same as `crazy_newton`, but for Study 1 only.   
-PCA showed strong separation in Treatment in PC1 and PC2, and good separation in Condition in PC2 and PC3.
+PCA showed strong separation in Treatment in PC1 and PC2, and good separation in Condition in PC2 and PC3.  
 1448 genes were significantly up-regulated for Condition, 1313 down-regulated.
 
 Finally, Seqera run `Issue_44_study1and5_condition` ([config](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/data/differentialabundance_configs/Issue_44_study1and5_condition.config)) used all samples (Control and Treatment) from Study 1 and Study 5, contrasting on Condition, blocking for Batch.  
@@ -55,4 +55,5 @@ Finally, Seqera run `Issue_44_study1and5_condition` ([config](https://github.com
 Note it used filtering_min_samples: 10
 Results are in s3://steveyost-seqera/Cvirg_Pmarinus/deseq2/Issue_44_study1and5_D7_condition_results
 PCA showed strong batch separation in PC1 (21.3%) (note this is pre-batch-correction in the pipeline), separation for Treatment in PC1, and separation for Condition in PC3 (5.5%)  
-1046 genes were significantly up-regulated for Condition, 905 down-regulated.
+1046 genes were significantly up-regulated for Condition, 905 down-regulated.  
+Download the [report HTML page](s3://steveyost-seqera/Cvirg_Pmarinus/deseq2/Issue_44_study1and5_D7_condition_results/report/study.html).
