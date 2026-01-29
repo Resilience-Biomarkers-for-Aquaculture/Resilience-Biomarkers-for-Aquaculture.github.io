@@ -197,6 +197,7 @@ exclude:
   - LICENSE
   - README.md
   - Vagrantfile
+  - field-guide-src
 
 # prose.io config
 prose:
