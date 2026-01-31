@@ -9,6 +9,9 @@ Gemfile.lock
 node_modules
 package.json
 
+# MkDocs temporary build directory (build output goes to /field-guide at repo root)
+field-guide-src/field-guide
+
 _posts/2016-09-22-OlyO-transcriptome.md
 
 _posts/2016-09-22-Oly-fasta.html
