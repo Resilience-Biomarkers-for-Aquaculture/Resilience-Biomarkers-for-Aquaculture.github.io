@@ -39,9 +39,6 @@ nav:
     - Two-Step Classifier: pipelines/classifier-path.md
     - Validation & Pitfalls: pipelines/validation.md
   - Year in Review: timeline.md
-  - Sources:
-    - GitHub Issues: sources/issues-index.md
-    - Notebook Posts: sources/posts-index.md
   - Glossary: glossary.md
 
 markdown_extensions:
