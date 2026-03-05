@@ -5,7 +5,7 @@ title: Publications
 
 ## Field Guide
 
-- **[Field Guide: Biomarker Discovery from Omics Data](Resilience-Biomarkers-for-Aquaculture.github.io/field-guide/)**. A comprehensive guide for discovering and applying resilience biomarkers from multi-omics data in aquaculture research.
+- **[Field Guide: Biomarker Discovery from Omics Data]([Resilience-Biomarkers-for-Aquaculture.github.io/field-guide/](https://resilience-biomarkers-for-aquaculture.github.io/field-guide/)**. A comprehensive guide for discovering and applying resilience biomarkers from multi-omics data in aquaculture research.
 
 ## Presentations and Posters
 
