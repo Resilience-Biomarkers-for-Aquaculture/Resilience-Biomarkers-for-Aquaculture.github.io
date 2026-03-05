@@ -65,11 +65,11 @@ After extensive iteration, this project identified a **6-gene panel** that succe
 
 ## Attribution & Citation
 
-This field guide is developed by Shelly A. Wanamaker as part of the Resilience Biomarkers for Aquaculture project.
+This field guide is developed by Shelly Wanamaker and Steve Yost with AI assistance as part of the Resilience Biomarkers for Aquaculture project.
 
 If you use methods or insights from this guide, please cite:
 
-> Wanamaker, S.A. (2025). Resilience Biomarkers Field Guide. Resilience Biomarkers for Aquaculture Project. https://resilience-biomarkers-for-aquaculture.github.io/field-guide/
+> Wanamaker, S.A. and Yost, S. (2025). Resilience Biomarkers Field Guide. Resilience Biomarkers for Aquaculture Project. https://resilience-biomarkers-for-aquaculture.github.io/field-guide/
 
 ---
 
