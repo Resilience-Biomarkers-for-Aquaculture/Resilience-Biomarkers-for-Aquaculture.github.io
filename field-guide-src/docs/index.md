@@ -10,7 +10,6 @@ This field guide documents the real journey of discovering and validating biomar
     This is **not** a theoretical textbook. It's a field guide built from:
     
     - **Real analysis decisions** documented in [50+ notebook entries](sources/posts-index.md)
-    - **Actual pivots and failures** tracked across [25+ GitHub issues](sources/issues-index.md)
     - **Hard-won lessons** about batch effects, leakage, and when methods break down
     - **A working 6-gene classifier** that emerged from systematic iteration
 
@@ -34,9 +33,6 @@ A chronological walk through the project from December 2024 to September 2025, h
 - "Big Lessons" about data integration and trait definition
 - When to abandon an approach vs. when to iterate
 
-### [Sources](sources/issues-index.md)
-Complete index of the [GitHub issues](sources/issues-index.md) and [notebook posts](sources/posts-index.md) referenced throughout this guide, organized by theme for easy exploration.
-
 ### [Glossary](glossary.md)
 Key terms and concepts defined in the context of this specific project.
 
@@ -47,9 +43,6 @@ Start with [Problem Framing](problem-framing.md) to understand the research cont
 
 **If you're implementing a similar analysis:**  
 Jump to [Pipelines](pipelines/decision-tree.md) for validated workflows, then check [Validation & Pitfalls](pipelines/validation.md) for things that will bite you.
-
-**If you're troubleshooting an issue:**  
-Use the [Sources](sources/issues-index.md) indices to find relevant discussions—chances are we hit the same problem.
 
 **If you're evaluating this approach:**  
 Read the "Big Lessons" in the [Timeline](timeline.md) to understand when and why methods were abandoned or refined.
