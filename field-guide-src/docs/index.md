@@ -1,76 +1,29 @@
 # Start Here
 
-## Welcome to the Resilience Biomarkers Field Guide
+**Purpose:** This field guide documents considerations for building a biomarker discovery pipeline from RNA-seq meta-analysis, with emphasis on lessons learned, reproducibility, and practical recommendations for researchers working with noisy multi-study omics data.
 
-This field guide documents the real journey of discovering and validating biomarkers for stress resilience in oyster aquaculture using RNA-seq meta-analysis. Rather than presenting an idealized workflow, this guide shares what actually worked, what didn't, and why—grounded in a year-long research effort analyzing multiple *Crassostrea virginica* (Eastern oyster) and *Perkinsus marinus* (parasite) RNA-seq datasets.
+**Grant mission:** Developing molecular resilience biomarkers to support selective breeding and management of shellfish aquaculture under disease pressure. *(Full narrative: [ProjectSummaryandNarrative.pdf](https://github.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/blob/master/docs/ProjectSummaryandNarrative.pdf))*
 
-## What This Guide Is
+**What was done:** Integrated RNA-seq datasets from *Crassostrea virginica* exposed to *Perkinsus marinus*, conducted differential abundance analyses across multiple independent studies, and developed a two-step classifier pipeline that identifies reproducible gene expression signatures.
 
-!!! info "A Practical Chronicle"
-    This is **not** a theoretical textbook. It's a field guide built from:
-    
-    - **Real analysis decisions** documented in [50+ notebook entries](sources/posts-index.md)
-    - **Hard-won lessons** about batch effects, leakage, and when methods break down
-    - **A working 6-gene classifier** that emerged from systematic iteration
+**Key results:** Identified a validated 6-gene classifier panel that distinguishes tolerant from sensitive oyster phenotypes, confirmed via Leave-One-Study-Out (LOSO) cross-validation.
 
-## What You'll Find Here
-
-### [Problem Framing](problem-framing.md)
-Understand what "resilience" means in this project, the datasets we're working with, and the biological and technical constraints that shaped our approach.
-
-### [Pipelines](pipelines/decision-tree.md)
-Two validated analysis paths:
-
-1. **Stepwise Differential Abundance**: Control vs. treated → resistant vs. sensitive
-2. **Two-Step Classifier Pipeline**: Reproducibility scoring → logistic regression
-
-Both with explicit guidance on normalization, validation (LOSO), and common pitfalls (batch effects, leakage).
-
-### [Year in Review](timeline.md)
-A chronological walk through the project from December 2024 to September 2025, highlighting:
-
-- Major methodological pivots (integrated → post-integrated analysis)
-- "Big Lessons" about data integration and trait definition
-- When to abandon an approach vs. when to iterate
-
-### [Glossary](glossary.md)
-Key terms and concepts defined in the context of this specific project.
-
-## How to Use This Guide
-
-**If you're new to biomarker discovery:**  
-Start with [Problem Framing](problem-framing.md) to understand the research context, then explore the [Timeline](timeline.md) to see how approaches evolved.
-
-**If you're implementing a similar analysis:**  
-Jump to [Pipelines](pipelines/decision-tree.md) for validated workflows, then check [Validation & Pitfalls](pipelines/validation.md) for things that will bite you.
-
-**If you're evaluating this approach:**  
-Read the "Big Lessons" in the [Timeline](timeline.md) to understand when and why methods were abandoned or refined.
-
-## Core Finding: The 6-Gene Classifier
-
-After extensive iteration, this project identified a **6-gene panel** that successfully distinguishes tolerant from sensitive oyster phenotypes:
-
-- Emerged from post-data integration approach (combining datasets 1 & 5)
-- Validated using Leave-One-Study-Out (LOSO) cross-validation
-- Uses logistic regression to minimize feature set while maintaining accuracy
-- See [Two-Step Classifier](pipelines/classifier-path.md) for full methodology
-
-## Related Resources
-
-- **[Main Project Website](../)** - Jekyll site with publications, presentations, and updates
-- **[Analysis Notebook](../notebook)** - All notebook posts organized by date
-- **[GitHub Repository](https://github.com/Resilience-Biomarkers-for-Aquaculture)** - Code, data, and issue tracking
-- **[Cvirg_Pmarinus_RNAseq Repo](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq)** - Primary analysis repository with issues
-
-## Attribution & Citation
-
-This field guide is developed by Shelly Wanamaker and Steve Yost with AI assistance as part of the Resilience Biomarkers for Aquaculture project.
-
-If you use methods or insights from this guide, please cite:
-
-> Wanamaker, S.A. and Yost, S. (2025). Resilience Biomarkers Field Guide. Resilience Biomarkers for Aquaculture Project. https://resilience-biomarkers-for-aquaculture.github.io/field-guide/
+**Intended application:** This guide is a reusable template for researchers facing batch effects, weak signals, and overfitting risks in multi-study biomarker discovery.
 
 ---
 
-*This guide is actively maintained and reflects work through September 2025. Check the [Timeline](timeline.md) for the most recent updates.*
+## How to Navigate This Guide
+
+| Section | What You'll Find |
+|---|---|
+| [1. Research Context & Problem Framing](problem-framing.md) | Background on Dermo disease, datasets, phenotype definitions, and key constraints |
+| [2. Process Narrative](process-narrative.md) | Chronological account of decisions, pivots, and surprises — the honest story of what happened |
+| [3. Big Lessons Learned](lessons-learned.md) | Distilled, numbered insights for researchers adapting this work |
+| [4. Methods & Pipelines](pipelines/decision-guide.md) | Decision guide and validated analysis pipelines |
+| [5. Analysis Code & Source Code](code-sources.md) | Where to find and how to run everything |
+| [6. Glossary](glossary.md) | Terms defined in the context of this project |
+| [7. Sources & References](sources/posts-index.md) | Notebook posts, GitHub issues, and external references |
+
+---
+
+*Developed by Shelly Wanamaker and Steve Yost with AI assistance. Cite as: Wanamaker, S.A. and Yost, S. (2025). Resilience Biomarkers Field Guide. https://resilience-biomarkers-for-aquaculture.github.io/field-guide/*

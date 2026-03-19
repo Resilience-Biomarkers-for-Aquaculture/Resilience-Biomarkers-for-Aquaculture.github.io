@@ -1,6 +1,6 @@
 # GitHub Issues Index
 
-This index organizes the GitHub issues from the [Cvirg_Pmarinus_RNAseq repository](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues) that were referenced in the project timeline and field guide. Issues are grouped thematically for easier navigation.
+This index organizes the GitHub issues from the [Cvirg_Pmarinus_RNAseq repository](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues) that were referenced in the project process narrative and field guide. Issues are grouped thematically for easier navigation.
 
 All issue links point to: `https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/[number]`
 
@@ -226,8 +226,8 @@ All issue links point to: `https://github.com/Resilience-Biomarkers-for-Aquacult
 **Main Guide:**
 
 - [Start Here](../index.md) - Field guide overview
-- [Timeline](../timeline.md) - Detailed project history
-- [Pipelines](../pipelines/decision-tree.md) - Analysis workflows
+- [Process Narrative](../process-narrative.md) - Detailed project history
+- [Pipelines](../pipelines/decision-guide.md) - Analysis workflows
 
 **Other Sources:**
 
