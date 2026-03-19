@@ -13,4 +13,4 @@ BM011,MMP,Crassostrea virginica,Perkinsus marinus Infection,Infection Sensitivit
 BM012,PRDX,Crassostrea gigas,Thermal Stress,Thermotolerance,Upregulated,Genomic Feature,Cross-species,"Arredondo-Espinoza et al. 2023 (https://doi.org/10.1016/j.cbd.2023.101089)",3
 BM013,GPx,Crassostrea virginica,Ocean Acidification,Resilience,Upregulated,Genomic Feature,Species-specific,"Roberts et al. unpublished (https://github.com/sr320/ceasmallr)",2
 BM014,CLEC,Crassostrea virginica,Perkinsus marinus Infection,Infection Tolerance,Upregulated,Protein Interaction Network,Cross-species,"Chan et al. 2021 (https://doi.org/10.3389/fgene.2021.795706); Proestou et al. 2023 (https://doi.org/10.3389/fgene.2023.1054558)",5
-BM015,FTH1,Crassostrea gigas,Thermal Stress,Thermotolerance,Upregulated,Ontology Enrichment,Species-specific,"Arredondo-Espinoza et al. 2023 (https://doi.org/10.1016/j.cbd.2023.101089)",2
+BM016,FTH1,Crassostrea gigas,Thermal Stress,Thermotolerance,Upregulated,Ontology Enrichment,Species-specific,"Arredondo-Espinoza et al. 2023 (https://doi.org/10.1016/j.cbd.2023.101089)",2
