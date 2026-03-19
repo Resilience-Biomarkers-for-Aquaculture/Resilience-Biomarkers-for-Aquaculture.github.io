@@ -107,8 +107,10 @@ ext-js:
 
 <script>
 (function() {
-  // Resolve the CSV URL relative to the site's base path
-  var csvUrl = "{{ '/data/biomarker_database.csv' | relative_url }}";
+  // CSV data is embedded at build time by Jekyll so no runtime HTTP fetch is needed.
+  // Any update to data/biomarker_database.csv is automatically reflected here.
+  {% capture _csv_raw %}{% include_relative data/biomarker_database.csv %}{% endcapture %}
+  var csvText = {{ _csv_raw | jsonify }};
 
   // Columns (by index) for which to build per-column dropdown filters,
   // mapped to their CSV field name for clean (non-HTML) filter values.
@@ -125,8 +127,7 @@ ext-js:
   var filterValues = {};
   Object.keys(filterColumns).forEach(function(idx) { filterValues[idx] = {}; });
 
-  Papa.parse(csvUrl, {
-    download: true,
+  Papa.parse(csvText, {
     header: true,
     skipEmptyLines: true,
     complete: function(results) {
