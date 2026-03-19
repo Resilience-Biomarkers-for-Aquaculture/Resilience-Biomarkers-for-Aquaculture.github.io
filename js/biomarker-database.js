@@ -49,13 +49,18 @@ $(document).ready(function() {
     ],
     initComplete: function() {
       var api = this.api();
-      var filterRow = $('#biomarker-table thead tr:eq(1)');
+      // Build a filter row and insert it into the DataTables-managed header.
+      var colCount = api.columns().count();
+      var filterTr = $('<tr class="filter-row">');
+      for (var i = 0; i < colCount; i++) { filterTr.append('<th></th>'); }
+      $(api.table().header()).find('tr:first').after(filterTr);
+
       // Per-column dropdown filters for categorical columns.
       filterColIndices.forEach(function(colIdx) {
         var column = api.column(colIdx);
-        var headerCell = filterRow.find('th:eq(' + colIdx + ')');
+        var th = filterTr.find('th:eq(' + colIdx + ')');
         var select = $('<select class="form-control input-sm"><option value="">-- All --</option></select>')
-          .appendTo($(headerCell).empty())
+          .appendTo(th)
           .on('change', function() {
             var val = $.fn.dataTable.util.escapeRegex($(this).val());
             column.search(val ? '^' + val + '$' : '', true, false).draw();
