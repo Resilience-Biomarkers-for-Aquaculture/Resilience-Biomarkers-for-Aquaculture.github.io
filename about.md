@@ -53,6 +53,19 @@ _C. virginica_|E|environment|OA ||resilience| Roberts _et al._ _unpublished_|[ht
 
 ### Biomarker Database
 
+The Resilience Biomarker Database is an interactive, open-access resource compiling candidate resilience biomarkers discovered across shellfish genomic studies. Modelled after the [Cancer Biomarker Database](https://www.cancerbiomarkerdb.org/), the database features:
+
+- **Search bar** for text querying across all columns
+- **Column sort** and **per-column dropdown filters** for species, condition, trait, class, and evidence type
+- **Download** buttons for exporting the full or filtered dataset (CSV, Excel)
+- **Rank** column with a confidence score based on supporting evidence (number of studies, species, and data types)
+- **Evidence** column indicating species-specific or cross-species support
+- **Class** column indicating the discovery class (Genomic Feature, Ontology Enrichment, or Protein Interaction Network)
+- **Source** column listing the publication(s) providing original evidence
+- **Feedback** feature to solicit updates and additions via GitHub Issues
+
+[**Open the Biomarker Database →**](/biomarker-database/)
+
 ### People
 Project Director:  
 Shelly Wanamaker, PhD (she/her)  
