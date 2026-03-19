@@ -34,7 +34,7 @@ js:
     <ul>
       <li><strong>Search:</strong> Use the search box (top right) to query any text across all columns.</li>
       <li><strong>Sort:</strong> Click any column header to sort the table by that column.</li>
-      <li><strong>Filter:</strong> Use the dropdown filters above each column to narrow results by species, condition, class, etc.</li>
+      <li><strong>Filter:</strong> Use the dropdown filters below each column header to narrow results by species, condition, class, etc.</li>
       <li><strong>Download:</strong> Use the <em>CSV</em>, <em>Excel</em>, or <em>Copy</em> buttons to download the current (filtered) view.</li>
       <li><strong>Feedback:</strong> Use the <a href="https://github.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/issues/new?template=Blank+issue&title=Biomarker+Database+Feedback" target="_blank">Feedback / Request Update</a> link to suggest a new biomarker entry or report an issue.</li>
     </ul>
@@ -75,13 +75,11 @@ js:
         <th>Source</th>
         <th>Rank</th>
       </tr>
-    </thead>
-    <tfoot>
-      <tr>
+      <tr id="filter-row">
         <th></th><th></th><th></th><th></th><th></th>
         <th></th><th></th><th></th><th></th><th></th>
       </tr>
-    </tfoot>
+    </thead>
     <tbody>
       {% for row in site.data.biomarker_database %}
       <tr>

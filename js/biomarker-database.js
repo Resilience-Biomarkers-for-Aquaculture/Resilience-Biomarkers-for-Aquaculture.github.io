@@ -25,6 +25,7 @@ $(document).ready(function() {
       }
     ],
     pageLength: 25,
+    orderCellsTop: true,
     order: [[9, 'desc']],
     columnDefs: [
       { targets: 9, type: 'num' },
@@ -48,12 +49,13 @@ $(document).ready(function() {
     ],
     initComplete: function() {
       var api = this.api();
+      var filterRow = $('#biomarker-table thead tr:eq(1)');
       // Per-column dropdown filters for categorical columns.
       filterColIndices.forEach(function(colIdx) {
         var column = api.column(colIdx);
-        var footerCell = $(column.footer());
+        var headerCell = filterRow.find('th:eq(' + colIdx + ')');
         var select = $('<select class="form-control input-sm"><option value="">-- All --</option></select>')
-          .appendTo(footerCell.empty())
+          .appendTo($(headerCell).empty())
           .on('change', function() {
             var val = $.fn.dataTable.util.escapeRegex($(this).val());
             column.search(val ? '^' + val + '$' : '', true, false).draw();
