@@ -53,25 +53,43 @@ _C. virginica_|E|environment|OA ||resilience| Roberts _et al._ _unpublished_|[ht
 
 ### Biomarker Database
 
-<div class="table-responsive" style="font-size:0.88em;">
+<div class="table-responsive" style="font-size:0.82em;">
 <table class="table table-striped table-bordered table-condensed">
   <thead>
     <tr>
+      <th>ID</th>
       <th>Gene</th>
       <th>Species</th>
       <th>Condition</th>
       <th>Trait</th>
       <th>Effect</th>
+      <th>Class</th>
       <th>Evidence</th>
+      <th>Source</th>
       <th>Rank</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td><em>HSP70</em></td><td><em>C. gigas</em></td><td>Thermal Stress</td><td>Thermotolerance</td><td>Upregulated</td><td>Species-specific</td><td>3</td></tr>
-    <tr><td><em>HSP90</em></td><td><em>C. gigas</em></td><td>Thermal Stress</td><td>Thermotolerance</td><td>Upregulated</td><td>Cross-species</td><td>4</td></tr>
-    <tr><td><em>SOD1</em></td><td><em>C. virginica</em></td><td>Perkinsus marinus Infection</td><td>Infection Tolerance</td><td>Upregulated</td><td>Cross-species</td><td>5</td></tr>
-    <tr><td><em>IL-17</em></td><td><em>C. gigas</em></td><td>Perkinsus marinus Infection</td><td>Infection Tolerance</td><td>Upregulated</td><td>Cross-species</td><td>4</td></tr>
-    <tr><td><em>CLEC</em></td><td><em>C. virginica</em></td><td>Perkinsus marinus Infection</td><td>Infection Tolerance</td><td>Upregulated</td><td>Cross-species</td><td>5</td></tr>
+    <tr>
+      <td>BM001</td><td><em>HSP70</em></td><td><em>Crassostrea gigas</em></td><td>Thermal Stress</td><td>Thermotolerance</td><td>Upregulated</td><td>Genomic Feature</td><td>Species-specific</td>
+      <td><a href="https://doi.org/10.1016/j.cbd.2023.101089">Arredondo-Espinoza et al. 2023</a></td><td>3</td>
+    </tr>
+    <tr>
+      <td>BM002</td><td><em>HSP90</em></td><td><em>Crassostrea gigas</em></td><td>Thermal Stress</td><td>Thermotolerance</td><td>Upregulated</td><td>Genomic Feature</td><td>Cross-species</td>
+      <td><a href="https://doi.org/10.1016/j.cbd.2023.101089">Arredondo-Espinoza et al. 2023</a></td><td>4</td>
+    </tr>
+    <tr>
+      <td>BM004</td><td><em>SOD1</em></td><td><em>Crassostrea virginica</em></td><td>Perkinsus marinus Infection</td><td>Infection Tolerance</td><td>Upregulated</td><td>Genomic Feature</td><td>Cross-species</td>
+      <td><a href="https://doi.org/10.3389/fgene.2023.1054558">Proestou et al. 2023</a>; <a href="https://doi.org/10.3389/fgene.2021.795706">Chan et al. 2021</a></td><td>5</td>
+    </tr>
+    <tr>
+      <td>BM006</td><td><em>IL-17</em></td><td><em>Crassostrea gigas</em></td><td>Perkinsus marinus Infection</td><td>Infection Tolerance</td><td>Upregulated</td><td>Protein Interaction Network</td><td>Cross-species</td>
+      <td><a href="https://doi.org/10.3389/fgene.2021.795706">Chan et al. 2021</a></td><td>4</td>
+    </tr>
+    <tr>
+      <td>BM014</td><td><em>CLEC</em></td><td><em>Crassostrea virginica</em></td><td>Perkinsus marinus Infection</td><td>Infection Tolerance</td><td>Upregulated</td><td>Protein Interaction Network</td><td>Cross-species</td>
+      <td><a href="https://doi.org/10.3389/fgene.2021.795706">Chan et al. 2021</a>; <a href="https://doi.org/10.3389/fgene.2023.1054558">Proestou et al. 2023</a></td><td>5</td>
+    </tr>
   </tbody>
 </table>
 </div>
