@@ -55,7 +55,7 @@
 1. **Integrated analysis fails with noisy, weak-signal data** → use post-data integration instead
 2. **Trait definitions must be specific and comparable** → generic "stress vs. control" is insufficient
 3. **Innate biomarkers live in control groups** → stepwise filtering removes them by design
-4. **Training-set leakage inflates accuracy** → never include training data in LOSO test sets
+4. **Training-set leakage inflates accuracy** → prevent leakage at every step (feature selection, normalization, tuning)
 5. **Pipeline internals matter** → PCAs in `nf-core/differentialabundance` are generated *before* normalization
 6. **Technology differences require different parameters** → TAG-seq ≠ standard RNA-seq
 
@@ -66,7 +66,7 @@
 *Practical, decision-first guidance for implementing the analyses.*
 
 ### 4a. Pipeline Decision Guide
-- Flowchart: Which approach to choose and when
+- Flowchart: Which approach to choose and when *(box diagram/flowchart graphic)*
 
 ### 4b. Stepwise Differential Abundance Pipeline
 - Step 1: control vs. treated (stress-responsive genes)
@@ -74,14 +74,14 @@
 - Normalization approach; known failure modes
 
 ### 4c. Two-Step Classifier Pipeline *(primary validated approach)*
-- Step 1: Reproducibility and directionality scoring across datasets
+- Step 1: Reproducibility and directionality scoring across datasets *(box diagram/flowchart graphic)*
 - Step 2: Logistic regression to minimize feature set
 - How the 6-gene panel was identified
 
 ### 4d. Validation & Pitfalls
+- Avoiding overfitting; train/test hygiene
 - Leave-One-Study-Out (LOSO) protocol
 - Detecting and handling batch effects
-- Avoiding overfitting; train/test hygiene
 - Cross-study generalizability considerations
 
 ---
