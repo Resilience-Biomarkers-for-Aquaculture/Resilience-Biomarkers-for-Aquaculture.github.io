@@ -22,7 +22,6 @@ description: Project website and notebook
 navbar-links:
   About: "about"
   Analysis Notebook: "notebook"
-  Biomarker Database: "biomarker-database"
   Publications: "publications"
   Outreach: "outreach"
 

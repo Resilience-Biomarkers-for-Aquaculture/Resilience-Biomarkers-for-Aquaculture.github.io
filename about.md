@@ -53,18 +53,30 @@ _C. virginica_|E|environment|OA ||resilience| Roberts _et al._ _unpublished_|[ht
 
 ### Biomarker Database
 
-The Resilience Biomarker Database is an interactive, open-access resource compiling candidate resilience biomarkers discovered across shellfish genomic studies. Modelled after the [Cancer Biomarker Database](https://www.cancerbiomarkerdb.org/), the database features:
+<div class="table-responsive" style="font-size:0.88em;">
+<table class="table table-striped table-bordered table-condensed">
+  <thead>
+    <tr>
+      <th>Gene</th>
+      <th>Species</th>
+      <th>Condition</th>
+      <th>Trait</th>
+      <th>Effect</th>
+      <th>Evidence</th>
+      <th>Rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><em>HSP70</em></td><td><em>C. gigas</em></td><td>Thermal Stress</td><td>Thermotolerance</td><td>Upregulated</td><td>Species-specific</td><td>3</td></tr>
+    <tr><td><em>HSP90</em></td><td><em>C. gigas</em></td><td>Thermal Stress</td><td>Thermotolerance</td><td>Upregulated</td><td>Cross-species</td><td>4</td></tr>
+    <tr><td><em>SOD1</em></td><td><em>C. virginica</em></td><td>Perkinsus marinus Infection</td><td>Infection Tolerance</td><td>Upregulated</td><td>Cross-species</td><td>5</td></tr>
+    <tr><td><em>IL-17</em></td><td><em>C. gigas</em></td><td>Perkinsus marinus Infection</td><td>Infection Tolerance</td><td>Upregulated</td><td>Cross-species</td><td>4</td></tr>
+    <tr><td><em>CLEC</em></td><td><em>C. virginica</em></td><td>Perkinsus marinus Infection</td><td>Infection Tolerance</td><td>Upregulated</td><td>Cross-species</td><td>5</td></tr>
+  </tbody>
+</table>
+</div>
 
-- **Search bar** for text querying across all columns
-- **Column sort** and **per-column dropdown filters** for species, condition, trait, class, and evidence type
-- **Download** buttons for exporting the full or filtered dataset (CSV, Excel)
-- **Rank** column with a confidence score based on supporting evidence (number of studies, species, and data types)
-- **Evidence** column indicating species-specific or cross-species support
-- **Class** column indicating the discovery class (Genomic Feature, Ontology Enrichment, or Protein Interaction Network)
-- **Source** column listing the publication(s) providing original evidence
-- **Feedback** feature to solicit updates and additions via GitHub Issues
-
-[**Open the Biomarker Database →**](/biomarker-database/)
+[**View Full Database →**](/biomarker-database/){: .btn .btn-primary}
 
 ### People
 Project Director:  
