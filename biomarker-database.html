@@ -1,0 +1,112 @@
+---
+layout: database
+title: Biomarker Database
+subtitle: Candidate Resilience Biomarkers for Aquaculture Species
+ext-css:
+  - "https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap.min.css"
+  - "https://cdn.datatables.net/buttons/3.1.2/css/buttons.bootstrap.min.css"
+ext-js:
+  - "https://cdn.datatables.net/2.1.8/js/dataTables.min.js"
+  - "https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap.min.js"
+  - "https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.min.js"
+  - "https://cdn.datatables.net/buttons/3.1.2/js/buttons.bootstrap.min.js"
+  - "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
+  - "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"
+  - "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"
+  - "https://cdn.datatables.net/buttons/3.1.2/js/buttons.html5.min.js"
+  - "https://cdn.datatables.net/buttons/3.1.2/js/buttons.print.min.js"
+js:
+  - "/js/biomarker-database.js"
+---
+
+<h2>Biomarker Database</h2>
+<p>
+  This database compiles candidate resilience biomarkers discovered across shellfish genomic studies.
+  Biomarkers are searchable by species, condition, trait, discovery class, and evidence type.
+  Use the search bar and column sort features to explore entries, and download the full or filtered
+  dataset using the buttons below. To suggest additions or provide feedback, use the
+  <a href="https://github.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/issues/new?template=Blank+issue&title=Biomarker+Database+Feedback" target="_blank">Feedback / Request Update</a> link.
+</p>
+
+<div class="panel panel-default">
+  <div class="panel-heading"><strong>How to use this database</strong></div>
+  <div class="panel-body">
+    <ul>
+      <li><strong>Search:</strong> Use the search box (top right) to query any text across all columns.</li>
+      <li><strong>Sort:</strong> Click any column header to sort the table by that column.</li>
+      <li><strong>Filter:</strong> Use the dropdown filters below each column header to narrow results by species, condition, class, etc.</li>
+      <li><strong>Download:</strong> Use the <em>CSV</em>, <em>Excel</em>, or <em>Copy</em> buttons to download the current (filtered) view.</li>
+      <li><strong>Feedback:</strong> Use the <a href="https://github.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/issues/new?template=Blank+issue&title=Biomarker+Database+Feedback" target="_blank">Feedback / Request Update</a> link to suggest a new biomarker entry or report an issue.</li>
+    </ul>
+  </div>
+</div>
+
+<p>
+  <a href="https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/master/_data/biomarker_database.csv" class="btn btn-default btn-sm" download="biomarker_database.csv">
+    <span class="glyphicon glyphicon-download-alt"></span> Download Full Database (CSV)
+  </a>
+  &nbsp;
+  <a href="https://github.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/issues/new?template=Blank+issue&title=Biomarker+Database+Feedback"
+     class="btn btn-primary btn-sm" target="_blank">
+    <span class="glyphicon glyphicon-comment"></span> Feedback / Request Update
+  </a>
+</p>
+
+<style>
+/* Italicise gene name and species columns via CSS so cells stay plain-text for DataTables filtering */
+#biomarker-table td:nth-child(2),
+#biomarker-table td:nth-child(3) { font-style: italic; }
+#biomarker-table td:nth-child(9) { font-size: 0.85em; }
+#biomarker-table td:nth-child(10) { text-align: center; }
+</style>
+
+<div id="database-container">
+  <table id="biomarker-table" class="table table-striped table-bordered table-hover" style="width:100%">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Gene Name</th>
+        <th>Species</th>
+        <th>Condition</th>
+        <th>Trait</th>
+        <th>Effect</th>
+        <th>Class</th>
+        <th>Evidence</th>
+        <th>Source</th>
+        <th>Rank</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in site.data.biomarker_database %}
+      <tr>
+        <td>{{ row.biomarker_id | escape }}</td>
+        <td>{{ row.gene_name | escape }}</td>
+        <td>{{ row.species | escape }}</td>
+        <td>{{ row.condition | escape }}</td>
+        <td>{{ row.trait | escape }}</td>
+        <td>{{ row.effect | escape }}</td>
+        <td>{{ row.class | escape }}</td>
+        <td>{{ row.evidence | escape }}</td>
+        <td>{{ row.source | escape }}</td>
+        <td>{{ row.rank | escape }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<hr/>
+<p class="text-muted small">
+  <em>Column descriptions:</em>
+  <strong>Class</strong> — discovery class: Genomic Feature, Ontology Enrichment, or Protein Interaction Network.
+  <strong>Evidence</strong> — Species-specific (identified in one species) or Cross-species (identified across multiple species).
+  <strong>Rank</strong> — confidence score (1–5) based on the number of supporting studies, species, and data types; higher scores indicate stronger evidence.
+  <strong>Source</strong> — publication(s) providing original evidence.
+</p>
+<p class="text-muted small">
+  Database hosted on <a href="https://github.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io" target="_blank">GitHub</a>.
+  Stable annual releases are made to ensure data, webpage, and software are up to date.
+  To contribute data or join as a collaborator, open a
+  <a href="https://github.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/issues" target="_blank">GitHub Issue</a>.
+</p>
+
