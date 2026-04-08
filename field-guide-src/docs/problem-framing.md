@@ -4,7 +4,7 @@
 
 ## What is "Resilience" in This Project?
 
-In the context of this research, **resilience** refers to the ability of *Crassostrea virginica* (Eastern oyster) to tolerate or resist stress from *Perkinsus marinus* (Dermo disease) infection and other environmental challenges. It's a generalization of the specific traits **resistance** and **tolerance**.
+In the context of this research, **resilience** refers to the ability of *Crassostrea virginica* (Eastern oyster) to tolerate or resist stress from *Perkinsus marinus* (parasite causing Dermo disease) infection. It's a generalization of the specific traits **resistance** and **tolerance**.
 
 ### Defining the Phenotype
 
