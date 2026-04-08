@@ -4,24 +4,13 @@
 
 ## What is "Resilience" in This Project?
 
-In the context of this research, **resilience** refers to the ability of *Crassostrea virginica* (Eastern oyster) to tolerate or resist stress from *Perkinsus marinus* (Dermo disease) infection and other environmental challenges.
+In the context of this research, **resilience** refers to the ability of *Crassostrea virginica* (Eastern oyster) to tolerate or resist stress from *Perkinsus marinus* (Dermo disease) infection and other environmental challenges. It's a generalization of the specific traits **resistance** and **tolerance**.
 
 ### Defining the Phenotype
 
-Throughout this project, phenotype definition evolved significantly:
+Intial efforts purposely conflated the traits of **resistance** (low infection intensity; antonym **susceptibility**) and **tolerance** (survival in the presence of significant infection; antonyn **sensitivity**) in an attempt to discover any overarching **resilience** markers.
 
-!!! warning "Big Lesson #2: Traits Were Oversimplified"
-    Early attempts used generalized trait definitions across studies (e.g., "stress" vs. "control"). This oversimplification failed because:
-    
-    - Different studies measured different stressors (disease, temperature, salinity)
-    - Trait effects were weaker than study-specific effects
-    - Batch correction couldn't compensate for fundamental differences in experimental design
-
-**Current approach:** Focus on specific, comparable phenotypes:
-
-- **Tolerant/Resistant**: Oysters that survived or showed low infection intensity
-- **Sensitive/Susceptible**: Oysters that died or showed high infection intensity
-- **Control vs. Treated**: Within-study comparisons before examining resilience
+Later efforts distinguished these traits, but found that **tolerance** may be predicted by markers for **resistance**, whereas the converse wasn't true.
 
 ## The Datasets
 
