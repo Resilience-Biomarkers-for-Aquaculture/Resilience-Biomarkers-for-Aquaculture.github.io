@@ -10,7 +10,7 @@ In the context of this research, **resilience** refers to the ability of *Crasso
 
 Intial efforts purposely conflated the traits of **resistance** (low infection intensity; antonym **susceptibility**) and **tolerance** (survival in the presence of significant infection; antonyn **sensitivity**) in an attempt to discover any overarching **resilience** markers.
 
-Later efforts distinguished these traits, but found that **tolerance** may be predicted by markers for **resistance**, whereas the converse wasn't true.
+Later efforts distinguished these traits, noting correlations between markers for each.
 
 ## The Datasets
 
