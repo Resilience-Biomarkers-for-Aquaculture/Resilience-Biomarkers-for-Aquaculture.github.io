@@ -12,18 +12,13 @@ Later efforts distinguished these traits, noting correlations between markers fo
 
 ## The Datasets
 
-This project integrates multiple RNA-seq datasets from *C. virginica* exposed to *P. marinus*:
+This project integrates multiple RNA-seq datasets from *C. virginica* (and in one dataset, *C. gigas*) exposed to *P. marinus*:
 
-### Primary Datasets
+The orignal full set of datasets is described in [Analysis Ideas](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/28911967a82a3efc234545f4666aa6567b192b87/analysis_ideas.md)
 
-| Dataset | Species | Stressor | Library Type | Notes |
-|---|---|---|---|---|
-| **Dataset 1** | *C. virginica* | *P. marinus* injection, distinct doses | Standard RNA-seq | Day 7 samples used for primary analyses |
-| **Dataset 2** | *C. virginica* | *P. marinus* outplanted exposure | TAG-seq | Requires different FastP parameters; GC bias discovered ([issue #26](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/26)) |
-| **Dataset 3** | *C. virginica, C. gigas* | *P. marinus* injection | Standard RNA-seq | Day 7 samples used for primary analyses |
-| **Dataset 4** | *C. virginica* | *P. marinus* injection | Standard RNA-seq | Injected group samples; combined with Dataset 5 in July 2025 |
+## Per-dataset trait definitions
 
-Additional datasets were analyzed for specific sub-questions (methylation, de novo transcriptome, cross-species comparisons).
+[Discussion of per-study trait definitions](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/12#issuecomment-2640611535)
 
 ### Dataset Characteristics & Challenges
 
