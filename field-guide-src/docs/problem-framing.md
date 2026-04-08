@@ -4,9 +4,7 @@
 
 ## What is "Resilience" in This Project?
 
-In the context of this research, **resilience** refers to the ability of *Crassostrea virginica* (Eastern oyster) to tolerate or resist stress from *Perkinsus marinus* (parasite causing Dermo disease) infection. It's a generalization of the specific traits **resistance** and **tolerance**.
-
-### Defining the Phenotype
+In the context of this research, **resilience** refers to the ability of *Crassostrea virginica* (Eastern oyster) to tolerate or resist stress from *Perkinsus marinus* (parasite causing Dermo disease) infection. It's a generalization of the specific traits **resistance** and **tolerance**. ([Discussion](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/12#issuecomment-2640097719))
 
 Intial efforts purposely conflated the traits of **resistance** (low infection intensity; antonym **susceptibility**) and **tolerance** (survival in the presence of significant infection; antonyn **sensitivity**) in an attempt to discover any overarching **resilience** markers.
 
@@ -20,9 +18,10 @@ This project integrates multiple RNA-seq datasets from *C. virginica* exposed to
 
 | Dataset | Species | Stressor | Library Type | Notes |
 |---|---|---|---|---|
-| **Dataset 1** | *C. virginica* | *P. marinus* injection | Standard RNA-seq | Day 7 samples used for primary analyses |
+| **Dataset 1** | *C. virginica* | *P. marinus* injection, distinct doses | Standard RNA-seq | Day 7 samples used for primary analyses |
+| **Dataset 2** | *C. virginica* | *P. marinus* outplanted exposure | TAG-seq | Requires different FastP parameters; GC bias discovered ([issue #26](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/26)) |
+| **Dataset 3** | *C. virginica, C. gigas* | *P. marinus* injection | Standard RNA-seq | Day 7 samples used for primary analyses |
 | **Dataset 4** | *C. virginica* | *P. marinus* injection | Standard RNA-seq | Injected group samples; combined with Dataset 5 in July 2025 |
-| **Dataset 5** | *C. virginica* | *P. marinus* (Johnson lab) | TAG-seq | Requires different FastP parameters; GC bias discovered ([issue #26](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/26)) |
 
 Additional datasets were analyzed for specific sub-questions (methylation, de novo transcriptome, cross-species comparisons).
 
@@ -31,7 +30,7 @@ Additional datasets were analyzed for specific sub-questions (methylation, de no
 - **Batch effects**: Study-specific effects consistently stronger than trait effects across all integration attempts
 - **Sample size limitations**: Variable n across studies (typically 5–15 samples per phenotype group)
 - **Time point variation**: Sampling at different days post-exposure across studies
-- **Technology differences**: Dataset 5 used TAG-seq (3′ tag RNA-seq) rather than standard RNA-seq, requiring separate parameter optimization ([issue #26](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/26), [issue #28](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/28))
+- **Technology differences**: Dataset 2 used TAG-seq (3′ tag RNA-seq) rather than standard RNA-seq, requiring separate parameter optimization ([issue #26](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/26), [issue #28](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/28))
 - **Phenotype comparability**: Tolerant/sensitive labels defined differently across studies; required harmonization before cross-study analysis
 
 ## Key Constraints & Design Decisions
