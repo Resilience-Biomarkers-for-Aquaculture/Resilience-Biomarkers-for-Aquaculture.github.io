@@ -12,18 +12,4 @@
 
 ---
 
-## How to Navigate This Guide
-
-| Section | What You'll Find |
-|---|---|
-| [1. Research Context & Problem Framing](problem-framing.md) | Background on Dermo disease, datasets, phenotype definitions, and key constraints |
-| [2. Process Narrative](process-narrative.md) | Chronological account of decisions, pivots, and surprises — the honest story of what happened |
-| [3. Big Lessons Learned](lessons-learned.md) | Distilled, numbered insights for researchers adapting this work |
-| [4. Methods & Pipelines](pipelines/decision-guide.md) | Decision guide and validated analysis pipelines |
-| [5. Analysis Code & Source Code](code-sources.md) | Where to find and how to run everything |
-| [6. Glossary](glossary.md) | Terms defined in the context of this project |
-| [7. Sources & References](sources/posts-index.md) | Notebook posts, GitHub issues, and external references |
-
----
-
 *Developed by Shelly Wanamaker and Steve Yost with AI assistance. Cite as: Wanamaker, S.A. and Yost, S. (2025). Resilience Biomarkers Field Guide. https://resilience-biomarkers-for-aquaculture.github.io/field-guide/*
