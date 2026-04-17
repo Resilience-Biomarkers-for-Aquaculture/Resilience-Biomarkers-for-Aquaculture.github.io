@@ -51,6 +51,10 @@ _C. virginica_|T|disease|Perkinsus|infection |sensitivity|Sullivan and Proestou 
 _C. virginica_|T|disease|Perkinsus|infection |sensitivity|Proestou and Sullivan 2020|[https://doi.org/10.1016/j.fsi.2019.12.001](https://doi.org/10.1016/j.fsi.2019.12.001)|[https://www.ncbi.nlm.nih.gov/Traces/study/?query_key=4&WebEnv=MCID_679bbe17db915954f5c764fa&o=acc_s%3Aa](https://www.ncbi.nlm.nih.gov/Traces/study/?query_key=4&WebEnv=MCID_679bbe17db915954f5c764fa&o=acc_s%3Aa)|[SraRunTable(4).csv](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/blob/main/data/SraRunTable%20(4).csv) |[salmon.merged.gene_counts.tsv](https://gannet.fish.washington.edu/emma.strand/rnaseq/Cvir_Prkns_rnaseq_dataset5/salmon.merged.gene_counts.tsv) |
 _C. virginica_|E|environment|OA ||resilience| Roberts _et al._ _unpublished_|[https://github.com/sr320/ceasmallr](https://github.com/sr320/ceasmallr)|[https://gannet.fish.washington.edu/seashell/bu-github/ceasmallr/data/](https://gannet.fish.washington.edu/seashell/bu-github/ceasmallr/data/)|[L18_larvae_meta.csv](https://github.com/sr320/ceasmallr/blob/main/data/L18_larvae_meta.csv) | [bismark.cov](https://gannet.fish.washington.edu/metacarcinus/USDA_MetaOmics/Cvirg_methylseq/bismark/methylation_calls/methylation_coverage/)|
 
+### Data set analysis request form
+
+If you have a data set you would like to see included in an omics meta-analysis, please [Click here]() to sumbit your ideas.
+
 ### Biomarker Database
 
 <div class="table-responsive" style="font-size:0.82em;">
