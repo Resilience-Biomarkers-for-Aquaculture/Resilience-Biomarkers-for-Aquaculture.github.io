@@ -34,7 +34,7 @@ The resulting database will enable improved molecular tool development for more 
 phenotype selection and health monitoring, implementation of selection methods that use a systems biology approach for simultaneous
 improvement of multiple traits, and ultimately increased animal fitness and improved animal welfare.
 
-View more project details [here](https://resilience-biomarkers-for-aquaculture.github.io/docs/ProjectSummaryandNarrative.pdf).
+View more project details [here](/pdf-viewer.html).
 
 ![](https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Resilience-Biomarkers-for-Aquaculture.github.io/master/img/fig1.png)
 a) Graphical summary of Objective 1. b) Example pipelines and software for systematic reanalysis and data integration. c) Example of resilience biomarker database (modeled after Tamborero et al. 201846).
@@ -53,7 +53,7 @@ _C. virginica_|E|environment|OA ||resilience| Roberts _et al._ _unpublished_|[ht
 
 ### Data set analysis request form
 
-If you have a data set you would like to see included in an omics meta-analysis, please [Click here]() to sumbit your ideas.
+If you have a data set you would like to see included in an omics meta-analysis, please [Click here](https://docs.google.com/forms/d/e/1FAIpQLSeS6IBBni051iV71cbPcuIgQpJHo61tgbUdI7CzvIhiAJ5WRg/viewform?usp=header) to sumbit your ideas.
 
 ### Biomarker Database
 
