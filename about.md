@@ -117,11 +117,7 @@ Postdoctoral Scientist
 Steve Yost (he/him)  
 Bioinformatics Software Engineer  
 [steve.yost+gmgi@gmail.com](mailto:steve.yost@gmail.com)
-
- **Office and mailing address:**  
-Gloucester Marine Genomics Institute  
-417 Main Street  
-Gloucester, MA 01930 USA  
+[https://github.com/journeymansix](https://github.com/journeymansix)
 
 **Funding:**  
 This project is supported by the USDA Agriculture and Food Research Initiative Animal Health and Production and Animal Products program under the Animal Breeding, Genetics, and Genomics section award number 2024-67015-41794 to Dr. Shelly A. Wanamaker.
