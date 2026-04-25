@@ -1,12 +1,18 @@
-# Year in Review: Timeline of Discovery
+# Process Narrative
 
-This timeline documents the evolution of analysis approaches from December 2024 through September 2025, highlighting methodological pivots, key lessons, and the path to a validated 6-gene classifier.
+*A chronological account of decisions, pivots, and surprises — the honest story of what happened.*
+
+This narrative documents the evolution of analysis approaches from December 2024 through September 2025, organized by phase. Each phase highlights the key decision or pivot that defined that period.
 
 ---
 
-## December 2024: Initial Methods Exploration
+## Phase 1 (Dec 2024 – Jan 2025): Integrated Analysis Attempt
 
-### Week of Dec 4
+### Why Integration Seemed Obvious
+
+The natural starting point was to pool all available datasets together and run a combined analysis — this approach maximizes sample size and, in theory, enables detection of weak signals.
+
+### Week of Dec 4, 2024
 
 **Attempted:** Running nf-core pipeline on 4 combined datasets
 
@@ -19,13 +25,9 @@ This timeline documents the evolution of analysis approaches from December 2024 
 
 - [Notebook: Differential abundance workflow exploration](https://resilience-biomarkers-for-aquaculture.github.io/2024-12-11-ES-differential_abundance_workflow/)
 
----
+### January 2025: Differential Abundance Beginnings
 
-## January 2025: Differential Abundance Beginnings
-
-### Jan 3
-
-**Activities:**
+**Jan 3 activities:**
 
 - [Issue #3](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/3): Created merged metadata
 - [Issue #4](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/4): Differential abundance initial approach
@@ -35,11 +37,7 @@ This timeline documents the evolution of analysis approaches from December 2024 
 
 **Outcome:** Merged counts table obtained, but separation by trait was weak
 
-**Related:**
-
-- Notebook: `2025-01-03_RNAseq_all_AI_diffexp.ipynb`
-
-### Jan 16
+**Jan 16:**
 
 **Attempted:** Subset data to improve separation
 
@@ -64,7 +62,7 @@ This timeline documents the evolution of analysis approaches from December 2024 
 
 ---
 
-## February 2025: Confronting Batch Effects
+## Phase 2 (Feb 2025): Confronting Batch Effects
 
 **Key finding:** Study-specific effects are much stronger than trait effects
 
@@ -83,13 +81,13 @@ This timeline documents the evolution of analysis approaches from December 2024 
 
 ---
 
-## April 2025: Per-Dataset Analysis & TAG-seq Issues
+## Phase 3 (Apr – Jun 2025): Shift to Per-Dataset Independent Analysis; TAG-seq Discovery
 
 ### Strategy Shift: Independent Dataset Analysis
 
 **New approach:** Running DifferentialAbundance on each dataset independently
 
-### TAG-seq Parameter Problems
+### TAG-seq Parameter Problems (April 2025)
 
 - [Issue #26](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/26): What flags to use? Discovered GC bias
 - **Critical finding:** Johnson dataset used TAG-seq; initial RNA-seq analysis parameters were inappropriate
@@ -99,18 +97,14 @@ This timeline documents the evolution of analysis approaches from December 2024 
 
 - [Notebook: Reprocess TAG-seq with FastP params](https://resilience-biomarkers-for-aquaculture.github.io/SW-FastPparams4tagseq/)
 
-### Deferred Work
+### Deferred Work (April 2025)
 
 - [Issue #29 & #31](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/31): Ran differential abundance on all datasets together but didn't interpret results yet
 
 !!! note "Could return to this"
     Results exist but interpretation was postponed to focus on per-dataset approach
 
----
-
-## June 2025: Focused Dataset Analysis
-
-### Per-Dataset Deep Dives
+### Per-Dataset Deep Dives (June 2025)
 
 [Issue #32](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/32): Attempted differentialabundance on datasets separately
 
@@ -120,7 +114,7 @@ This timeline documents the evolution of analysis approaches from December 2024 
 
 ---
 
-## July 2025: Combining Studies & Understanding Normalization
+## Phase 4 (Jul 2025): Normalization and Study-Combination Experiments
 
 ### Study Combination Experiment
 
@@ -154,7 +148,7 @@ This timeline documents the evolution of analysis approaches from December 2024 
 
 ---
 
-## August 2025: GSEA & Stepwise Approach Development
+## Phase 5 (Aug 2025): Stepwise Differential Abundance; Discovery of Innate-Signal Problem
 
 ### GSEA Integration
 
@@ -186,14 +180,15 @@ This timeline documents the evolution of analysis approaches from December 2024 
 !!! danger "Big Lesson #3: Biomarkers in Controls"
     Are we removing biomarkers that are **innate**? If resilience biomarkers are constitutively expressed (present in controls), the stepwise filtering approach removes them!
 
+---
+
+## Phase 6 (Aug – Sep 2025): Two-Step Classifier Development; 6-Gene Panel Validation
+
 ### Classifier Development Begins
 
 [Issue #42](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/42): Validate SR320 classification results
 
 **Question:** Are the ~50 markers convincing about the difference between sensitive vs. resistant?
-
-!!! note "Revisit: Make plots"
-    Need visualization to assess convincingness of candidate markers
 
 [Issue #43](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/43): SR320's AI model
 
@@ -222,11 +217,9 @@ This timeline documents the evolution of analysis approaches from December 2024 
 - [Notebook: Two-script pipeline for gene classifier](https://resilience-biomarkers-for-aquaculture.github.io/SY-gene-classifier-panel/)
 - [Notebook: Stepwise approach on dataset 1](https://resilience-biomarkers-for-aquaculture.github.io/SW-diffabund_stepwise_ds1/)
 
----
+### September 2025: Validation & Characterization
 
-## September 2025: Validation & Characterization
-
-### Cross-Study Comparison
+#### Cross-Study Comparison
 
 [Issue #36](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/36): Run differentialabundance independently for each dataset and compare DEGs
 
@@ -237,16 +230,7 @@ This timeline documents the evolution of analysis approaches from December 2024 
 
 **Status:** Not completed
 
-### Integration Attempts
-
-[Issue #46](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/46): Integrate all data and run through differentialabundance pipeline
-
-!!! note "Could revisit"
-    Another integration attempt; not completed
-
-[Issue #47](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/47): (Not pursued; no need to revisit)
-
-### 6-Gene Panel Characterization
+#### 6-Gene Panel Characterization
 
 [Issue #49](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/49): Plot 6 genes to gain confidence
 
@@ -256,17 +240,6 @@ This timeline documents the evolution of analysis approaches from December 2024 
 
 - [Notebook: Exploring six-gene biomarker across studies](https://resilience-biomarkers-for-aquaculture.github.io/SY-six-gene-biomarker-exploration/)
 
-[Issue #51](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/51): Replot heatmap with improved clustering and labels
-
-!!! note "Revisit this"
-    Visualization improvements pending
-
-[Issue #52](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/52): Coverage density plots
-
-**Status:** Still needs notebook entry
-
-### Innate vs. Reactive Analysis
-
 [Issue #53](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/53): Innate vs. reactive gene expression
 
 **Critical insight:** Biomarkers may be constitutively different in resistant vs. sensitive oysters (innate), not just reactive to stress
@@ -275,22 +248,11 @@ This timeline documents the evolution of analysis approaches from December 2024 
 
 - [Notebook: Series of DESeq2 runs indicates innate DEGs](https://resilience-biomarkers-for-aquaculture.github.io/SY-innate-gene-expression/)
 
-### Future Datasets
-
-[Issue #54](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/54): Find more datasets
-
-**Status:** Postponed
-
 ---
 
 ## Key Takeaways
 
-### Four Big Lessons
-
-1. **Integrated analysis fails with noisy, weak-signal data** → pivot to post-data integration
-2. **Oversimplified trait definitions** → study effects dominate trait effects
-3. **Innate biomarkers exist in controls** → don't filter them out in stepwise approaches
-4. **Training/test set leakage** → critical for cross-study validation
+See [Big Lessons Learned](lessons-learned.md) for a distilled list of insights from this project.
 
 ### Successful Methodologies
 
@@ -308,4 +270,4 @@ This timeline documents the evolution of analysis approaches from December 2024 
 
 ---
 
-**Next:** Explore the validated pipelines in detail: [Decision Tree](pipelines/decision-tree.md) | [Two-Step Classifier](pipelines/classifier-path.md)
+**Next:** Read the distilled [Big Lessons Learned](lessons-learned.md), or jump to [Methods & Pipelines](pipelines/decision-guide.md)

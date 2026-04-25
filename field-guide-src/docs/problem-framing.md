@@ -1,25 +1,14 @@
-# Problem Framing
+# Research Context & Problem Framing
+
+*Why this study, why these data, and what "resilience" means here.*
 
 ## What is "Resilience" in This Project?
 
-In the context of this research, **resilience** refers to the ability of *Crassostrea virginica* (Eastern oyster) to tolerate or resist stress from *Perkinsus marinus* (Dermo disease) infection and other environmental challenges.
+In the context of this research, **resilience** refers to the ability of *Crassostrea virginica* (Eastern oyster) to tolerate or resist stress from *Perkinsus marinus* (parasite causing Dermo disease) infection. It's a generalization of the specific traits **resistance** and **tolerance**. ([Discussion](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/12#issuecomment-2640097719))
 
-### Defining the Phenotype
+Intial efforts purposely conflated the traits of **resistance** (low infection intensity; antonym **susceptibility**) and **tolerance** (survival in the presence of significant infection; antonyn **sensitivity**) in an attempt to discover any overarching **resilience** markers.
 
-Throughout this project, phenotype definition evolved significantly:
-
-!!! warning "Big Lesson #2: Traits Were Oversimplified"
-    Early attempts used generalized trait definitions across studies (e.g., "stress" vs. "control"). This oversimplification failed because:
-    
-    - Different studies measured different stressors (disease, temperature, salinity)
-    - Trait effects were weaker than study-specific effects
-    - Batch correction couldn't compensate for fundamental differences in experimental design
-
-**Current approach:** Focus on specific, comparable phenotypes:
-
-- **Tolerant/Resistant**: Oysters that survived or showed low infection intensity
-- **Sensitive/Susceptible**: Oysters that died or showed high infection intensity
-- **Control vs. Treated**: Within-study comparisons before examining resilience
+Later efforts distinguished these traits, noting correlations between markers for each.
 
 ## The Datasets
 
@@ -27,19 +16,22 @@ This project integrates multiple RNA-seq datasets from *C. virginica* exposed to
 
 ### Primary Datasets
 
-- **Dataset 1**: [Description of dataset 1 characteristics]
-- **Dataset 4**: Injected group samples
-- **Dataset 5**: [Description of dataset 5 characteristics]
-- Additional datasets analyzed for specific questions
+| Dataset | Species | Stressor | Library Type | Notes |
+|---|---|---|---|---|
+| **Dataset 1** | *C. virginica* | *P. marinus* injection, distinct doses | Standard RNA-seq | Day 7 samples used for primary analyses |
+| **Dataset 2** | *C. virginica* | *P. marinus* outplanted exposure | TAG-seq | Requires different FastP parameters; GC bias discovered ([issue #26](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/26)) |
+| **Dataset 3** | *C. virginica, C. gigas* | *P. marinus* injection | Standard RNA-seq | Day 7 samples used for primary analyses |
+| **Dataset 4** | *C. virginica* | *P. marinus* injection | Standard RNA-seq | Injected group samples; combined with Dataset 5 in July 2025 |
 
-### Data Characteristics
+Additional datasets were analyzed for specific sub-questions (methylation, de novo transcriptome, cross-species comparisons).
 
-**Common challenges:**
+### Dataset Characteristics & Challenges
 
-- **Batch effects**: Study-specific effects consistently stronger than trait effects
-- **Sample size limitations**: Variable n across studies
-- **Time point variation**: Sampling at different post-exposure times
-- **Technology differences**: Including TAG-seq vs. standard RNA-seq ([issue #26, #28](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/26))
+- **Batch effects**: Study-specific effects consistently stronger than trait effects across all integration attempts
+- **Sample size limitations**: Variable n across studies (typically 5–15 samples per phenotype group)
+- **Time point variation**: Sampling at different days post-exposure across studies
+- **Technology differences**: Dataset 2 used TAG-seq (3′ tag RNA-seq) rather than standard RNA-seq, requiring separate parameter optimization ([issue #26](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/26), [issue #28](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/28))
+- **Phenotype comparability**: Tolerant/sensitive labels defined differently across studies; required harmonization before cross-study analysis
 
 ## Key Constraints & Design Decisions
 
@@ -139,4 +131,4 @@ A successful biomarker panel should:
 
 ---
 
-**Next:** Explore validated analysis approaches in [Pipelines](pipelines/decision-tree.md)
+**Next:** Read the [Process Narrative](process-narrative.md) to see how these constraints shaped the project's decisions, or jump to [Methods & Pipelines](pipelines/decision-guide.md) for validated workflows.

@@ -40,7 +40,7 @@ In the two-step classifier approach, the requirement that a gene's fold change d
 ## F
 
 **FastP**  
-A tool for quality control and preprocessing of FASTQ files (raw sequencing reads). Parameter selection is critical for different library types (e.g., TAG-seq vs. standard RNA-seq) - see [Issue #26, #28](timeline.md#april-2025-per-dataset-analysis--tag-seq-issues).
+A tool for quality control and preprocessing of FASTQ files (raw sequencing reads). Parameter selection is critical for different library types (e.g., TAG-seq vs. standard RNA-seq) - see [Issue #26, #28](process-narrative.md#phase-3-apr-jun-2025-shift-to-per-dataset-independent-analysis-tag-seq-discovery).
 
 **Fold Change**  
 The ratio of gene expression levels between two conditions, often expressed as log2 fold change. Positive values indicate upregulation, negative values indicate downregulation.
@@ -48,7 +48,7 @@ The ratio of gene expression levels between two conditions, often expressed as l
 ## G
 
 **GMT File**  
-Gene Matrix Transposed file format used for gene set definitions in GSEA. Contains pathway/gene set names with associated genes. Created in this project for [GSEA integration](timeline.md#gsea-integration).
+Gene Matrix Transposed file format used for gene set definitions in GSEA. Contains pathway/gene set names with associated genes. Created in this project for [GSEA integration](process-narrative.md#phase-5-aug-2025-stepwise-differential-abundance-discovery-of-innate-signal-problem).
 
 **GSEA (Gene Set Enrichment Analysis)**  
 A computational method that determines whether a defined set of genes (e.g., a pathway) shows statistically significant differences between two biological states. Attempted in [Issue #45](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/45).
@@ -64,7 +64,7 @@ In the context of gene scoring, the variance in gene expression within phenotype
 A gene that is constitutively different in expression between resistant and sensitive individuals, even in the absence of stress. Contrasts with [reactive biomarkers](#reactive-biomarker). Key insight from [Issue #53](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/53).
 
 **Integrated Data Analysis**  
-Approach that pools multiple datasets together before analysis, treating all samples as if from a single study (with batch correction). In this project, integrated analysis **failed** due to strong study-specific effects ([Big Lesson #1](timeline.md#january-2025-differential-abundance-beginnings)).
+Approach that pools multiple datasets together before analysis, treating all samples as if from a single study (with batch correction). In this project, integrated analysis **failed** due to strong study-specific effects ([Big Lesson #1](lessons-learned.md#lesson-1-integrated-analysis-fails-with-noisy-weak-signal-data)).
 
 ## L
 
@@ -75,7 +75,7 @@ A regularization method for regression that can shrink coefficients to exactly z
 When information from the test set inappropriately influences the training process, leading to overly optimistic performance estimates. See [Validation & Pitfalls](pipelines/validation.md#1-data-leakage).
 
 **LOSO (Leave-One-Study-Out)**  
-A cross-validation strategy where each study is held out once as a test set, while all other studies form the training set. Critical for assessing cross-study generalization ([Big Lesson #4](timeline.md#august-2025-gsea--stepwise-approach-development)).
+A cross-validation strategy where each study is held out once as a test set, while all other studies form the training set. Critical for assessing cross-study generalization ([Big Lesson #4](lessons-learned.md#lesson-4-training-set-leakage-inflates-accuracy)).
 
 ## M
 
@@ -124,7 +124,7 @@ RNA sequencing - a high-throughput method for quantifying gene expression by seq
 ## S
 
 **Stepwise Differential Abundance**  
-A two-step filtering approach: (1) identify stress-responsive genes (control vs. treated), then (2) identify resistance-associated genes from Step 1 genes. Has limitations (removes innate biomarkers, breaks down with small gene sets) - see [Stepwise Pipeline](pipelines/decision-tree.md).
+A two-step filtering approach: (1) identify stress-responsive genes (control vs. treated), then (2) identify resistance-associated genes from Step 1 genes. Has limitations (removes innate biomarkers, breaks down with small gene sets) - see [Stepwise Pipeline](pipelines/stepwise.md).
 
 **Study-Specific Effects**  
 Systematic differences between datasets due to experimental design, protocols, or biological differences between populations. In this project, these effects were **stronger than trait effects**, driving the pivot to post-data integration.
@@ -132,7 +132,7 @@ Systematic differences between datasets due to experimental design, protocols, o
 ## T
 
 **TAG-seq (3' Tag RNA-Sequencing)**  
-A cost-effective alternative to standard RNA-seq that sequences only the 3' end of transcripts. Requires different data processing parameters than full-length RNA-seq (see [TAG-seq issues](timeline.md#april-2025-per-dataset-analysis--tag-seq-issues)).
+A cost-effective alternative to standard RNA-seq that sequences only the 3' end of transcripts. Requires different data processing parameters than full-length RNA-seq (see [TAG-seq issues](process-narrative.md#phase-3-apr-jun-2025-shift-to-per-dataset-independent-analysis-tag-seq-discovery)).
 
 **Tolerant/Resistant**  
 Phenotype category for oysters that survived *P. marinus* infection or showed low infection intensity and minimal pathology.
@@ -178,4 +178,4 @@ A DESeq2 normalization method that transforms count data to a scale where varian
 
 - [Start Here](index.md) - Field guide overview
 - [Problem Framing](problem-framing.md) - Detailed background on resilience and datasets
-- [Timeline](timeline.md) - See concepts in chronological context
+- [Process Narrative](process-narrative.md) - See concepts in chronological context

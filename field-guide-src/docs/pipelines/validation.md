@@ -176,7 +176,7 @@ Instead of correcting batches and pooling:
 
 **Advantage:** Reproducibility across studies implicitly handles batch effects
 
-**Related:** [Timeline - February 2025](../timeline.md#february-2025-confronting-batch-effects)
+**Related:** [Process Narrative — Phase 2](../process-narrative.md#phase-2-feb-2025-confronting-batch-effects)
 
 ### 3. Normalization Timing & Method
 
@@ -196,7 +196,7 @@ In `nf-core/differentialabundance`:
     - Don't expect trait separation in initial PCAs if normalization hasn't been applied
     - Post-analysis PCAs on normalized data are more informative
 
-**Related:** [Issue #34](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/34), [Timeline - July 2025](../timeline.md#july-2025-combining-studies--understanding-normalization)
+**Related:** [Issue #34](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/34), [Process Narrative — Phase 4](../process-narrative.md#phase-4-jul-2025-normalization-and-study-combination-experiments)
 
 #### Normalization Methods
 
@@ -212,7 +212,7 @@ In `nf-core/differentialabundance`:
     **Symptom:** Unreliable dispersion estimates, poor model fit  
     **Solution:** Use alternative normalization (TMM, TPM) or abandon stepwise approach
 
-**Related:** [Stepwise Pipeline](decision-tree.md#1-deseq2-breaks-down-with-small-gene-sets)
+**Related:** [Stepwise Pipeline](stepwise.md#1-deseq2-breaks-down-with-small-gene-sets)
 
 ### 4. Oversimplified Phenotype Definitions
 
@@ -347,4 +347,4 @@ Before claiming a validated biomarker panel:
 
 ---
 
-**Next:** Explore detailed project history in the [Timeline](../timeline.md) or browse [Source Indices](../sources/issues-index.md)
+**Next:** Explore the project [Process Narrative](../process-narrative.md) or browse [Source Indices](../sources/issues-index.md)
