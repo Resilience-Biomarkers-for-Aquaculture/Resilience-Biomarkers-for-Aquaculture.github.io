@@ -49,7 +49,7 @@ The revised pipeline enforces fold isolation:
 1. `1_run_loso_pipeline.py` defines train/test samples per held-out batch.
 2. It calls `run_tiering.R` with `--train_samples`, so tiering/meta-ranking are fold-specific.
 3. It calls `lasso_prune_onefold.py` for that fold only.
-4. In `lasso_prune_onefold.py`, stability selection, pruning, and panel-size evaluation use training data; held-out data are only used for fold evaluation outputs.
+4. In `lasso_prune_onefold.py`, stability selection, pruning; held-out data are only used for fold evaluation outputs and panel-size evaluation.
 
 This converts the process from “global feature discovery + LOSO score” to **nested per-fold feature discovery + fold-held-out testing**, which better matches the intended domain-generalization objective.
 
