@@ -500,23 +500,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="What is &#34;Resilience&#34; in This Project?">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#defining-the-phenotype" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Defining the Phenotype
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -528,19 +511,19 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="The Datasets">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#primary-datasets" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-dataset-trait-definitions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Primary Datasets
+        Per-dataset trait definitions
       
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Per-dataset trait definitions">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#dataset-characteristics-challenges" class="md-nav__link">
@@ -1160,23 +1143,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="What is &#34;Resilience&#34; in This Project?">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#defining-the-phenotype" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Defining the Phenotype
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -1188,19 +1154,19 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="The Datasets">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#primary-datasets" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-dataset-trait-definitions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Primary Datasets
+        Per-dataset trait definitions
       
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Per-dataset trait definitions">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#dataset-characteristics-challenges" class="md-nav__link">
@@ -1399,68 +1365,20 @@
 <h1 id="research-context-problem-framing">Research Context &amp; Problem Framing</h1>
 <p><em>Why this study, why these data, and what "resilience" means here.</em></p>
 <h2 id="what-is-resilience-in-this-project">What is "Resilience" in This Project?</h2>
-<p>In the context of this research, <strong>resilience</strong> refers to the ability of <em>Crassostrea virginica</em> (Eastern oyster) to tolerate or resist stress from <em>Perkinsus marinus</em> (Dermo disease) infection and other environmental challenges.</p>
-<h3 id="defining-the-phenotype">Defining the Phenotype</h3>
-<p>Throughout this project, phenotype definition evolved significantly:</p>
-<div class="admonition warning">
-<p class="admonition-title">Big Lesson #2: Traits Were Oversimplified</p>
-<p>Early attempts used generalized trait definitions across studies (e.g., "stress" vs. "control"). This oversimplification failed because:</p>
-<ul>
-<li>Different studies measured different stressors (disease, temperature, salinity)</li>
-<li>Trait effects were weaker than study-specific effects</li>
-<li>Batch correction couldn't compensate for fundamental differences in experimental design</li>
-</ul>
-</div>
-<p><strong>Current approach:</strong> Focus on specific, comparable phenotypes:</p>
-<ul>
-<li><strong>Tolerant/Resistant</strong>: Oysters that survived or showed low infection intensity</li>
-<li><strong>Sensitive/Susceptible</strong>: Oysters that died or showed high infection intensity</li>
-<li><strong>Control vs. Treated</strong>: Within-study comparisons before examining resilience</li>
-</ul>
+<p>In the context of this research, <strong>resilience</strong> refers to the ability of <em>Crassostrea virginica</em> (Eastern oyster) to tolerate or resist stress from <em>Perkinsus marinus</em> (parasite causing Dermo disease) infection. It's a generalization of the specific traits <strong>resistance</strong> and <strong>tolerance</strong>. (<a href="https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/12#issuecomment-2640097719">Discussion</a>)</p>
+<p>Intial efforts purposely conflated the traits of <strong>resistance</strong> (low infection intensity; antonym <strong>susceptibility</strong>) and <strong>tolerance</strong> (survival in the presence of significant infection; antonyn <strong>sensitivity</strong>) in an attempt to discover any overarching <strong>resilience</strong> markers.</p>
+<p>Later efforts distinguished these traits, noting correlations between markers for each.</p>
 <h2 id="the-datasets">The Datasets</h2>
-<p>This project integrates multiple RNA-seq datasets from <em>C. virginica</em> exposed to <em>P. marinus</em>:</p>
-<h3 id="primary-datasets">Primary Datasets</h3>
-<table>
-<thead>
-<tr>
-<th>Dataset</th>
-<th>Species</th>
-<th>Stressor</th>
-<th>Library Type</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Dataset 1</strong></td>
-<td><em>C. virginica</em></td>
-<td><em>P. marinus</em> injection</td>
-<td>Standard RNA-seq</td>
-<td>Day 7 samples used for primary analyses</td>
-</tr>
-<tr>
-<td><strong>Dataset 4</strong></td>
-<td><em>C. virginica</em></td>
-<td><em>P. marinus</em> injection</td>
-<td>Standard RNA-seq</td>
-<td>Injected group samples; combined with Dataset 5 in July 2025</td>
-</tr>
-<tr>
-<td><strong>Dataset 5</strong></td>
-<td><em>C. virginica</em></td>
-<td><em>P. marinus</em> (Johnson lab)</td>
-<td>TAG-seq</td>
-<td>Requires different FastP parameters; GC bias discovered (<a href="https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/26">issue #26</a>)</td>
-</tr>
-</tbody>
-</table>
-<p>Additional datasets were analyzed for specific sub-questions (methylation, de novo transcriptome, cross-species comparisons).</p>
+<p>This project integrates multiple RNA-seq datasets from <em>C. virginica</em> (and in one dataset, <em>C. gigas</em>) exposed to <em>P. marinus</em>:</p>
+<p>The orignal full set of datasets is described in <a href="https://raw.githubusercontent.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/28911967a82a3efc234545f4666aa6567b192b87/analysis_ideas.md">Analysis Ideas</a></p>
+<h2 id="per-dataset-trait-definitions">Per-dataset trait definitions</h2>
+<p><a href="https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/12#issuecomment-2640611535">Discussion of per-study trait definitions</a></p>
 <h3 id="dataset-characteristics-challenges">Dataset Characteristics &amp; Challenges</h3>
 <ul>
 <li><strong>Batch effects</strong>: Study-specific effects consistently stronger than trait effects across all integration attempts</li>
 <li><strong>Sample size limitations</strong>: Variable n across studies (typically 5–15 samples per phenotype group)</li>
 <li><strong>Time point variation</strong>: Sampling at different days post-exposure across studies</li>
-<li><strong>Technology differences</strong>: Dataset 5 used TAG-seq (3′ tag RNA-seq) rather than standard RNA-seq, requiring separate parameter optimization (<a href="https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/26">issue #26</a>, <a href="https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/28">issue #28</a>)</li>
+<li><strong>Technology differences</strong>: Dataset 2 used TAG-seq (3′ tag RNA-seq) rather than standard RNA-seq, requiring separate parameter optimization (<a href="https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/26">issue #26</a>, <a href="https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/28">issue #28</a>)</li>
 <li><strong>Phenotype comparability</strong>: Tolerant/sensitive labels defined differently across studies; required harmonization before cross-study analysis</li>
 </ul>
 <h2 id="key-constraints-design-decisions">Key Constraints &amp; Design Decisions</h2>
