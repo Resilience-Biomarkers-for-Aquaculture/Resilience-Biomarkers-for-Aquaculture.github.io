@@ -45,7 +45,7 @@ All notebook posts are available at: `https://resilience-biomarkers-for-aquacult
 ### [2024-12-11: Exploring nf-core Differential Abundance Workflow (ES)](/ES-differential_abundance_workflow/)
 
 **Timeline:** December 2024  
-**Related:** [Timeline - Dec 4, 2024](../timeline.md#week-of-dec-4)  
+**Related:** [Process Narrative — Phase 1](../process-narrative.md#phase-1-dec-2024-jan-2025-integrated-analysis-attempt)  
 **Summary:** Initial exploration of nf-core/differentialabundance pipeline. Encountered compute resource limits when attempting to process 4 combined datasets.
 
 **Key lesson:** Integration of heterogeneous datasets requires careful consideration of batch effects and nuances.
@@ -53,7 +53,7 @@ All notebook posts are available at: `https://resilience-biomarkers-for-aquacult
 ### [2025-07-01: Run nf-core Differentialabundance Pipeline on C. virg Data (SW)](/SW-diff-abund/)
 
 **Timeline:** July 2025  
-**Related:** [Issue #34](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/34), [Timeline - July 2025](../timeline.md#july-2025-combining-studies--understanding-normalization)  
+**Related:** [Issue #34](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/34), [Process Narrative — Phase 4](../process-narrative.md#phase-4-jul-2025-normalization-and-study-combination-experiments)  
 **Summary:** Per-dataset differential abundance analysis. Combined Study 4 (injected group) + Study 5 to increase sample size.
 
 **Key learning:** Understanding normalization timing in the pipeline:
@@ -73,7 +73,7 @@ All notebook posts are available at: `https://resilience-biomarkers-for-aquacult
 ### [2025-08-26: Step-wise Differential Abundance with Cvirg Dataset 1 (SW)](/SW-diffabund_stepwise_ds1/)
 
 **Timeline:** August 2025  
-**Related:** [Issue #41](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/41), [Stepwise Pipeline](../pipelines/decision-tree.md)  
+**Related:** [Issue #41](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/41), [Stepwise Pipeline](../pipelines/stepwise.md)  
 **Summary:** Implementation of two-step filtering approach:
 
 1. Step 1: Controls vs. treated (identify stress-responsive genes)
@@ -107,7 +107,7 @@ All notebook posts are available at: `https://resilience-biomarkers-for-aquacult
 ### [2025-04-15: Reprocess TAG-seq Data with Different FastP Parameters (SW)](/SW-FastPparams4tagseq/)
 
 **Timeline:** April 2025  
-**Related:** [Issue #26](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/26), [Issue #28](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/28), [Timeline - April 2025](../timeline.md#tag-seq-parameter-problems)  
+**Related:** [Issue #26](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/26), [Issue #28](https://github.com/Resilience-Biomarkers-for-Aquaculture/Cvirg_Pmarinus_RNAseq/issues/28), [Process Narrative — Phase 3](../process-narrative.md#phase-3-apr-jun-2025-shift-to-per-dataset-independent-analysis-tag-seq-discovery)  
 **Summary:** **Critical technical discovery:** Johnson dataset used TAG-seq (not standard RNA-seq). Initial analysis with standard RNA-seq parameters was inappropriate.
 
 **Issues:**
@@ -247,8 +247,8 @@ Posts exploring epigenetic biomarkers using WGBS data.
 **Main Guide:**
 
 - [Start Here](../index.md) - Field guide overview
-- [Timeline](../timeline.md) - Detailed project history organized by month
-- [Pipelines](../pipelines/decision-tree.md) - Validated analysis workflows
+- [Process Narrative](../process-narrative.md) - Detailed project history organized by phase
+- [Pipelines](../pipelines/decision-guide.md) - Validated analysis workflows
 
 **Other Sources:**
 

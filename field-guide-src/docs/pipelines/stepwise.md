@@ -118,22 +118,9 @@ Even with stepwise filtering:
 - Per-dataset analysis required (not cross-study integration)
 - Results may not generalize to other studies
 
-## Decision Tree: Should You Use This Pipeline?
+## Decision: Should You Use This Pipeline?
 
-```mermaid
-graph TD
-    A[Start: Biomarker Discovery Goal] --> B{Do you have control<br/>and treated groups?}
-    B -->|No| C[Use classifier approach]
-    B -->|Yes| D{Do you believe biomarkers<br/>are reactive to stress?}
-    D -->|No / Unsure| C
-    D -->|Yes| E{Will Step 1 yield<br/>> 100 genes?}
-    E -->|Unsure / No| C
-    E -->|Yes| F[Use stepwise approach]
-    F --> G{Does Step 2 yield<br/>convincing results?}
-    G -->|No| C
-    G -->|Yes| H[Validate with LOSO]
-    C --> I[Two-Step Classifier Pipeline]
-```
+See the [Pipeline Decision Guide](decision-guide.md) to determine whether this approach is right for your data.
 
 ## Alternative: Two-Step Classifier
 

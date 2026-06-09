@@ -33,13 +33,19 @@ theme:
 
 nav:
   - Start Here: index.md
-  - Problem Framing: problem-framing.md
-  - Pipelines:
-    - Decision Tree: pipelines/decision-tree.md
+  - Research Context & Problem Framing: problem-framing.md
+  - Process Narrative: process-narrative.md
+  - Big Lessons Learned: lessons-learned.md
+  - Methods & Pipelines:
+    - Pipeline Decision Guide: pipelines/decision-guide.md
+    - Stepwise Differential Abundance: pipelines/stepwise.md
     - Two-Step Classifier: pipelines/classifier-path.md
     - Validation & Pitfalls: pipelines/validation.md
-  - Year in Review: timeline.md
+  - Analysis Code & Source Code: code-sources.md
   - Glossary: glossary.md
+  - Sources & References:
+    - Notebook Posts Index: sources/posts-index.md
+    - GitHub Issues Index: sources/issues-index.md
 
 markdown_extensions:
   - admonition
